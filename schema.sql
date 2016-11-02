@@ -43,14 +43,14 @@ CREATE TABLE job_profile
   jp_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  avg_pay NUMBER(20)
+  avg_pay VARCHAR(10)
 );
 CREATE TABLE knowledge_skill
 (
   ks_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  s_level NUMBER(10)
+  s_level VARCHAR(10)
 );
 CREATE TABLE required_skill
 (
@@ -81,8 +81,8 @@ CREATE TABLE job
   jp_code VARCHAR2(10) NOT NULL,
   comp_id VARCHAR2(10) NOT NULL,
   type VARCHAR2(100) NOT NULL,
-  pay_rate NUMBER(20),
-  pay_type NUMBER(20),
+  pay_rate VARCHAR(20),
+  pay_type VARCHAR(10),
   CONSTRAINT fk_job_comp FOREIGN KEY (comp_id)
     REFERENCES company(comp_id),
   CONSTRAINT fk_job_jp FOREIGN KEY (jp_code)
