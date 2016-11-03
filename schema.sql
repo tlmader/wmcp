@@ -41,14 +41,14 @@ END;
 CREATE TABLE job_profile
 (
   jp_code VARCHAR2(10) NOT NULL PRIMARY KEY,
-  title VARCHAR2(100) NOT NULL,
+  jp_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
   avg_pay VARCHAR(10)
 );
 CREATE TABLE knowledge_skill
 (
   ks_code VARCHAR2(10) NOT NULL PRIMARY KEY,
-  title VARCHAR2(100) NOT NULL,
+  ks_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
   s_level VARCHAR(10)
 );
@@ -110,7 +110,7 @@ CREATE TABLE works
 CREATE TABLE specialty
 (
   spec_id VARCHAR2(10) NOT NULL PRIMARY KEY,
-  title VARCHAR2(100) NOT NULL
+  spec_title VARCHAR2(100) NOT NULL
 );
 CREATE TABLE company_specialty
 (
@@ -125,7 +125,7 @@ CREATE TABLE company_specialty
 CREATE TABLE course
 (
   c_code VARCHAR2(10) NOT NULL PRIMARY KEY,
-  title VARCHAR2(100) NOT NULL,
+  c_title VARCHAR2(100) NOT NULL,
   c_level VARCHAR(20),
   description VARCHAR2(100),
   status VARCHAR2(20),
