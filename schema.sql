@@ -66,14 +66,9 @@ CREATE TABLE company
 (
   comp_id VARCHAR2(10) NOT NULL PRIMARY KEY,
   comp_name VARCHAR2(100) NOT NULL,
-  address_id VARCHAR2(10),
+  address VARCHAR2(100),
   primary_sector VARCHAR2(100),
-  website VARCHAR2(100),
-  street VARCHAR2(100) NOT NULL,
-  locality VARCHAR2(100) NOT NULL,
-  region VARCHAR2(100) NOT NULL,
-  zip_code VARCHAR2(10) NOT NULL,
-  country_code VARCHAR2(2) NOT NULL
+  website VARCHAR2(100)
 );
 CREATE TABLE job
 (
@@ -93,15 +88,10 @@ CREATE TABLE person
   per_id VARCHAR2(10) NOT NULL PRIMARY KEY,
   job_code VARCHAR2(10) NOT NULL,
   person_name VARCHAR2(100) NOT NULL,
-  address_id VARCHAR2(10),
-  phone_num VARCHAR2(15) NOT NULL,
+  address VARCHAR2(100),
+  phone_num VARCHAR2(20) NOT NULL,
   email VARCHAR2(100),
   gender VARCHAR2(100),
-  street VARCHAR2(100) NOT NULL,
-  locality VARCHAR2(100) NOT NULL,
-  region VARCHAR2(100) NOT NULL,
-  zip_code VARCHAR2(10) NOT NULL,
-  country_code VARCHAR2(2) NOT NULL,
   CONSTRAINT fk_per_id FOREIGN KEY (job_code)
     REFERENCES job(job_code)
 );
@@ -124,10 +114,10 @@ CREATE TABLE course
 (
   c_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   title VARCHAR2(100) NOT NULL,
-  c_level NUMBER(10),
+  c_level VARCHAR(20),
   description VARCHAR2(100),
-  status VARCHAR2(100),
-  retail_price NUMBER(20)
+  status VARCHAR2(20),
+  retail_price VARCHAR(100)
 );
 CREATE TABLE section
 (
