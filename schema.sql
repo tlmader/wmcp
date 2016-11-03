@@ -1,4 +1,4 @@
-BEGIN
+BBEGIN
    FOR cur_rec IN (SELECT object_name, object_type
                      FROM user_objects
                     WHERE object_type IN
@@ -127,7 +127,7 @@ CREATE TABLE section
   sec_year NUMBER(4),
   offered_by VARCHAR2(100),
   sec_format VARCHAR2(100),
-  price NUMBER(20),
+  price VARCHAR(20),
   CONSTRAINT fk_sec_c FOREIGN KEY (c_code)
     REFERENCES course(c_code)
 );
@@ -161,3 +161,4 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
+E
