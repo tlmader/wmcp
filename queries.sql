@@ -14,8 +14,10 @@ SELECT person_name, pay_rate
 SELECT *
   FROM (SELECT comp_name, SUM(pay_rate * 1920)
           FROM person
+               INNER JOIN works
+               ON person.per_id = works.per_id
                INNER JOIN job
-               ON person.job_code = job.job_code
+               ON works.job_code = job.job_code
                   AND pay_type = 'wage'
                INNER JOIN company
                ON job.comp_id = company.comp_id
@@ -23,8 +25,10 @@ SELECT *
          UNION ALL
         SELECT comp_name, SUM(pay_rate / 2080 * 1920) -- Assume 2080 hrs/yr
           FROM person
+               INNER JOIN works
+               ON person.per_id = works.per_id
                INNER JOIN job
-               ON person.job_code = job.job_code
+               ON works.job_code = job.job_code
                   AND pay_type = 'salary'
                INNER JOIN company
                ON job.comp_id = company.comp_id
@@ -34,10 +38,13 @@ SELECT *
 -- 4. Find all the jobs a person is currently holding and worked in the past.
 SELECT person_name, job_code, title
   FROM person
+       INNER JOIN works
+       ON person.per_id = works.per_id
        INNER JOIN job
-       ON person.job_code = job.job_code
+       ON works.job_code = job.job_code
        INNER JOIN job_profile
        ON job.jp_code = job_profile.jp_code
+ GROUP BY person_name;
 
 -- 5. List a person’s knowledge/skills in a readable format.
 -- 6. List the skill gap of a worker between his/her job(s) and his/her skills.
