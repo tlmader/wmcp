@@ -11,27 +11,33 @@ SELECT person_name, pay_rate
  ORDER BY pay_rate DESC
 
 -- 3. List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.
-SELECT comp_name, pay_rate(comp_name)
-  FROM person
-       INNER JOIN job
-       ON person.job_code = job.job_code
-          AND pay_type = 'wage'
-       INNER JOIN company
-       ON job.comp_id = company.comp_id
- GROUP BY comp_name
- UNION ALL
-SELECT comp_name, pay_rate(comp_name)
-  FROM person
-       INNER JOIN job
-       ON person.job_code = job.job_code
-          AND pay_type = 'salary'
-       INNER JOIN company
-       ON job.comp_id = company.comp_id
- GROUP BY comp_name
+SELECT *
+  FROM (SELECT comp_name, SUM(pay_rate * 1920)
+          FROM person
+               INNER JOIN job
+               ON person.job_code = job.job_code
+                  AND pay_type = 'wage'
+               INNER JOIN company
+               ON job.comp_id = company.comp_id
+         GROUP BY comp_name
+         UNION ALL
+        SELECT comp_name, SUM(pay_rate / 2080 * 1920) -- Assume 2080 hrs/yr
+          FROM person
+               INNER JOIN job
+               ON person.job_code = job.job_code
+                  AND pay_type = 'salary'
+               INNER JOIN company
+               ON job.comp_id = company.comp_id
+         GROUP BY comp_name)
  ORDER BY pay_rate DESC;
 
 -- 4. Find all the jobs a person is currently holding and worked in the past.
-
+SELECT person_name, job_code, title
+  FROM person
+       INNER JOIN job
+       ON person.job_code = job.job_code
+       INNER JOIN job_profile
+       ON job.jp_code = job_profile.jp_code
 
 -- 5. List a person’s knowledge/skills in a readable format.
 -- 6. List the skill gap of a worker between his/her job(s) and his/her skills.
