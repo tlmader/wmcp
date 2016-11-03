@@ -1,4 +1,4 @@
-BBEGIN
+BEGIN
    FOR cur_rec IN (SELECT object_name, object_type
                      FROM user_objects
                     WHERE object_type IN
@@ -95,6 +95,18 @@ CREATE TABLE person
   CONSTRAINT fk_per_id FOREIGN KEY (job_code)
     REFERENCES job(job_code)
 );
+CREATE TABLE works
+(
+  per_id VARCHAR2(10) NOT NULL,
+  job_code VARCHAR2(10) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE,
+  CONSTRAINT pk_works PRIMARY KEY (per_id, job_code),
+  CONSTRAINT fk_works_per FOREIGN KEY (per_id)
+    REFERENCES person(per_id),
+  CONSTRAINT fk_works_job FOREIGN KEY (job_code)
+    REFERENCES job(job_code)
+);
 CREATE TABLE specialty
 (
   spec_id VARCHAR2(10) NOT NULL PRIMARY KEY,
@@ -161,4 +173,3 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
-E
