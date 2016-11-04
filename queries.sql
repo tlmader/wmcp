@@ -83,10 +83,40 @@ SELECT ks_title
           AND jp_code = 'jp_code';
 
 -- 8. List a person’s missing knowledge/skills for a specific job in a readable format.
-
+SELECT ks_title
+  FROM knowledge_skill
+       INNER JOIN required_skill
+       ON knowledge_skill.ks_code = required_skill.ks_code
+       INNER JOIN job
+       ON required_skill.jp_code = job.jp_code
+          AND jp_code = 'jp_code'
+       INNER JOIN works
+       ON job.job_code = works.job_code
+       INNER JOIN person
+       ON works.per_id = person.per_id
+          AND person_name = 'person_name'
+       LEFT JOIN knows
+       ON works.per_id = knows.per_id
+ WHERE knows.per_id IS NULL;
 
 -- 9. List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.
-
+SELECT c_code, c_title
+  FROM course
+       INNER JOIN teaches
+       ON course.c_code = teaches.c_code
+       INNER JOIN required_skill
+       ON teaches.ks_code = required_skill.ks_code
+       INNER JOIN job
+       ON required_skill.jp_code = job.jp_code
+          AND jp_code = 'jp_code'
+       INNER JOIN works
+       ON job.job_code = works.job_code
+       INNER JOIN person
+       ON works.per_id = person.per_id
+          AND person_name = 'person_name'
+       LEFT JOIN knows
+       ON works.per_id = knows.per_id
+ WHERE knows.per_id IS NULL;
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
 
