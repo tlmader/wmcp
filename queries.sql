@@ -148,7 +148,31 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 11. Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).
-
+SELECT *
+  FROM (SELECT c_code, c_title, price
+          FROM course
+               INNER JOIN section
+               ON course.c_code = section.c_code
+               INNER JOIN teaches
+               ON course.c_code = teaches.c_code
+               INNER JOIN required_skill
+               ON teaches.ks_code = required_skill.ks_code
+               INNER JOIN job
+               ON required_skill.jp_code = job.jp_code
+                  AND jp_code = 'jp_code'
+               INNER JOIN works
+               ON job.job_code = works.job_code
+               INNER JOIN person
+               ON works.per_id = person.per_id
+                  AND person_name = 'person_name'
+               LEFT JOIN knows
+               ON works.per_id = knows.per_id
+         WHERE knows.per_id IS NULL
+           AND status = 'active'
+         GROUP BY c_code
+        HAVING COUNT(DISTINCT ks_code)
+         ORDER BY price DESC)
+ WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
 
