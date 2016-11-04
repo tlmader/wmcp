@@ -116,10 +116,12 @@ SELECT c_code, c_title
           AND person_name = 'person_name'
        LEFT JOIN knows
        ON works.per_id = knows.per_id
- WHERE knows.per_id IS NULL;
+ WHERE knows.per_id IS NULL
+ GROUP BY c_code
+HAVING COUNT(DISTINCT ks_code);
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
-SELECT c_title, sec_no, complete_date
+SELECT c_code, c_title, sec_no, complete_date
   FROM course
        INNER JOIN section
        ON course.c_code = section.c_code
@@ -138,9 +140,8 @@ SELECT c_title, sec_no, complete_date
        LEFT JOIN knows
        ON works.per_id = knows.per_id
  WHERE knows.per_id IS NULL
- GROUP BY c_title
- ORDER BY COUNT(*) DESC
- WHERE ROWNUM <= 1;
+ GROUP BY c_code
+HAVING COUNT(DISTINCT ks_code);
 
 -- 11. Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).
 
