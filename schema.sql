@@ -176,3 +176,4 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
+
