@@ -150,7 +150,7 @@ CREATE TABLE takes
   c_code VARCHAR2(10) NOT NULL,
   sec_no VARCHAR2(10) NOT NULL,
   sec_year NUMBER(4) NOT NULL,
-  CONSTRAINT pk_takes PRIMARY KEY (per_id, c_code, sec_no, sec_year),
+  CONSTRAINT pk_takes PRIMARY KEY (per_id, sec_no),
   CONSTRAINT fk_takes_per FOREIGN KEY (per_id)
     REFERENCES person(per_id),
   CONSTRAINT fk_takes_sec FOREIGN KEY (c_code, sec_no, sec_year)
@@ -176,3 +176,4 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
+

@@ -175,6 +175,50 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
+WITH possible_course
+  AS (SELECT *
+        FROM course
+             INNER JOIN teaches
+             ON course.c_code = teaches.c_code
+             INNER JOIN required_skill
+             ON teaches.ks_code = required_skill.ks_code
+             INNER JOIN job
+             ON required_skill.jp_code = job.jp_code
+                AND jp_code = 'jp_code'
+             INNER JOIN works
+             ON job.job_code = works.job_code
+             INNER JOIN person
+             ON works.per_id = person.per_id
+                AND person_name = 'person_name'
+             LEFT JOIN knows
+             ON works.per_id = knows.per_id
+       WHERE knows.per_id IS NULL
+       GROUP BY c_code)
+WITH complete_course
+  AS (SELECT c_code, c_title
+        FROM possible_course
+      HAVING COUNT(DISTINCT ks_code))
+IF EXISTS (complete_course)
+SELECT *
+  FROM complete_course
+ELSE
+SELECT c1.c_code, c2.c_code, c3.c_code, SUM(price)
+  FROM possible_course AS c1
+       INNER JOIN section
+       ON c1.c_code = section.c_code
+       FULL OUTER JOIN course AS c2
+       ON c1.c_code = c2.c_code
+       FULL OUTER JOIN course AS c3
+       ON c1.c_code = c3.c_code
+ WHERE c1.c_code IS NULL
+    OR c2.c_code IS NULL
+ WHERE c1.c_code IS NULL
+    OR c3.c_code IS NULL
+ WHERE c2.c_code IS NULL
+    OR c3.c_code IS NULL
+ GROUP BY c1.c_code, c2.c_code, c3.c_code
+HAVING COUNT(DISTINCT ks_code)
+ ORDER BY SUM(price) ASC;
 
 
 -- 13. List all the job profiles that a person is qualified for.
