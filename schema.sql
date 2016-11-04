@@ -135,7 +135,7 @@ CREATE TABLE section
 (
   c_code VARCHAR2(10) NOT NULL,
   sec_no VARCHAR2(10) NOT NULL,
-  sec_year NUMBER(4),
+  sec_year NUMBER(4) NOT NULL,
   complete_date DATE,
   offered_by VARCHAR2(100),
   sec_format VARCHAR2(100),
@@ -147,12 +147,14 @@ CREATE TABLE section
 CREATE TABLE takes
 (
   per_id VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL,
   sec_no VARCHAR2(10) NOT NULL,
+  sec_year NUMBER(4) NOT NULL,
   CONSTRAINT pk_takes PRIMARY KEY (per_id, sec_no),
   CONSTRAINT fk_takes_per FOREIGN KEY (per_id)
     REFERENCES person(per_id),
-  CONSTRAINT fk_takes_sec FOREIGN KEY (sec_no)
-    REFERENCES section(sec_no)
+  CONSTRAINT fk_takes_sec FOREIGN KEY (c_code, sec_no, sec_year)
+    REFERENCES section(c_code, sec_no, sec_year)
 );
 CREATE TABLE knows
 (
