@@ -129,7 +129,7 @@ CREATE TABLE course
   c_level VARCHAR(20),
   description VARCHAR2(100),
   status VARCHAR2(20),
-  retail_price VARCHAR(100)
+  retail_price NUMBER(38)
 );
 CREATE TABLE section
 (
@@ -139,7 +139,7 @@ CREATE TABLE section
   complete_date DATE,
   offered_by VARCHAR2(100),
   sec_format VARCHAR2(100),
-  price VARCHAR(20),
+  price NUMBER(38),
   CONSTRAINT pk_section PRIMARY KEY (c_code, sec_no, sec_year),
   CONSTRAINT fk_sec_c FOREIGN KEY (c_code)
     REFERENCES course(c_code)
