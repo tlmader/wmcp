@@ -210,16 +210,12 @@ SELECT c1.c_code, c2.c_code, c3.c_code, SUM(price)
        ON c1.c_code = c2.c_code
        FULL OUTER JOIN course AS c3
        ON c1.c_code = c3.c_code
- WHERE c1.c_code IS NULL
-    OR c2.c_code IS NULL
- WHERE c1.c_code IS NULL
-    OR c3.c_code IS NULL
- WHERE c2.c_code IS NULL
-    OR c3.c_code IS NULL
+ WHERE c1.c_code <> c2.c_code
+   AND c1.c_code <> c3.c_code
+   AND c2.c_code <> c3.c_code
  GROUP BY c1.c_code, c2.c_code, c3.c_code
 HAVING COUNT(DISTINCT ks_code)
  ORDER BY SUM(price) ASC;
-
 
 -- 13. List all the job profiles that a person is qualified for.
 
