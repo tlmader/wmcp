@@ -118,7 +118,7 @@ SELECT c_code, c_title
        ON works.per_id = knows.per_id
  WHERE knows.per_id IS NULL
  GROUP BY c_code
-HAVING COUNT(DISTINCT ks_code);
+HAVING COUNT(*) = COUNT(DISTINCT ks_code);
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
 SELECT *
@@ -143,7 +143,7 @@ SELECT *
          WHERE knows.per_id IS NULL
            AND status = 'active'
          GROUP BY c_code
-        HAVING COUNT(DISTINCT ks_code)
+      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
          ORDER BY complete_date)
  WHERE ROWNUM = 1;
 
@@ -170,21 +170,21 @@ SELECT *
          WHERE knows.per_id IS NULL
            AND status = 'active'
          GROUP BY c_code
-        HAVING COUNT(DISTINCT ks_code)
+      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
          ORDER BY price DESC)
  WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
 WITH possible_course
-  AS (SELECT *
+  AS (SELECT course.c_code AS c_code, c_title, required_skill.ks_code AS ks_code
         FROM course
              INNER JOIN teaches
              ON course.c_code = teaches.c_code
              INNER JOIN required_skill
              ON teaches.ks_code = required_skill.ks_code
+                AND required_skill.jp_code = 'jp_code'
              INNER JOIN job
              ON required_skill.jp_code = job.jp_code
-                AND jp_code = 'jp_code'
              INNER JOIN works
              ON job.job_code = works.job_code
              INNER JOIN person
@@ -192,38 +192,32 @@ WITH possible_course
                 AND person_name = 'person_name'
              LEFT JOIN knows
              ON works.per_id = knows.per_id
-       WHERE knows.per_id IS NULL
-       GROUP BY c_code)
-WITH complete_course
+       WHERE knows.per_id IS NULL),
+complete_course
   AS (SELECT c_code, c_title
         FROM possible_course
-      HAVING COUNT(DISTINCT ks_code))
-IF EXISTS (complete_course)
+      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
 SELECT *
-  FROM complete_course
-ELSE
-SELECT *
-  FROM (SELECT c1.c_code, c2.c_code, null as c3.c_code SUM(price)
-          FROM possible_course AS c1
+  FROM (SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, NULL AS c3_code, SUM(price) AS total_price
+          FROM possible_course c1
                INNER JOIN section
                ON c1.c_code = section.c_code
-               INNER JOIN possible_course AS c2
+               INNER JOIN possible_course c2
                ON c1.c_code < c2.c_code
-         GROUP BY c1.c_code, c2.c_code
-        HAVING COUNT(DISTINCT ks_code)
+         GROUP BY c1.c_code, c2.c_code, NULL
+        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code)
          UNION ALL
-        SELECT c1.c_code, c2.c_code, c3.c_code, SUM(price)
-          FROM possible_course AS c1
+        SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, c3.c_code AS c3_code, SUM(price) AS total_price
+          FROM possible_course c1
                INNER JOIN section
                ON c1.c_code = section.c_code
-               INNER JOIN possible_course AS c2
+               INNER JOIN possible_course c2
                ON c1.c_code < c2.c_code
-               INNER JOIN possible_course AS c3
+               INNER JOIN possible_course c3
                ON c1.c_code < c3.c_code
          GROUP BY c1.c_code, c2.c_code, c3.c_code
-        HAVING COUNT(DISTINCT ks_code))
- ORDER BY SUM(price) ASC);
-
+        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code))
+ ORDER BY total_price ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
 
