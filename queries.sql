@@ -44,7 +44,7 @@ SELECT job_code, title
        ON job.job_code = works.job_code
        INNER JOIN person
        ON works.per_id = person.per_id
-          AND person_name = "Name";
+          AND person_name = 'person_name';
 
 -- 5. List a person’s knowledge/skills in a readable format.
 SELECT title, description
@@ -53,10 +53,10 @@ SELECT title, description
        ON knows.ks_code = knowledge_skill.ks_code
        INNER JOIN person
        ON knows.per_id = person.per_id
-          AND person_name = "Name";
+          AND person_name = 'person_name';
 
 -- 6. List the skill gap of a worker between his/her job(s) and his/her skills.
-SELECT job_code, title
+SELECT job_code, jp_title, ks_title
   FROM job_profile
        INNER JOIN job
        ON job_profile.jp_code = job.jp_code
@@ -68,10 +68,19 @@ SELECT job_code, title
        ON job.job_code = works.job_code
        INNER JOIN person
        ON works.per_id = person.per_id
-          AND person_name = "Name";
+          AND person_name = 'person_name'
+       LEFT JOIN knows
+       ON works.per_id = knows.per_id
+ WHERE knows.per_id IS NULL;
 
 -- 7. List the required knowledge/skills of a job profile in a readable format.
-
+SELECT ks_title
+  FROM knowledge_skill
+       INNER JOIN required_skill
+       ON knowledge_skill.ks_code = required_skill.ks_code
+       INNER JOIN job_profile
+       ON required_skill.jp_code = job_profile.jp_code
+          AND jp_code = 'jp_code';
 
 -- 8. List a person’s missing knowledge/skills for a specific job in a readable format.
 
