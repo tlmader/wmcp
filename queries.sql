@@ -202,20 +202,28 @@ IF EXISTS (complete_course)
 SELECT *
   FROM complete_course
 ELSE
-SELECT c1.c_code, c2.c_code, c3.c_code, SUM(price)
-  FROM possible_course AS c1
-       INNER JOIN section
-       ON c1.c_code = section.c_code
-       FULL OUTER JOIN course AS c2
-       ON c1.c_code = c2.c_code
-       FULL OUTER JOIN course AS c3
-       ON c1.c_code = c3.c_code
- WHERE c1.c_code <> c2.c_code
-   AND c1.c_code <> c3.c_code
-   AND c2.c_code <> c3.c_code
- GROUP BY c1.c_code, c2.c_code, c3.c_code
-HAVING COUNT(DISTINCT ks_code)
- ORDER BY SUM(price) ASC;
+SELECT *
+  FROM (SELECT c1.c_code, c2.c_code, null as c3.c_code SUM(price)
+          FROM possible_course AS c1
+               INNER JOIN section
+               ON c1.c_code = section.c_code
+               INNER JOIN possible_course AS c2
+               ON c1.c_code < c2.c_code
+         GROUP BY c1.c_code, c2.c_code
+        HAVING COUNT(DISTINCT ks_code)
+         UNION ALL
+        SELECT c1.c_code, c2.c_code, c3.c_code, SUM(price)
+          FROM possible_course AS c1
+               INNER JOIN section
+               ON c1.c_code = section.c_code
+               INNER JOIN possible_course AS c2
+               ON c1.c_code < c2.c_code
+               INNER JOIN possible_course AS c3
+               ON c1.c_code < c3.c_code
+         GROUP BY c1.c_code, c2.c_code, c3.c_code
+        HAVING COUNT(DISTINCT ks_code))
+ ORDER BY SUM(price) ASC);
+
 
 -- 13. List all the job profiles that a person is qualified for.
 
