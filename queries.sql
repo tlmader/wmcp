@@ -121,27 +121,31 @@ SELECT c_code, c_title
 HAVING COUNT(DISTINCT ks_code);
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
-SELECT c_code, c_title, sec_no, complete_date
-  FROM course
-       INNER JOIN section
-       ON course.c_code = section.c_code
-       INNER JOIN teaches
-       ON course.c_code = teaches.c_code
-       INNER JOIN required_skill
-       ON teaches.ks_code = required_skill.ks_code
-       INNER JOIN job
-       ON required_skill.jp_code = job.jp_code
-          AND jp_code = 'jp_code'
-       INNER JOIN works
-       ON job.job_code = works.job_code
-       INNER JOIN person
-       ON works.per_id = person.per_id
-          AND person_name = 'person_name'
-       LEFT JOIN knows
-       ON works.per_id = knows.per_id
- WHERE knows.per_id IS NULL
- GROUP BY c_code
-HAVING COUNT(DISTINCT ks_code);
+SELECT *
+  FROM (SELECT c_code, c_title, sec_no, complete_date
+          FROM course
+               INNER JOIN section
+               ON course.c_code = section.c_code
+               INNER JOIN teaches
+               ON course.c_code = teaches.c_code
+               INNER JOIN required_skill
+               ON teaches.ks_code = required_skill.ks_code
+               INNER JOIN job
+               ON required_skill.jp_code = job.jp_code
+                  AND jp_code = 'jp_code'
+               INNER JOIN works
+               ON job.job_code = works.job_code
+               INNER JOIN person
+               ON works.per_id = person.per_id
+                  AND person_name = 'person_name'
+               LEFT JOIN knows
+               ON works.per_id = knows.per_id
+         WHERE knows.per_id IS NULL
+           AND status = 'active'
+         GROUP BY c_code
+        HAVING COUNT(DISTINCT ks_code)
+         ORDER BY complete_date)
+ WHERE ROWNUM = 1;
 
 -- 11. Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).
 

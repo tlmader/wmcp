@@ -133,13 +133,14 @@ CREATE TABLE course
 );
 CREATE TABLE section
 (
-  sec_no VARCHAR2(10) NOT NULL PRIMARY KEY,
   c_code VARCHAR2(10) NOT NULL,
-  complete_date DATE,
+  sec_no VARCHAR2(10) NOT NULL,
   sec_year NUMBER(4),
+  complete_date DATE,
   offered_by VARCHAR2(100),
   sec_format VARCHAR2(100),
   price VARCHAR(20),
+  CONSTRAINT pk_section PRIMARY KEY (c_code, sec_no, sec_year),
   CONSTRAINT fk_sec_c FOREIGN KEY (c_code)
     REFERENCES course(c_code)
 );
