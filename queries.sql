@@ -401,7 +401,7 @@ unemployed
              ON person.per_id = present_works.per_id
        WHERE present_works.per_id IS NULL),
 opening
-  AS (SELECT job_code, jp_title, job_code, COUNT(ks_code) AS jp_ks_count
+  AS (SELECT job_code, jp_title, job_code
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
@@ -419,17 +419,56 @@ qualified
              INNER JOIN opening
              ON required_skill.ks_code = opening.ks_code
        GROUP BY per_id, jp_title
-      HAVING COUNT(ks_code) = jp_ks_count)
+      HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
 SELECT *
-  FROM (SELECT COUNT(job_code) - COUNT(per_id) AS difference
+  FROM (SELECT jp_title
           FROM qualified
                INNER JOIN opening
                ON qualified.jp_title = opening.jp_title
          GROUP BY (jp_title)
-         ORDER BY difference DESC)
+         ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
  WHERE ROWNUM = 1;
 
 -- 27. Find the courses that can help most jobless people find a job by training them toward the job profiles that have the most openings due to lack of qualified workers.
-
+WITH present_works
+  AS (SELECT *
+        FROM works
+       WHERE start_date <= CURRENT_DATE
+         AND end_date > CURRENT_DATE
+          OR end_date IS NULL),
+unemployed
+  AS (SELECT per_id
+        FROM person
+             LEFT JOIN present_works
+             ON person.per_id = present_works.per_id
+       WHERE present_works.per_id IS NULL),
+opening
+  AS (SELECT job_code, jp_title, job_code
+        FROM job_profile
+             INNER JOIN job
+             ON job_profile.job_code = job.job_code
+             LEFT JOIN present_works
+             ON job.job_code = present_works.job_code
+       WHERE present_works.job_code IS NULL
+       GROUP BY job_code),
+qualified
+  AS (SELECT per_id, jp_title
+        FROM unemployed
+             INNER JOIN knows
+             ON unemployed.per_id = knows.per_id
+             INNER JOIN required_skill
+             ON knows.per_id = required_skill.per_id
+             INNER JOIN opening
+             ON required_skill.ks_code = opening.ks_code
+       GROUP BY per_id, jp_title
+      HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
+SELECT *
+  FROM (SELECT jp_title
+          FROM qualified
+               INNER JOIN opening
+               ON qualified.jp_title = opening.jp_title
+         GROUP BY (jp_title)
+         ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
+ WHERE ROWNUM = 1;
 
 -- 28. (BONUS) List all the courses, directly or indirectly required, that a person has to take in order to be qualified for a job of the given profile, according to his/her skills possessed and courses taken.
