@@ -23,7 +23,7 @@ SELECT *
                ON job.comp_id = company.comp_id
          GROUP BY comp_name
          UNION ALL
-        SELECT comp_name, SUM(pay_rate / 2080 * 1920) -- Assume 2080 hrs/yr
+        SELECT comp_name, SUM(pay_rate * 1920 / 2080) -- Assume 2080 hrs/yr
           FROM person
                INNER JOIN works
                ON person.per_id = works.per_id
@@ -289,25 +289,147 @@ HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
  ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC;
 
 -- 20. (BONUS) Given a job profile and its corresponding missing-k list specified in Question 19. Find every skill that is needed by at least one person in the given missing-k list. List each skillID and the number of people who need it in the descending order of the people counts.
-
+WITH k
+  AS 3,
+missing_k
+  AS (SELECT per_id
+        FROM person
+             INNER JOIN knows
+             ON person.per_id = knows.per_id
+             INNER JOIN required_skill
+             ON knows.ks_code = required_skill.ks_code
+                AND jp_code = 'jp_code'
+       GROUP BY person_name
+      HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
+       ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC)
+SELECT ks_code, COUNT(DISTINCT per_id) AS per_count
+  FROM knows
+       INNER JOIN required_skill
+       ON knows.ks_code = required_skill.ks_code
+          AND jp_code = 'jp_code'
+       RIGHT JOIN missing_k
+       ON knows.per_id = missing_k.per_id
+ GROUP BY ks_code
+ ORDER BY COUNT(DISTINCT per_id) DESC;
 
 -- 21. In a local or national crisis, we need to find all the people who once held a job of the special job-profile identifier.
-
+SELECT person_name
+  FROM person
+       INNER JOIN works
+       ON person.per_id = works.per_id
+       INNER JOIN job_profile
+       ON works.jp_code = job_profile.jp_code
+          AND jp_title = 'Special';
 
 -- 22. Find all the unemployed people who once held a job of the given job-profile identifier.
-
+WITH active_works
+  AS (SELECT per_id
+        FROM works
+       WHERE CURRENT_DATE >= start_date
+         AND CURRENT_DATE < end_date
+          OR end_date IS NULL)
+SELECT DISTINCT person_name
+  FROM person
+       INNER JOIN works
+       ON person.per_id = works.per_id
+       INNER JOIN job_profile
+       ON works.jp_code = job_profile.jp_code
+          AND jp_title = 'Given';
+       LEFT JOIN active_works
+       ON person.per_id = active_works.per_id
+       WHERE active_works.per_id IS NULL
 
 -- 23. Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.
-
+SELECT *
+  FROM (SELECT comp_name
+          FROM company
+               INNER JOIN job
+               ON company.comp_id = job.comp_id
+               INNER JOIN works
+               ON job.job_code = works.job_code
+                  AND CURRENT_DATE >= start_date
+                  AND CURRENT_DATE < end_date
+         GROUP BY comp_name
+         ORDER BY COUNT(per_id))
+ WHERE ROWNUM = 1;
 
 -- 24. Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.
-
+SELECT *
+  FROM (SELECT primary_sector
+          FROM company
+               INNER JOIN job
+               ON company.comp_id = job.comp_id
+               INNER JOIN works
+               ON job.job_code = works.job_code
+                  AND CURRENT_DATE >= start_date
+                  AND CURRENT_DATE < end_date
+                   OR end_date IS NULL
+         GROUP BY primary_sector
+         ORDER BY COUNT(per_id))
+ WHERE ROWNUM = 1;
 
 -- 25. Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.
-
+SELECT pay_rate, pay_type, AVG(CASECR) AS avg_delta_pay
+  FROM works w1
+       INNER JOIN job j1
+       ON w1.job_code = j1.job_code
+       INNER JOIN works w2
+       ON w1.start_date < w2.start_date
+          AND w1.per_id = w2.per_id
+       INNER JOIN job j2
+       ON w2.job_code = j2.job_code
+       INNER JOIN company
+       ON job.comp_id = company.comp_id
+          AND primary_sector = 'Specific sector'
+  CASE pay_type
+       WHEN 'wage'
+       THEN (j2.pay_rate - j1.pay_rate) * 1920
+       ELSE (j2.pay_rate - j1.pay_rate) * 1920 / 2080
+       END;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
-
+WITH active_works
+  AS (SELECT *
+        FROM works
+       WHERE start_date <= CURRENT_DATE
+         AND end_date > CURRENT_DATE
+          OR end_date IS NULL),
+unemployed
+  AS (SELECT per_id
+        FROM person
+             LEFT JOIN active_works
+             ON person.per_id = active_works.per_id
+       WHERE active_works.job_code IS NULL),
+opening
+  AS (SELECT job_code, jp_title, job_code, COUNT(ks_code) AS jp_ks_count
+        FROM job_profile
+             INNER JOIN job
+             ON job_profile.job_code = job.job_code
+             LEFT JOIN active_job
+             ON job.job_code = active_works.job_code
+       WHERE active_works.job_code IS NULL
+       GROUP BY job_code),
+qualified
+  AS (SELECT per_id, jp_title
+        FROM unemployed
+             INNER JOIN knows
+             ON unemployed.per_id = knows.per_id
+             INNER JOIN required_skill
+             ON knows.per_id = required_skill.per_id
+             INNER JOIN opening
+             ON required_skill.ks_code = opening.ks_code
+       GROUP BY per_id, jp_title
+      HAVING COUNT(ks_code) = jp_ks_count)
+SELECT *
+  FROM (SELECT COUNT(job_code) - COUNT(per_id) AS difference
+          FROM qualified
+               INNER JOIN opening
+               ON qualified.jp_title = opening.jp_title
+               INNER JOIN unemployed
+               on qualified.jp_title = unemployed.jp_title
+         GROUP BY (jp_title)
+         ORDER BY difference DESC)
+ WHERE ROWNUM = 1;
 
 -- 27. Find the courses that can help most jobless people find a job by training them toward the job profiles that have the most openings due to lack of qualified workers.
 
