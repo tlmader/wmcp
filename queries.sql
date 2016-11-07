@@ -401,31 +401,30 @@ unemployed
              ON person.per_id = present_works.per_id
        WHERE present_works.per_id IS NULL),
 opening
-  AS (SELECT job_code, jp_title, job_code
+  AS (SELECT job_code, jp_code, jp_title
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
              LEFT JOIN present_works
              ON job.job_code = present_works.job_code
-       WHERE present_works.job_code IS NULL
-       GROUP BY job_code),
+       WHERE present_works.job_code IS NULL),
 qualified
-  AS (SELECT per_id, jp_title
+  AS (SELECT per_id, jp_code, jp_title
         FROM unemployed
              INNER JOIN knows
              ON unemployed.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.per_id = required_skill.per_id
              INNER JOIN opening
-             ON required_skill.ks_code = opening.ks_code
-       GROUP BY per_id, jp_title
+             ON required_skill.jp_code = opening.jp_code
+       GROUP BY per_id, jp_code, jp_title
       HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
 SELECT *
-  FROM (SELECT jp_title
+  FROM (SELECT jp_code, jp_title
           FROM qualified
                INNER JOIN opening
-               ON qualified.jp_title = opening.jp_title
-         GROUP BY (jp_title)
+               ON qualified.jp_code = opening.jp_code
+         GROUP BY (jp_code, jp_title)
          ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
  WHERE ROWNUM = 1;
 
@@ -443,32 +442,42 @@ unemployed
              ON person.per_id = present_works.per_id
        WHERE present_works.per_id IS NULL),
 opening
-  AS (SELECT job_code, jp_title, job_code
+  AS (SELECT job_code, jp_code, jp_title
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
              LEFT JOIN present_works
              ON job.job_code = present_works.job_code
-       WHERE present_works.job_code IS NULL
-       GROUP BY job_code),
+       WHERE present_works.job_code IS NULL),
 qualified
-  AS (SELECT per_id, jp_title
+  AS (SELECT per_id, jp_code, jp_title
         FROM unemployed
              INNER JOIN knows
              ON unemployed.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.per_id = required_skill.per_id
              INNER JOIN opening
-             ON required_skill.ks_code = opening.ks_code
-       GROUP BY per_id, jp_title
+             ON required_skill.jp_code = opening.jp_code
+       GROUP BY per_id, jp_code, jp_title
       HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
-SELECT *
-  FROM (SELECT jp_title
-          FROM qualified
-               INNER JOIN opening
-               ON qualified.jp_title = opening.jp_title
-         GROUP BY (jp_title)
-         ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
- WHERE ROWNUM = 1;
+jp_most_openings
+  AS (SELECT jp_code, jp_title
+        FROM qualified
+             INNER JOIN opening
+             ON qualified.jp_code = opening.jp_code
+       GROUP BY (jp_code, jp_title)
+       ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
+SELECT c_code, c_title
+  FROM course
+      INNER JOIN teaches
+      ON course.c_code = teaches.c_code
+      INNER JOIN required_skill
+      ON teaches.ks_code = required_skill.ks_code
+      INNER JOIN jp_most_openings
+      ON required_skill.jp_code = jp_most_openings.jp_code
+   AND status = 'active'
+ GROUP BY c_code
+HAVING COUNT(*) = COUNT(DISTINCT ks_code))
+ ORDER BY complete_date
 
 -- 28. (BONUS) List all the courses, directly or indirectly required, that a person has to take in order to be qualified for a job of the given profile, according to his/her skills possessed and courses taken.
