@@ -215,15 +215,33 @@ SELECT *
                ON c1.c_code < c2.c_code
                INNER JOIN possible_course c3
                ON c1.c_code < c3.c_code
+                  AND c2.c_code < c3.c_code
          GROUP BY c1.c_code, c2.c_code, c3.c_code
         HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code))
  ORDER BY total_price ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
-
+SELECT jp_code, jp_title
+  FROM job_profile
+       INNER JOIN required_skill
+       ON job_profile.jp_code = required_skill.jp_code
+       INNER JOIN knows
+       ON required_skill.ks_code = knows.ks_code
+          AND per_id = 'per_id'
+ GROUP BY jp_code
+HAVING COUNT(*) = COUNT(DISTINCT ks_code);
 
 -- 14. Find the job with the highest pay rate for a person according to his/her skill qualification.
-
+SELECT job_code
+       INNER JOIN job_profile
+       ON job.jp_code = job_profile.jp_code
+       INNER JOIN required_skill
+       ON job_profile.jp_code = required_skill.jp_code
+       INNER JOIN knows
+       ON required_skill.ks_code = knows.ks_code
+          AND per_id = 'per_id'
+ GROUP BY job_code
+HAVING COUNT(*) = COUNT(DISTINCT ks_code);
 
 -- 15. List all the names along with the emails of the persons who are qualified for a job profile.
 SELECT person_name, email
