@@ -322,7 +322,7 @@ SELECT person_name
           AND jp_title = 'Special';
 
 -- 22. Find all the unemployed people who once held a job of the given job-profile identifier.
-WITH active_works
+WITH present_works
   AS (SELECT per_id
         FROM works
        WHERE CURRENT_DATE >= start_date
@@ -335,9 +335,9 @@ SELECT DISTINCT person_name
        INNER JOIN job_profile
        ON works.jp_code = job_profile.jp_code
           AND jp_title = 'Given';
-       LEFT JOIN active_works
-       ON person.per_id = active_works.per_id
-       WHERE active_works.per_id IS NULL
+       LEFT JOIN present_works
+       ON person.per_id = present_works.per_id
+ WHERE present_works.per_id IS NULL
 
 -- 23. Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.
 SELECT *
@@ -388,7 +388,7 @@ SELECT pay_rate, pay_type, AVG(CASECR) AS avg_delta_pay
        END;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
-WITH active_works
+WITH present_works
   AS (SELECT *
         FROM works
        WHERE start_date <= CURRENT_DATE
@@ -397,17 +397,17 @@ WITH active_works
 unemployed
   AS (SELECT per_id
         FROM person
-             LEFT JOIN active_works
-             ON person.per_id = active_works.per_id
-       WHERE active_works.job_code IS NULL),
+             LEFT JOIN present_works
+             ON person.per_id = present_works.per_id
+       WHERE present_works.per_id IS NULL),
 opening
   AS (SELECT job_code, jp_title, job_code, COUNT(ks_code) AS jp_ks_count
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
-             LEFT JOIN active_job
-             ON job.job_code = active_works.job_code
-       WHERE active_works.job_code IS NULL
+             LEFT JOIN present_works
+             ON job.job_code = present_works.job_code
+       WHERE present_works.job_code IS NULL
        GROUP BY job_code),
 qualified
   AS (SELECT per_id, jp_title
@@ -425,8 +425,6 @@ SELECT *
           FROM qualified
                INNER JOIN opening
                ON qualified.jp_title = opening.jp_title
-               INNER JOIN unemployed
-               on qualified.jp_title = unemployed.jp_title
          GROUP BY (jp_title)
          ORDER BY difference DESC)
  WHERE ROWNUM = 1;
