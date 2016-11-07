@@ -43,14 +43,17 @@ CREATE TABLE job_profile
   jp_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   jp_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  avg_pay VARCHAR(10)
+  avg_pay NUMBER(100),
+  CHECK(avg_pay > 0)
+  
 );
 CREATE TABLE knowledge_skill
 (
   ks_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   ks_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  s_level VARCHAR(10)
+  s_level VARCHAR(10),
+  CHECK(s_level IN('beginner','medium','advanced'))
 );
 CREATE TABLE required_skill
 (
@@ -81,7 +84,10 @@ CREATE TABLE job
   CONSTRAINT fk_job_comp FOREIGN KEY (comp_id)
     REFERENCES company(comp_id),
   CONSTRAINT fk_job_jp FOREIGN KEY (jp_code)
-    REFERENCES job_profile(jp_code)
+    REFERENCES job_profile(jp_code),
+  CHECK(type IN('Full Time','Part Time')),
+  CHECK(pay_rate > 0),
+  CHECK(pay_type IN('wage','salary'))
 );
 CREATE TABLE person
 (
@@ -93,7 +99,8 @@ CREATE TABLE person
   email VARCHAR2(100),
   gender VARCHAR2(100),
   CONSTRAINT fk_per_id FOREIGN KEY (job_code)
-    REFERENCES job(job_code)
+    REFERENCES job(job_code),
+  CHECK(gender IN('Male','Female'))
 );
 CREATE TABLE works
 (
@@ -130,10 +137,12 @@ CREATE TABLE course
   description VARCHAR2(100),
   status VARCHAR2(20),
   retail_price NUMBER(38)
+  CHECK(c_level IN('beginner', 'medium', 'advanced'))
+  CHECK(status IN('active','expired'))
 );
 CREATE TABLE section
 (
-  c_code VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL, 
   sec_no VARCHAR2(10) NOT NULL,
   sec_year NUMBER(4) NOT NULL,
   complete_date DATE,
@@ -142,7 +151,8 @@ CREATE TABLE section
   price NUMBER(38),
   CONSTRAINT pk_section PRIMARY KEY (c_code, sec_no, sec_year),
   CONSTRAINT fk_sec_c FOREIGN KEY (c_code)
-    REFERENCES course(c_code)
+    REFERENCES course(c_code),
+  CHECK (sec_format IN('classroom', 'online-sync', 'online-selfpaced', 'correspondence'))
 );
 CREATE TABLE takes
 (
@@ -176,4 +186,3 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
-
