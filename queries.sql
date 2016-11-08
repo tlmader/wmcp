@@ -221,9 +221,6 @@ SELECT *
           FROM course_for_missing_ks c1
                INNER JOIN course_for_missing_ks c2
                ON c1.c_code < c2.c_code
-         GROUP BY c1.c_code, c2.c_code, NULL
-        HAVING COUNT(*) = (SELECT COUNT(*)
-                             FROM missing_ks)
          UNION ALL
         SELECT c1.c_code AS course_1,
                c2.c_code AS course_2,
@@ -234,10 +231,8 @@ SELECT *
                ON c1.c_code < c2.c_code
                INNER JOIN course_for_missing_ks c3
                ON c1.c_code < c3.c_code
-                  AND c2.c_code < c3.c_code
-         GROUP BY c1.c_code, c2.c_code, c3.c_code
-        HAVING COUNT(*) = (SELECT COUNT(*)
-                             FROM missing_ks))
+                  AND c2.c_code < c3.c_code)
+ GROUP BY course_1, course_2, course_3, total_cost
  ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
