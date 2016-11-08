@@ -283,16 +283,34 @@ SELECT job_profile.jp_code, job_profile.jp_title
  GROUP BY job_profile.jp_code, job_profile.jp_title;
 
 -- 14. Find the job with the highest pay rate for a person according to his/her skill qualification.
-SELECT job_code
+WITH job_rel_pay
+  AS (SELECT job_code, jp_code, comp_id,
+             CASE pay_type
+             WHEN 'wage'
+             THEN pay_rate * 1920
+             WHEN 'salary'
+             THEN pay_rate * 1920 / 2080
+              END AS rel_pay
+        FROM job),
+known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 1),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
+        FROM required_skill
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL)
+SELECT DISTINCT job_code, TO_CHAR(rel_pay, 'L999,999,999.00') AS pay
+  FROM job_rel_pay
        INNER JOIN job_profile
-       ON job.jp_code = job_profile.jp_code
+       ON job_rel_pay.jp_code = job_profile.jp_code
        INNER JOIN required_skill
        ON job_profile.jp_code = required_skill.jp_code
-       INNER JOIN knows
-       ON required_skill.ks_code = knows.ks_code
-          AND per_id = 'per_id'
- GROUP BY job_code
-HAVING COUNT(*) = COUNT(DISTINCT ks_code);
+       LEFT JOIN missing_ks
+       ON required_skill.jp_code = missing_ks.jp_code
+ WHERE missing_ks.jp_code IS NULL;
 
 -- 15. List all the names along with the emails of the persons who are qualified for a job profile.
 SELECT person_name, email
