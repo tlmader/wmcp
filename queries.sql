@@ -199,7 +199,7 @@ WITH missing_ks
         FROM required_skill
              INNER JOIN job
              ON required_skill.jp_code = job.jp_code
-                AND job.jp_code = 001
+                AND job.jp_code = 002
              LEFT JOIN knows
              ON required_skill.ks_code = knows.ks_code
        WHERE knows.per_id <> 6),
@@ -212,27 +212,46 @@ course_for_missing_ks
              ON course.c_code = teaches.c_code
              INNER JOIN missing_ks
              ON teaches.ks_code = missing_ks.ks_code
-       WHERE status = 'active')
-SELECT *
-  FROM (SELECT c1.c_code AS course_1,
-               c2.c_code AS course_2,
-                    NULL AS course_3,
-               TO_CHAR(c1.price + c2.price, 'L999,999,999.00') AS total_cost
-          FROM course_for_missing_ks c1
-               INNER JOIN course_for_missing_ks c2
-               ON c1.c_code < c2.c_code
-         UNION ALL
-        SELECT c1.c_code AS course_1,
-               c2.c_code AS course_2,
-               c3.c_code AS course_3,
-               TO_CHAR(c1.price + c2.price + c3.price, 'L999,999,999.00') AS total_cost
-          FROM course_for_missing_ks c1
-               INNER JOIN course_for_missing_ks c2
-               ON c1.c_code < c2.c_code
-               INNER JOIN course_for_missing_ks c3
-               ON c1.c_code < c3.c_code
-                  AND c2.c_code < c3.c_code)
+       WHERE status = 'active'),
+course_sets
+  AS (SELECT c1.c_code AS course_1,
+             c2.c_code AS course_2,
+             NULL AS course_3,
+             c1.ks_code AS ks_1,
+             c2.ks_code AS ks_2,
+             NULL AS ks_3,
+             TO_CHAR(c1.price + c2.price, 'L999,999,999.00') AS total_cost
+        FROM course_for_missing_ks c1
+             INNER JOIN course_for_missing_ks c2
+             ON c1.c_code < c2.c_code
+       UNION ALL
+      SELECT c1.c_code AS course_1,
+             c2.c_code AS course_2,
+             c3.c_code AS course_3,
+             c1.ks_code AS ks_1,
+             c2.ks_code AS ks_2,
+             c3.ks_code AS ks_3,
+             TO_CHAR(c1.price + c2.price + c3.price, 'L999,999,999.00') AS total_cost
+        FROM course_for_missing_ks c1
+             INNER JOIN course_for_missing_ks c2
+             ON c1.c_code < c2.c_code
+             INNER JOIN course_for_missing_ks c3
+             ON c1.c_code < c3.c_code
+                AND c2.c_code < c3.c_code),
+course_set_per_ks
+  AS (SELECT ks_1 AS ks_code, course_1, course_2, course_3, total_cost
+        FROM course_sets
+       UNION ALL
+      SELECT ks_2 AS ks_code, course_1, course_2, course_3, total_cost
+        FROM course_sets
+       UNION ALL
+      SELECT ks_3 AS ks_code, course_1, course_2, course_3, total_cost
+        FROM course_sets)
+SELECT course_1, course_2, course_3, total_cost
+  FROM course_set_per_ks
  GROUP BY course_1, course_2, course_3, total_cost
+HAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)
+                                    FROM missing_ks)
  ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
