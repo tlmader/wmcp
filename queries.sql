@@ -213,36 +213,31 @@ course_for_missing_ks
              INNER JOIN missing_ks
              ON teaches.ks_code = missing_ks.ks_code
        WHERE status = 'active')
-SELECT course_1, course_2, course_3,
-       TO_CHAR(s1.price + s2.price + coalesce(s3.price, 0), 'L999,999,999.00') AS total_cost
-  FROM (SELECT c1.c_code AS course_1, c2.c_code AS course_2, NULL AS course_3
-          FROM course_for_missing_ks
-               INNER JOIN teaches c1
-               ON missing_ks.ks_code = c1.ks_code
-               INNER JOIN teaches c2
+SELECT *
+  FROM (SELECT c1.c_code AS course_1,
+               c2.c_code AS course_2,
+                    NULL AS course_3,
+               TO_CHAR(c1.price + c2.price, 'L999,999,999.00') AS total_cost
+          FROM course_for_missing_ks c1
+               INNER JOIN course_for_missing_ks c2
                ON c1.c_code < c2.c_code
          GROUP BY c1.c_code, c2.c_code, NULL
         HAVING COUNT(*) = (SELECT COUNT(*)
                              FROM missing_ks)
          UNION ALL
-        SELECT c1.c_code AS course_1, c2.c_code AS course_2, c3.c_code AS course_3
-          FROM missing_ks
-               INNER JOIN teaches c1
-               ON missing_ks.ks_code = c1.ks_code
-               INNER JOIN teaches c2
+        SELECT c1.c_code AS course_1,
+               c2.c_code AS course_2,
+               c3.c_code AS course_3,
+               TO_CHAR(c1.price + c2.price + c3.price, 'L999,999,999.00') AS total_cost
+          FROM course_for_missing_ks c1
+               INNER JOIN course_for_missing_ks c2
                ON c1.c_code < c2.c_code
-               INNER JOIN teaches c3
+               INNER JOIN course_for_missing_ks c3
                ON c1.c_code < c3.c_code
                   AND c2.c_code < c3.c_code
          GROUP BY c1.c_code, c2.c_code, c3.c_code
         HAVING COUNT(*) = (SELECT COUNT(*)
                              FROM missing_ks))
-       LEFT OUTER JOIN section s1
-       ON course_1 = s1.c_code
-       LEFT OUTER JOIN section s2
-       ON course_2 = s2.c_code
-       LEFT OUTER JOIN section s3
-       ON course_3 = s3.c_code
  ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
