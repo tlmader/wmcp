@@ -255,15 +255,20 @@ HAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)
  ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
-SELECT jp_code, jp_title
+WITH missing_ks
+  AS (SELECT required_skill.ks_code
+        FROM required_skill
+             LEFT JOIN knows
+             ON required_skill.ks_code = knows.ks_code
+       WHERE knows.per_id <> 1)
+SELECT job_profile.jp_code, job_profile.jp_title
   FROM job_profile
        INNER JOIN required_skill
        ON job_profile.jp_code = required_skill.jp_code
-       INNER JOIN knows
-       ON required_skill.ks_code = knows.ks_code
-          AND per_id = 'per_id'
- GROUP BY jp_code
-HAVING COUNT(*) = COUNT(DISTINCT ks_code);
+       LEFT JOIN missing_ks
+       ON required_skill.ks_code = missing_ks.ks_code
+ WHERE missing_ks.ks_code IS NULL
+ GROUP BY job_profile.jp_code, job_profile.jp_title;
 
 -- 14. Find the job with the highest pay rate for a person according to his/her skill qualification.
 SELECT job_code
