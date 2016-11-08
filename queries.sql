@@ -67,15 +67,15 @@ SELECT job.job_code, jp_title
        INNER JOIN person
        ON works.per_id = person.per_id
           AND person.per_id = 1;
-          
+
 -- 5. List a person’s knowledge/skills in a readable format.
-SELECT title, description
+SELECT ks_title, description
   FROM knowledge_skill
        INNER JOIN knows
        ON knows.ks_code = knowledge_skill.ks_code
        INNER JOIN person
        ON knows.per_id = person.per_id
-          AND person_name = 'person_name';
+          AND person.per_id = 1;
 
 -- 6. List the skill gap of a worker between his/her job(s) and his/her skills.
 SELECT job_code, jp_title, ks_title
