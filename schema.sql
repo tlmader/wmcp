@@ -43,7 +43,7 @@ CREATE TABLE job_profile
   jp_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   jp_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  avg_pay NUMBER(100),
+  avg_pay NUMBER(20),
   CHECK(avg_pay > 0)
   
 );
@@ -92,14 +92,11 @@ CREATE TABLE job
 CREATE TABLE person
 (
   per_id VARCHAR2(10) NOT NULL PRIMARY KEY,
-  job_code VARCHAR2(10) NOT NULL,
   person_name VARCHAR2(100) NOT NULL,
   address VARCHAR2(100),
   phone_num VARCHAR2(20) NOT NULL,
   email VARCHAR2(100),
   gender VARCHAR2(100),
-  CONSTRAINT fk_per_id FOREIGN KEY (job_code)
-    REFERENCES job(job_code),
   CHECK(gender IN('Male','Female'))
 );
 CREATE TABLE works
@@ -136,8 +133,8 @@ CREATE TABLE course
   c_level VARCHAR(20),
   description VARCHAR2(100),
   status VARCHAR2(20),
-  retail_price NUMBER(38)
-  CHECK(c_level IN('beginner', 'medium', 'advanced'))
+  retail_price NUMBER(38),
+  CHECK(c_level IN('beginner', 'medium', 'advanced')),
   CHECK(status IN('active','expired'))
 );
 CREATE TABLE section
@@ -186,3 +183,4 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
+
