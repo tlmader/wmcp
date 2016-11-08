@@ -302,15 +302,18 @@ missing_ks
              LEFT JOIN known_ks
              ON required_skill.ks_code = known_ks.ks_code
        WHERE known_ks.ks_code IS NULL)
-SELECT DISTINCT job_code, TO_CHAR(rel_pay, 'L999,999,999.00') AS pay
-  FROM job_rel_pay
-       INNER JOIN job_profile
-       ON job_rel_pay.jp_code = job_profile.jp_code
-       INNER JOIN required_skill
-       ON job_profile.jp_code = required_skill.jp_code
-       LEFT JOIN missing_ks
-       ON required_skill.jp_code = missing_ks.jp_code
- WHERE missing_ks.jp_code IS NULL;
+SELECT job_code, TO_CHAR(rel_pay, 'L999,999,999.00') AS pay
+FROM (SELECT DISTINCT job_code, rel_pay
+        FROM job_rel_pay
+             INNER JOIN job_profile
+             ON job_rel_pay.jp_code = job_profile.jp_code
+             INNER JOIN required_skill
+             ON job_profile.jp_code = required_skill.jp_code
+             LEFT JOIN missing_ks
+             ON required_skill.jp_code = missing_ks.jp_code
+       WHERE missing_ks.jp_code IS NULL
+       ORDER BY rel_pay DESC)
+ WHERE ROWNUM = 1;
 
 -- 15. List all the names along with the emails of the persons who are qualified for a job profile.
 SELECT person_name, email
