@@ -14,11 +14,20 @@ SELECT person_name
           AND comp_id = 1;
 
 -- 2. List a company’s staff by salary in descending order.
+WITH works_current
+  AS (SELECT per_id, job_code
+        FROM works
+       WHERE sysdate >= start_date
+         AND (sysdate < end_date
+              OR end_date IS NULL))
 SELECT person_name, pay_rate
   FROM person
+       INNER JOIN works_current
+       ON person.per_id = works_current.per_id
        INNER JOIN job
-       ON person.job_code = job.job_code
- ORDER BY pay_rate DESC
+       ON works_current.job_code = job.job_code
+          AND comp_id = 1
+ ORDER BY pay_rate DESC;
 
 -- 3. List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.
 SELECT *
