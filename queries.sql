@@ -503,26 +503,26 @@ WITH knows_by_person
   AS (SELECT ks_code
         FROM knows
        WHERE per_id = 'Person')
-teaches_ordered
-  AS (SELECT c_code, c_title, ks_code, ROW_NUMBER() OVER(PARTITION BY ks_code
-                                                    ORDER BY ks_count DESC) AS n
+ks_by_best_course
+  AS (SELECT c_code, c_title, ks_code
         FROM (SELECT c_code, c_title, COUNT(ks_code) AS ks_count
                 FROM course
                      INNER JOIN teaches
                      ON course.c_code = teaches.c_code
                GROUP BY c_code, c_title)
              INNER JOIN teaches
-             ON course.c_code = teaches.c_code)
+             ON course.c_code = teaches.c_code
+       WHERE ROW_NUMBER() OVER(PARTITION BY ks_code
+                                   ORDER BY ks_count DESC) = 1)
 SELECT DISTINCT c_code, c_title
   FROM course
-       INNER JOIN teaches_ordered
+       INNER JOIN ks_by_best_course
        ON course.c_code = teaches.c_code
        INNER JOIN required_skill
-       ON teaches.ks_code = required_skill.ks_code
+       ON ks_by_best_course.ks_code = required_skill.ks_code
        INNER JOIN job_profile
        ON required_skill.jp_code = job_profile.jp_code
           AND job_profile.jp_title = 'Profile'
        LEFT JOIN knows_by_person
        ON teaches.per_id = knows_by_person.per_id
- WHERE knows.per_id IS NULL
-       AND n = 1;
+ WHERE knows.per_id IS NULL;
