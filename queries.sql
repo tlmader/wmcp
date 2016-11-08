@@ -30,6 +30,12 @@ SELECT person_name, pay_rate
  ORDER BY pay_rate DESC;
 
 -- 3. List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.
+WITH works_current
+  AS (SELECT per_id, job_code
+        FROM works
+       WHERE sysdate >= start_date
+         AND (sysdate < end_date
+              OR end_date IS NULL))
 SELECT *
   FROM (SELECT comp_name, SUM(pay_rate * 1920)
           FROM person
