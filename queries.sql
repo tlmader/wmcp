@@ -1,13 +1,16 @@
 -- 1. List a company's workers by names
+WITH works_current
+  AS (SELECT per_id, job_code
+        FROM works
+       WHERE sysdate >= start_date
+         AND (sysdate < end_date
+              OR end_date IS NULL))
 SELECT person_name
   FROM person
-       INNER JOIN works
-       ON person.per_id = works.per_id
-          AND sysdate >= start_date
-          AND (sysdate < end_date
-               OR end_date IS NULL)
+       INNER JOIN works_current
+       ON person.per_id = works_current.per_id
        INNER JOIN job
-       ON works.job_code = job.job_code
+       ON works_current.job_code = job.job_code
           AND comp_id = 1;
 
 -- 2. List a company’s staff by salary in descending order.
@@ -348,7 +351,7 @@ SELECT person_name
 
 -- 22. Find all the unemployed people who once held a job of the given job-profile identifier.
 WITH works_current
-  AS (SELECT per_id
+  AS (SELECT per_id, job_code
         FROM works
        WHERE sysdate >= start_date
          AND (sysdate < end_date
