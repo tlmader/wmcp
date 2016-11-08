@@ -111,15 +111,10 @@ SELECT ks_title
        ON knowledge_skill.ks_code = required_skill.ks_code
        INNER JOIN job
        ON required_skill.jp_code = job.jp_code
-          AND jp_code = 'jp_code'
-       INNER JOIN works
-       ON job.job_code = works.job_code
-       INNER JOIN person
-       ON works.per_id = person.per_id
-          AND person_name = 'person_name'
+          AND job_code = 703
        LEFT JOIN knows
-       ON works.per_id = knows.per_id
- WHERE knows.per_id IS NULL;
+       ON required_skill.ks_code = knows.ks_code
+ WHERE knows.per_id <> 6;
 
 -- 9. List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.
 SELECT c_code, c_title
