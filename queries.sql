@@ -194,50 +194,56 @@ SELECT c_code, c_title,
  WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
-WITH course_skill
-  AS (SELECT course.c_code AS c_code, c_title, required_skill.ks_code AS ks_code
-        FROM course
-             INNER JOIN teaches
-             ON course.c_code = teaches.c_code
-             INNER JOIN required_skill
-             ON teaches.ks_code = required_skill.ks_code
-                AND required_skill.jp_code = 'jp_code'
+WITH missing_ks
+  AS (SELECT required_skill.ks_code
+        FROM required_skill
              INNER JOIN job
              ON required_skill.jp_code = job.jp_code
-             INNER JOIN works
-             ON job.job_code = works.job_code
-             INNER JOIN person
-             ON works.per_id = person.per_id
-                AND person_name = 'person_name'
+                AND job.jp_code = 001
              LEFT JOIN knows
-             ON works.per_id = knows.per_id
-       WHERE knows.per_id IS NULL),
-complete_course
-  AS (SELECT c_code, c_title
-        FROM course_skill
-      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
-SELECT *
-  FROM (SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, NULL AS c3_code, SUM(price) AS total_price
-          FROM course_skill c1
-               INNER JOIN section
-               ON c1.c_code = section.c_code
-               INNER JOIN course_skill c2
+             ON required_skill.ks_code = knows.ks_code
+       WHERE knows.per_id <> 6),
+course_for_missing_ks
+  AS (SELECT course.c_code, missing_ks.ks_code, price
+        FROM course
+             INNER JOIN section
+             ON course.c_code = section.c_code
+             INNER JOIN teaches
+             ON course.c_code = teaches.c_code
+             INNER JOIN missing_ks
+             ON teaches.ks_code = missing_ks.ks_code
+       WHERE status = 'active')
+SELECT course_1, course_2, course_3,
+       TO_CHAR(s1.price + s2.price + coalesce(s3.price, 0), 'L999,999,999.00') AS total_cost
+  FROM (SELECT c1.c_code AS course_1, c2.c_code AS course_2, NULL AS course_3
+          FROM course_for_missing_ks
+               INNER JOIN teaches c1
+               ON missing_ks.ks_code = c1.ks_code
+               INNER JOIN teaches c2
                ON c1.c_code < c2.c_code
          GROUP BY c1.c_code, c2.c_code, NULL
-        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code, c2.ks_code)
+        HAVING COUNT(*) = (SELECT COUNT(*)
+                             FROM missing_ks)
          UNION ALL
-        SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, c3.c_code AS c3_code, SUM(price) AS total_price
-          FROM possible_course c1
-               INNER JOIN section
-               ON c1.c_code = section.c_code
-               INNER JOIN possible_course c2
+        SELECT c1.c_code AS course_1, c2.c_code AS course_2, c3.c_code AS course_3
+          FROM missing_ks
+               INNER JOIN teaches c1
+               ON missing_ks.ks_code = c1.ks_code
+               INNER JOIN teaches c2
                ON c1.c_code < c2.c_code
-               INNER JOIN possible_course c3
+               INNER JOIN teaches c3
                ON c1.c_code < c3.c_code
                   AND c2.c_code < c3.c_code
          GROUP BY c1.c_code, c2.c_code, c3.c_code
-        HAVING COUNT(*) = COUNT(c1.ks_code, c2.ks_code, c3.ks_code))
- ORDER BY total_price ASC;
+        HAVING COUNT(*) = (SELECT COUNT(*)
+                             FROM missing_ks))
+       LEFT OUTER JOIN section s1
+       ON course_1 = s1.c_code
+       LEFT OUTER JOIN section s2
+       ON course_2 = s2.c_code
+       LEFT OUTER JOIN section s3
+       ON course_3 = s3.c_code
+ ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
 SELECT jp_code, jp_title
