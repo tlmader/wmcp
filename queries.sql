@@ -117,15 +117,17 @@ SELECT ks_title
  WHERE knows.per_id <> 6;
 
 -- 9. List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.
-WITH missing_ks
-  AS (SELECT required_skill.ks_code
+WITH known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 6),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
         FROM required_skill
-             INNER JOIN job
-             ON required_skill.jp_code = job.jp_code
-                AND job.jp_code = 002
-             LEFT JOIN knows
-             ON required_skill.ks_code = knows.ks_code
-       WHERE knows.per_id <> 6)
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL
+         AND required_skill.jp_code = 002)
 SELECT course.c_code, course.c_title
   FROM course
        INNER JOIN teaches
@@ -137,15 +139,17 @@ HAVING COUNT(*) = (SELECT COUNT(*)
                      FROM missing_ks);
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
-WITH missing_ks
-  AS (SELECT required_skill.ks_code
+WITH known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 6),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
         FROM required_skill
-             INNER JOIN job
-             ON required_skill.jp_code = job.jp_code
-                AND job.jp_code = 002
-             LEFT JOIN knows
-             ON required_skill.ks_code = knows.ks_code
-       WHERE knows.per_id <> 6)
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL
+         AND required_skill.jp_code = 002)
 SELECT *
   FROM (SELECT course.c_code, course.c_title, sec_no, complete_date
           FROM course
@@ -165,15 +169,17 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 11. Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).
-WITH missing_ks
-  AS (SELECT required_skill.ks_code
+WITH known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 6),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
         FROM required_skill
-             INNER JOIN job
-             ON required_skill.jp_code = job.jp_code
-                AND job.jp_code = 002
-             LEFT JOIN knows
-             ON required_skill.ks_code = knows.ks_code
-       WHERE knows.per_id <> 6)
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL
+         AND required_skill.jp_code = 002)
 SELECT c_code, c_title,
        TO_CHAR(price, 'L999,999,999.00') AS cost
   FROM (SELECT course.c_code, course.c_title, price
@@ -194,15 +200,17 @@ SELECT c_code, c_title,
  WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
-WITH missing_ks
-  AS (SELECT required_skill.ks_code
+WITH known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 6),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
         FROM required_skill
-             INNER JOIN job
-             ON required_skill.jp_code = job.jp_code
-                AND job.jp_code = 002
-             LEFT JOIN knows
-             ON required_skill.ks_code = knows.ks_code
-       WHERE knows.per_id <> 6),
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL
+         AND required_skill.jp_code = 002)
 course_for_missing_ks
   AS (SELECT course.c_code, missing_ks.ks_code, price
         FROM course
@@ -255,19 +263,23 @@ HAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)
  ORDER BY total_cost ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
-WITH missing_ks
-  AS (SELECT required_skill.ks_code
+WITH known_ks
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 1),
+missing_ks
+  AS (SELECT required_skill.jp_code, required_skill.ks_code
         FROM required_skill
-             LEFT JOIN knows
-             ON required_skill.ks_code = knows.ks_code
-       WHERE knows.per_id <> 1)
+             LEFT JOIN known_ks
+             ON required_skill.ks_code = known_ks.ks_code
+       WHERE known_ks.ks_code IS NULL)
 SELECT job_profile.jp_code, job_profile.jp_title
   FROM job_profile
        INNER JOIN required_skill
        ON job_profile.jp_code = required_skill.jp_code
        LEFT JOIN missing_ks
-       ON required_skill.ks_code = missing_ks.ks_code
- WHERE missing_ks.ks_code IS NULL
+       ON required_skill.jp_code = missing_ks.jp_code
+ WHERE missing_ks.jp_code IS NULL
  GROUP BY job_profile.jp_code, job_profile.jp_title;
 
 -- 14. Find the job with the highest pay rate for a person according to his/her skill qualification.
