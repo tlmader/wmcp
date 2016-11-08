@@ -117,77 +117,79 @@ SELECT ks_title
  WHERE knows.per_id <> 6;
 
 -- 9. List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.
-SELECT c_code, c_title
+WITH missing_ks
+  AS (SELECT required_skill.ks_code
+        FROM required_skill
+             INNER JOIN job
+             ON required_skill.jp_code = job.jp_code
+                AND job.jp_code = 002
+             LEFT JOIN knows
+             ON required_skill.ks_code = knows.ks_code
+       WHERE knows.per_id <> 6)
+SELECT course.c_code, course.c_title
   FROM course
        INNER JOIN teaches
        ON course.c_code = teaches.c_code
-       INNER JOIN required_skill
-       ON teaches.ks_code = required_skill.ks_code
-       INNER JOIN job
-       ON required_skill.jp_code = job.jp_code
-          AND jp_code = 'jp_code'
-       INNER JOIN works
-       ON job.job_code = works.job_code
-       INNER JOIN person
-       ON works.per_id = person.per_id
-          AND person_name = 'person_name'
-       LEFT JOIN knows
-       ON works.per_id = knows.per_id
- WHERE knows.per_id IS NULL
- GROUP BY c_code
-HAVING COUNT(*) = COUNT(DISTINCT ks_code);
+       INNER JOIN missing_ks
+       ON teaches.ks_code = missing_ks.ks_code
+ GROUP BY course.c_code, course.c_title
+HAVING COUNT(*) = (SELECT COUNT(*)
+                     FROM missing_ks);
 
 -- 10. Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.
+WITH missing_ks
+  AS (SELECT required_skill.ks_code
+        FROM required_skill
+             INNER JOIN job
+             ON required_skill.jp_code = job.jp_code
+                AND job.jp_code = 002
+             LEFT JOIN knows
+             ON required_skill.ks_code = knows.ks_code
+       WHERE knows.per_id <> 6)
 SELECT *
-  FROM (SELECT c_code, c_title, sec_no, complete_date
+  FROM (SELECT course.c_code, course.c_title, sec_no, complete_date
           FROM course
                INNER JOIN section
                ON course.c_code = section.c_code
                INNER JOIN teaches
                ON course.c_code = teaches.c_code
-               INNER JOIN required_skill
-               ON teaches.ks_code = required_skill.ks_code
-               INNER JOIN job
-               ON required_skill.jp_code = job.jp_code
-                  AND jp_code = 'jp_code'
-               INNER JOIN works
-               ON job.job_code = works.job_code
-               INNER JOIN person
-               ON works.per_id = person.per_id
-                  AND person_name = 'person_name'
-               LEFT JOIN knows
-               ON works.per_id = knows.per_id
-         WHERE knows.per_id IS NULL
-           AND status = 'active'
-         GROUP BY c_code
-      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
+                INNER JOIN teaches
+                ON course.c_code = teaches.c_code
+                INNER JOIN missing_ks
+                ON teaches.ks_code = missing_ks.ks_code
+          WHERE status = 'active'
+          GROUP BY course.c_code, course.c_title, sec_no, complete_date
+         HAVING COUNT(*) = (SELECT COUNT(*)
+                             FROM missing_ks)
          ORDER BY complete_date)
  WHERE ROWNUM = 1;
 
 -- 11. Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).
-SELECT *
-  FROM (SELECT c_code, c_title, price
+WITH missing_ks
+  AS (SELECT required_skill.ks_code
+        FROM required_skill
+             INNER JOIN job
+             ON required_skill.jp_code = job.jp_code
+                AND job.jp_code = 002
+             LEFT JOIN knows
+             ON required_skill.ks_code = knows.ks_code
+       WHERE knows.per_id <> 6)
+SELECT c_code, c_title,
+       TO_CHAR(price, 'L999,999,999.00') AS cost
+  FROM (SELECT course.c_code, course.c_title, price
           FROM course
                INNER JOIN section
                ON course.c_code = section.c_code
                INNER JOIN teaches
                ON course.c_code = teaches.c_code
-               INNER JOIN required_skill
-               ON teaches.ks_code = required_skill.ks_code
-               INNER JOIN job
-               ON required_skill.jp_code = job.jp_code
-                  AND jp_code = 'jp_code'
-               INNER JOIN works
-               ON job.job_code = works.job_code
-               INNER JOIN person
-               ON works.per_id = person.per_id
-                  AND person_name = 'person_name'
-               LEFT JOIN knows
-               ON works.per_id = knows.per_id
-         WHERE knows.per_id IS NULL
-           AND status = 'active'
-         GROUP BY c_code
-      HAVING COUNT(*) = COUNT(DISTINCT ks_code))
+                INNER JOIN teaches
+                ON course.c_code = teaches.c_code
+                INNER JOIN missing_ks
+                ON teaches.ks_code = missing_ks.ks_code
+          WHERE status = 'active'
+          GROUP BY course.c_code, course.c_title, price
+         HAVING COUNT(*) = (SELECT COUNT(*)
+                             FROM missing_ks)
          ORDER BY price DESC)
  WHERE ROWNUM = 1;
 
