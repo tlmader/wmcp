@@ -35,42 +35,39 @@ WITH works_current
         FROM works
        WHERE sysdate >= start_date
          AND (sysdate < end_date
-              OR end_date IS NULL))
-SELECT *
-  FROM (SELECT comp_name, SUM(pay_rate * 1920)
+              OR end_date IS NULL)),
+job_rel_pay
+  AS (SELECT job_code, comp_id,
+             CASE pay_type
+             WHEN 'wage'
+             THEN pay_rate * 1920
+             WHEN 'salary'
+             THEN pay_rate * 1920 / 2080
+              END AS pay
+        FROM job)
+SELECT comp_name, TO_CHAR(pay_sum, 'L999,999,999.00') AS labor_cost
+  FROM (SELECT comp_name, SUM(pay) AS pay_sum
           FROM person
-               INNER JOIN works
-               ON person.per_id = works.per_id
-               INNER JOIN job
-               ON works.job_code = job.job_code
-                  AND pay_type = 'wage'
+               INNER JOIN works_current
+               ON person.per_id = works_current.per_id
+               INNER JOIN job_rel_pay
+               ON works_current.job_code = job_rel_pay.job_code
                INNER JOIN company
-               ON job.comp_id = company.comp_id
-         GROUP BY comp_name
-         UNION ALL
-        SELECT comp_name, SUM(pay_rate * 1920 / 2080) -- Assume 2080 hrs/yr
-          FROM person
-               INNER JOIN works
-               ON person.per_id = works.per_id
-               INNER JOIN job
-               ON works.job_code = job.job_code
-                  AND pay_type = 'salary'
-               INNER JOIN company
-               ON job.comp_id = company.comp_id
+               ON job_rel_pay.comp_id = company.comp_id
          GROUP BY comp_name)
- ORDER BY pay_rate DESC;
+ ORDER BY pay_sum DESC;
 
 -- 4. Find all the jobs a person is currently holding and worked in the past.
-SELECT job_code, title
-  FROM job_profile
-       INNER JOIN job
-       ON job_profile.jp_code = job.jp_code
+SELECT job.job_code, jp_title
+  FROM job
+       INNER JOIN job_profile
+       ON job.jp_code = job_profile.jp_code
        INNER JOIN works
        ON job.job_code = works.job_code
        INNER JOIN person
        ON works.per_id = person.per_id
-          AND person_name = 'person_name';
-
+          AND person.per_id = 1;
+          
 -- 5. List a person’s knowledge/skills in a readable format.
 SELECT title, description
   FROM knowledge_skill
