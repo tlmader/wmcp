@@ -175,7 +175,7 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 12. If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.
-WITH possible_course
+WITH course_skill
   AS (SELECT course.c_code AS c_code, c_title, required_skill.ks_code AS ks_code
         FROM course
              INNER JOIN teaches
@@ -195,17 +195,17 @@ WITH possible_course
        WHERE knows.per_id IS NULL),
 complete_course
   AS (SELECT c_code, c_title
-        FROM possible_course
+        FROM course_skill
       HAVING COUNT(*) = COUNT(DISTINCT ks_code))
 SELECT *
   FROM (SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, NULL AS c3_code, SUM(price) AS total_price
-          FROM possible_course c1
+          FROM course_skill c1
                INNER JOIN section
                ON c1.c_code = section.c_code
-               INNER JOIN possible_course c2
+               INNER JOIN course_skill c2
                ON c1.c_code < c2.c_code
          GROUP BY c1.c_code, c2.c_code, NULL
-        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code)
+        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code, c2.ks_code)
          UNION ALL
         SELECT c1.c_code AS c1_code, c2.c_code AS c2_code, c3.c_code AS c3_code, SUM(price) AS total_price
           FROM possible_course c1
@@ -217,7 +217,7 @@ SELECT *
                ON c1.c_code < c3.c_code
                   AND c2.c_code < c3.c_code
          GROUP BY c1.c_code, c2.c_code, c3.c_code
-        HAVING COUNT(*) = COUNT(DISTINCT c1.ks_code))
+        HAVING COUNT(*) = COUNT(c1.ks_code, c2.ks_code, c3.ks_code))
  ORDER BY total_price ASC;
 
 -- 13. List all the job profiles that a person is qualified for.
@@ -479,23 +479,50 @@ qualified
        GROUP BY per_id, jp_code, jp_title
       HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
 jp_most_openings
-  AS (SELECT jp_code, jp_title
+  AS (SELECT jp_code, jp_title, COUNT(job_code) - COUNT(per_id) AS difference
         FROM qualified
              INNER JOIN opening
              ON qualified.jp_code = opening.jp_code
        GROUP BY (jp_code, jp_title)
-       ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
+       ORDER BY difference DESC)
 SELECT c_code, c_title
   FROM course
-      INNER JOIN teaches
-      ON course.c_code = teaches.c_code
-      INNER JOIN required_skill
-      ON teaches.ks_code = required_skill.ks_code
-      INNER JOIN jp_most_openings
-      ON required_skill.jp_code = jp_most_openings.jp_code
-   AND status = 'active'
- GROUP BY c_code
+       INNER JOIN teaches
+       ON course.c_code = teaches.c_code
+       INNER JOIN required_skill
+       ON teaches.ks_code = required_skill.ks_code
+       INNER JOIN jp_most_openings
+       ON required_skill.jp_code = jp_most_openings.jp_code
+          AND status = 'active'
+ GROUP BY c_code, c_title
 HAVING COUNT(*) = COUNT(DISTINCT ks_code))
- ORDER BY complete_date
+ ORDER BY difference
 
 -- 28. (BONUS) List all the courses, directly or indirectly required, that a person has to take in order to be qualified for a job of the given profile, according to his/her skills possessed and courses taken.
+WITH knows_by_person
+  AS (SELECT ks_code
+        FROM knows
+       WHERE per_id = 'Person')
+teaches_ordered
+  AS (SELECT c_code, c_title, ks_code, ROW_NUMBER() OVER(PARTITION BY ks_code
+                                                    ORDER BY ks_count DESC) AS n
+        FROM (SELECT c_code, c_title, COUNT(ks_code) AS ks_count
+                FROM course
+                     INNER JOIN teaches
+                     ON course.c_code = teaches.c_code
+               GROUP BY c_code, c_title)
+             INNER JOIN teaches
+             ON course.c_code = teaches.c_code)
+SELECT DISTINCT c_code, c_title
+  FROM course
+       INNER JOIN teaches_ordered
+       ON course.c_code = teaches.c_code
+       INNER JOIN required_skill
+       ON teaches.ks_code = required_skill.ks_code
+       INNER JOIN job_profile
+       ON required_skill.jp_code = job_profile.jp_code
+          AND job_profile.jp_title = 'Profile'
+       LEFT JOIN knows_by_person
+       ON teaches.per_id = knows_by_person.per_id
+ WHERE knows.per_id IS NULL
+       AND n = 1;
