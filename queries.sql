@@ -78,10 +78,10 @@ SELECT ks_title, description
           AND person.per_id = 1;
 
 -- 6. List the skill gap of a worker between his/her job(s) and his/her skills.
-SELECT job_code, jp_title, ks_title
-  FROM job_profile
-       INNER JOIN job
-       ON job_profile.jp_code = job.jp_code
+SELECT job.job_code, jp_title, ks_title
+  FROM job
+       INNER JOIN job_profile
+       ON job.jp_code = job_profile.jp_code
        INNER JOIN required_skill
        ON job_profile.jp_code = required_skill.jp_code
        INNER JOIN knowledge_skill
@@ -90,7 +90,7 @@ SELECT job_code, jp_title, ks_title
        ON job.job_code = works.job_code
        INNER JOIN person
        ON works.per_id = person.per_id
-          AND person_name = 'person_name'
+          AND person.per_id = 1
        LEFT JOIN knows
        ON works.per_id = knows.per_id
  WHERE knows.per_id IS NULL;
@@ -102,7 +102,7 @@ SELECT ks_title
        ON knowledge_skill.ks_code = required_skill.ks_code
        INNER JOIN job_profile
        ON required_skill.jp_code = job_profile.jp_code
-          AND jp_code = 'jp_code';
+          AND job_profile.jp_code = 001;
 
 -- 8. List a person’s missing knowledge/skills for a specific job in a readable format.
 SELECT ks_title
