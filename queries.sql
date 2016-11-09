@@ -370,17 +370,20 @@ SELECT person_name,
  GROUP BY person_name;
 
 -- 19. For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills
-WITH k AS 3
-SELECT per_id
-  FROM person
-       INNER JOIN knows
-       ON person.per_id = knows.per_id
-       INNER JOIN required_skill
-       ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 'jp_code'
- GROUP BY person_name
-HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
- ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC;
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 012)
+SELECT person_name,
+       (SELECT COUNT(*) FROM ks_for_jp) - ks_count AS missing_ks_count
+  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
+          FROM person
+               INNER JOIN knows
+               ON person.per_id = knows.per_id
+               INNER JOIN ks_for_jp
+               ON knows.ks_code = ks_for_jp.ks_code
+         GROUP BY person_name)
+ WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= 5;
 
 -- 20. (BONUS) Given a job profile and its corresponding missing-k list specified in Question 19. Find every skill that is needed by at least one person in the given missing-k list. List each skillID and the number of people who need it in the descending order of the people counts.
 WITH k
