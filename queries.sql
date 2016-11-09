@@ -414,8 +414,10 @@ SELECT person_name
   FROM person
        INNER JOIN works
        ON person.per_id = works.per_id
+       INNER JOIN job
+       ON works.job_code = job.job_code
        INNER JOIN job_profile
-       ON works.jp_code = job_profile.jp_code
+       ON job.jp_code = job_profile.jp_code
           AND jp_title = 'Special';
 
 -- 22. Find all the unemployed people who once held a job of the given job-profile identifier.
