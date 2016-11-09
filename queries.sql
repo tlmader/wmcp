@@ -334,34 +334,37 @@ SELECT person_name
        ON knows.ks_code = required_skill.ks_code
           AND jp_code = 001
  GROUP BY person_name
-HAVING COUNT(*) = (COUNT(DISTINCT knows.ks_code) - 1);
+HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1;
 
 -- 17. List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.
-SELECT ks_code, SUM(person_name)
-  FROM (SELECT person_name, email
-          FROM person
-               INNER JOIN knows
-               ON person.per_id = knows.per_id
-               INNER JOIN required_skill
-               ON knows.ks_code = required_skill.ks_code
-                  AND jp_code = 'jp_code'
-         GROUP BY person_name
-        HAVING COUNT(*) = COUNT(DISTINCT ks_code) - 1)) missing_one
+WITH missing_one
+  AS (SELECT person.per_id
+        FROM person
+             INNER JOIN knows
+             ON person.per_id = knows.per_id
+             INNER JOIN required_skill
+             ON knows.ks_code = required_skill.ks_code
+                AND jp_code = 001
+       GROUP BY person.per_id
+      HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1)
+SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
+  FROM missing_one
        INNER JOIN knows
-       ON missing_one.person_name = knows.person_name
- GROUP BY person_name;
+       ON missing_one.per_id = knows.per_id
+ GROUP BY knows.ks_code;
 
 -- 18. Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.
 SELECT distinct_ks_count - known_ks_count
-  FROM (SELECT person_name, email, COUNT(ks_code) AS known_ks_count COUNT(DISTINCT ks_code) AS distinct_ks_count
+  FROM (SELECT person_name, email,
+                COUNT(required_skill.ks_code) - COUNT(DISTINCT knows.ks_code) AS missing_ks_count
           FROM person
                INNER JOIN knows
                ON person.per_id = knows.per_id
-               INNER JOIN required_skill
+               RIGHT JOIN required_skill
                ON knows.ks_code = required_skill.ks_code
-                  AND jp_code = 'jp_code'
+                  AND jp_code = 001
          GROUP BY person_name
-         ORDER BY COUNT(DISTINCT ks_code) DESC)
+         ORDER BY missing_ks_count) DESC)
  WHERE ROWNUM = 1;
 
 -- 19. For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills
