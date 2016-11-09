@@ -1,40 +1,14 @@
-BEGIN
-   FOR cur_rec IN (SELECT object_name, object_type
-                     FROM user_objects
-                    WHERE object_type IN
-                             ('TABLE',
-                              'VIEW',
-                              'PACKAGE',
-                              'PROCEDURE',
-                              'FUNCTION',
-                              'SEQUENCE'
-                             ))
-   LOOP
-      BEGIN
-         IF cur_rec.object_type = 'TABLE'
-         THEN
-            EXECUTE IMMEDIATE    'DROP '
-                              || cur_rec.object_type
-                              || ' "'
-                              || cur_rec.object_name
-                              || '" CASCADE CONSTRAINTS';
-         ELSE
-            EXECUTE IMMEDIATE    'DROP '
-                              || cur_rec.object_type
-                              || ' "'
-                              || cur_rec.object_name
-                              || '"';
-         END IF;
-      EXCEPTION
-         WHEN OTHERS
-         THEN
-            DBMS_OUTPUT.put_line (   'FAILED: DROP '
-                                  || cur_rec.object_type
-                                  || ' "'
-                                  || cur_rec.object_name
-                                  || '"'
-                                 );
-      END;
-   END LOOP;
-END;
-/
+DROP TABLE teaches PURGE;
+DROP TABLE knows PURGE;
+DROP TABLE takes PURGE;
+DROP TABLE section PURGE;
+DROP TABLE course PURGE;
+DROP TABLE company_specialty PURGE;
+DROP TABLE specialty PURGE;
+DROP TABLE works PURGE;
+DROP TABLE person PURGE;
+DROP TABLE job PURGE;
+DROP TABLE company PURGE;
+DROP TABLE required_skill PURGE;
+DROP TABLE knowledge_skill PURGE;
+DROP TABLE job_profile PURGE;
