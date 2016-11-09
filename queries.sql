@@ -334,7 +334,7 @@ SELECT person_name
        ON knows.ks_code = required_skill.ks_code
           AND jp_code = 001
  GROUP BY person_name
-HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1;
+HAVING COUNT(*) = (COUNT(DISTINCT knows.ks_code) - 1);
 
 -- 17. List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.
 SELECT ks_code, SUM(person_name)
