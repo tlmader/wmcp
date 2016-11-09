@@ -441,17 +441,21 @@ SELECT DISTINCT person_name
  WHERE current_works.per_id IS NULL;
 
 -- 23. Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.
-SELECT *
+WITH current_works
+  AS (SELECT per_id, job_code
+        FROM works
+       WHERE sysdate >= start_date
+         AND (sysdate < end_date
+              OR end_date IS NULL))
+SELECT comp_name
   FROM (SELECT comp_name
           FROM company
                INNER JOIN job
                ON company.comp_id = job.comp_id
-               INNER JOIN works
-               ON job.job_code = works.job_code
-                  AND CURRENT_DATE >= start_date
-                  AND CURRENT_DATE < end_date
+               INNER JOIN current_works
+               ON job.job_code = current_works.job_code
          GROUP BY comp_name
-         ORDER BY COUNT(per_id))
+         ORDER BY COUNT(per_id) DESC)
  WHERE ROWNUM = 1;
 
 -- 24. Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.
