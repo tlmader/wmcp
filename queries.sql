@@ -395,7 +395,7 @@ missing_k
              ON person.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.ks_code = required_skill.ks_code
-                AND jp_code = 'jp_code'
+                AND jp_code = 012
        GROUP BY person_name
       HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
        ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC)
@@ -403,7 +403,7 @@ SELECT ks_code, COUNT(DISTINCT per_id) AS per_count
   FROM knows
        INNER JOIN required_skill
        ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 'jp_code'
+          AND jp_code = 012
        RIGHT JOIN missing_k
        ON knows.per_id = missing_k.per_id
  GROUP BY ks_code
@@ -426,17 +426,19 @@ WITH current_works
         FROM works
        WHERE sysdate >= start_date
          AND (sysdate < end_date
-              OR end_date IS NULL)
+              OR end_date IS NULL))
 SELECT DISTINCT person_name
   FROM person
        INNER JOIN works
        ON person.per_id = works.per_id
+       INNER JOIN job
+       ON works.job_code = job.job_code
+          AND job.jp_code = 001
        INNER JOIN job_profile
-       ON works.jp_code = job_profile.jp_code
-          AND jp_title = 'Given';
+       ON job.jp_code = job_profile.jp_code
        LEFT JOIN current_works
        ON person.per_id = current_works.per_id
- WHERE current_works.per_id IS NULL
+ WHERE current_works.per_id IS NULL;
 
 -- 23. Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.
 SELECT *
