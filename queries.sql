@@ -354,18 +354,20 @@ SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
  GROUP BY knows.ks_code;
 
 -- 18. Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.
-SELECT distinct_ks_count - known_ks_count
-  FROM (SELECT person_name, email,
-                COUNT(required_skill.ks_code) - COUNT(DISTINCT knows.ks_code) AS missing_ks_count
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 012)
+SELECT person_name,
+       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count
+  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
           FROM person
                INNER JOIN knows
                ON person.per_id = knows.per_id
-               RIGHT JOIN required_skill
-               ON knows.ks_code = required_skill.ks_code
-                  AND jp_code = 001
-         GROUP BY person_name
-         ORDER BY missing_ks_count) DESC)
- WHERE ROWNUM = 1;
+               INNER JOIN ks_for_jp
+               ON knows.ks_code = ks_for_jp.ks_code
+         GROUP BY person_name)
+ GROUP BY person_name;
 
 -- 19. For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills
 WITH k AS 3
