@@ -10,15 +10,9 @@ package csci4125.project.model;
 public class Model {
 
     private String id;
-    private String idName;
 
     public Model() {
 
-    }
-
-    public Model(String id, String idName) {
-        this.id = id;
-        this.idName = idName;
     }
 
     public String getId() {
@@ -27,21 +21,5 @@ public class Model {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Model model = (Model) o;
-
-        return id != null ? id.equals(model.id) : model.id == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
- * Implements data access methods for T entities.
+ * Implements data access methods for Model entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
@@ -25,15 +25,17 @@ public class Repository<T extends Model> implements IRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
-    private BiConsumer<T, T> setters;
+    private BiConsumer<T, T> changes;
+    private String idName;
     private Class<T> type;
     private String typeName;
 
     public Repository() {
     }
 
-    public Repository(BiConsumer<T, T> setters, Class<T> type) {
-        this.setters = setters;
+    public Repository(BiConsumer<T, T> changes, Class<T> type, String idName) {
+        this.changes = changes;
+        this.idName = idName;
         this.type = type;
         this.typeName = this.type.getSimpleName();
     }
@@ -52,7 +54,7 @@ public class Repository<T extends Model> implements IRepository<T> {
             return null;
         }
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(type);
-        criteria.add(Restrictions.eq("id", id.toLowerCase()));
+        criteria.add(Restrictions.eq(idName, id.toLowerCase()));
         List<T> results = criteria.list();
         if (results.isEmpty()) {
             return null;
@@ -65,9 +67,9 @@ public class Repository<T extends Model> implements IRepository<T> {
     @Transactional
     public T create(T entity) {
         if (entity.getId() == null) {
-            throw new ClientErrorException(typeName + " ID is null.", Response.Status.BAD_REQUEST);
+            throw new ClientErrorException(typeName + " " + idName + " is null", Response.Status.BAD_REQUEST);
         } else if (get(entity.getId()) != null) {
-            throw new ClientErrorException(typeName + " ID in use.", Response.Status.CONFLICT);
+            throw new ClientErrorException(typeName + " " + idName + " in use", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
         Session session = sessionFactory.getCurrentSession();
@@ -82,7 +84,7 @@ public class Repository<T extends Model> implements IRepository<T> {
         if (found == null) {
             throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
-        setters.accept(found, entity);
+        changes.accept(found, entity);
         Session session = sessionFactory.getCurrentSession();
         session.merge(found);
         return found;
