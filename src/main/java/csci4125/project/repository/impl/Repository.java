@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.transaction.Transactional;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -25,7 +24,7 @@ public class Repository<T extends Model> implements IRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
-    private BiConsumer<T, T> changes;
+    private BiConsumer<T, T> setFields;
     private String idName;
     private Class<T> type;
     private String typeName;
@@ -33,8 +32,8 @@ public class Repository<T extends Model> implements IRepository<T> {
     public Repository() {
     }
 
-    public Repository(BiConsumer<T, T> changes, Class<T> type, String idName) {
-        this.changes = changes;
+    public Repository(BiConsumer<T, T> setFields, Class<T> type, String idName) {
+        this.setFields = setFields;
         this.idName = idName;
         this.type = type;
         this.typeName = this.type.getSimpleName();
@@ -84,7 +83,7 @@ public class Repository<T extends Model> implements IRepository<T> {
         if (found == null) {
             throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
-        changes.accept(found, entity);
+        setFields.accept(found, entity);
         Session session = sessionFactory.getCurrentSession();
         session.merge(found);
         return found;
@@ -99,9 +98,5 @@ public class Repository<T extends Model> implements IRepository<T> {
         }
         Session session = sessionFactory.getCurrentSession();
         session.delete(found);
-    }
-
-    private Class getTypeName() {
-        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }

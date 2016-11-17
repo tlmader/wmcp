@@ -1,5 +1,7 @@
 package csci4125.project.model;
 
+import csci4125.project.repository.impl.CourseRepository;
+
 import java.util.Currency;
 
 /**
@@ -20,7 +22,7 @@ public class Course extends Model {
     }
 
     public Course(String id, String title, String description, String status, Currency price) {
-        super(id, "c_code");
+        super(id);
         this.title = title;
         this.description = description;
         this.status = status;
