@@ -2,6 +2,7 @@ package csci4125.project.model;
 
 import csci4125.project.repository.impl.CourseRepository;
 
+import javax.persistence.Entity;
 import java.util.Currency;
 
 /**
@@ -10,16 +11,14 @@ import java.util.Currency;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-17
  */
+@Entity
 public class Course extends Model {
 
+    private String id;
     private String title;
     private String description;
     private String status;
     private Currency price;
-
-    public Course() {
-
-    }
 
     public Course(String id, String title, String description, String status, Currency price) {
         super(id);

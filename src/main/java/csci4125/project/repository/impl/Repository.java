@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-public class Repository<T extends Model> implements IRepository<T> {
+public abstract class Repository<T extends Model> implements IRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,9 +28,6 @@ public class Repository<T extends Model> implements IRepository<T> {
     private String idName;
     private Class<T> type;
     private String typeName;
-
-    public Repository() {
-    }
 
     public Repository(BiConsumer<T, T> setFields, Class<T> type) {
         this.setFields = setFields;
