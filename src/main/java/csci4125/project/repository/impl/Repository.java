@@ -25,7 +25,6 @@ public abstract class Repository<T extends Model> implements IRepository<T> {
     @Autowired
     private SessionFactory sessionFactory;
     private BiConsumer<T, T> setFields;
-    private String idName;
     private Class<T> type;
     private String typeName;
 
