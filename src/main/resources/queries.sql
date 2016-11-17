@@ -1,5 +1,5 @@
 -- 1. List a company's workers by names
-WITH works_current
+WITH current_works
   AS (SELECT per_id, job_code
         FROM works
        WHERE sysdate >= start_date
@@ -7,14 +7,14 @@ WITH works_current
               OR end_date IS NULL))
 SELECT person_name
   FROM person
-       INNER JOIN works_current
-       ON person.per_id = works_current.per_id
+       INNER JOIN current_works
+       ON person.per_id = current_works.per_id
        INNER JOIN job
-       ON works_current.job_code = job.job_code
+       ON current_works.job_code = job.job_code
           AND comp_id = 1;
 
 -- 2. List a company’s staff by salary in descending order.
-WITH works_current
+WITH current_works
   AS (SELECT per_id, job_code
         FROM works
        WHERE sysdate >= start_date
@@ -22,15 +22,15 @@ WITH works_current
               OR end_date IS NULL))
 SELECT person_name, pay_rate
   FROM person
-       INNER JOIN works_current
-       ON person.per_id = works_current.per_id
+       INNER JOIN current_works
+       ON person.per_id = current_works.per_id
        INNER JOIN job
-       ON works_current.job_code = job.job_code
+       ON current_works.job_code = job.job_code
           AND comp_id = 1
  ORDER BY pay_rate DESC;
 
 -- 3. List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.
-WITH works_current
+WITH current_works
   AS (SELECT per_id, job_code
         FROM works
        WHERE sysdate >= start_date
@@ -48,10 +48,10 @@ job_rel_pay
 SELECT comp_name, TO_CHAR(pay_sum, 'L999,999,999.00') AS labor_cost
   FROM (SELECT comp_name, SUM(pay) AS pay_sum
           FROM person
-               INNER JOIN works_current
-               ON person.per_id = works_current.per_id
+               INNER JOIN current_works
+               ON person.per_id = current_works.per_id
                INNER JOIN job_rel_pay
-               ON works_current.job_code = job_rel_pay.job_code
+               ON current_works.job_code = job_rel_pay.job_code
                INNER JOIN company
                ON job_rel_pay.comp_id = company.comp_id
          GROUP BY comp_name)
@@ -322,61 +322,68 @@ SELECT person_name, email
        ON person.per_id = knows.per_id
        INNER JOIN required_skill
        ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 001
  GROUP BY person_name, email
 HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code);
 
 -- 16. When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.
-SELECT person_name, email
+SELECT person_name
   FROM person
        INNER JOIN knows
        ON person.per_id = knows.per_id
        INNER JOIN required_skill
        ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 'jp_code'
+          AND jp_code = 001
  GROUP BY person_name
-HAVING COUNT(*) = COUNT(DISTINCT ks_code) - 1);
+HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1;
 
 -- 17. List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.
-SELECT ks_code, SUM(person_name)
-  FROM (SELECT person_name, email
-          FROM person
-               INNER JOIN knows
-               ON person.per_id = knows.per_id
-               INNER JOIN required_skill
-               ON knows.ks_code = required_skill.ks_code
-                  AND jp_code = 'jp_code'
-         GROUP BY person_name
-        HAVING COUNT(*) = COUNT(DISTINCT ks_code) - 1)) missing_one
+WITH missing_one
+  AS (SELECT person.per_id
+        FROM person
+             INNER JOIN knows
+             ON person.per_id = knows.per_id
+             INNER JOIN required_skill
+             ON knows.ks_code = required_skill.ks_code
+                AND jp_code = 001
+       GROUP BY person.per_id
+      HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1)
+SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
+  FROM missing_one
        INNER JOIN knows
-       ON missing_one.person_name = knows.person_name
- GROUP BY person_name;
+       ON missing_one.per_id = knows.per_id
+ GROUP BY knows.ks_code;
 
 -- 18. Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.
-SELECT distinct_ks_count - known_ks_count
-  FROM (SELECT person_name, email, COUNT(ks_code) AS known_ks_count COUNT(DISTINCT ks_code) AS distinct_ks_count
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 012)
+SELECT person_name,
+       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count
+  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
           FROM person
                INNER JOIN knows
                ON person.per_id = knows.per_id
-               INNER JOIN required_skill
-               ON knows.ks_code = required_skill.ks_code
-                  AND jp_code = 'jp_code'
-         GROUP BY person_name
-         ORDER BY COUNT(DISTINCT ks_code) DESC)
- WHERE ROWNUM = 1;
+               INNER JOIN ks_for_jp
+               ON knows.ks_code = ks_for_jp.ks_code
+         GROUP BY person_name)
+ GROUP BY person_name;
 
 -- 19. For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills
-WITH k AS 3
-SELECT per_id
-  FROM person
-       INNER JOIN knows
-       ON person.per_id = knows.per_id
-       INNER JOIN required_skill
-       ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 'jp_code'
- GROUP BY person_name
-HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
- ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC;
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 012)
+SELECT person_name,
+       (SELECT COUNT(*) FROM ks_for_jp) - ks_count AS missing_ks_count
+  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
+          FROM person
+               INNER JOIN knows
+               ON person.per_id = knows.per_id
+               INNER JOIN ks_for_jp
+               ON knows.ks_code = ks_for_jp.ks_code
+         GROUP BY person_name)
+ WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= 5;
 
 -- 20. (BONUS) Given a job profile and its corresponding missing-k list specified in Question 19. Find every skill that is needed by at least one person in the given missing-k list. List each skillID and the number of people who need it in the descending order of the people counts.
 WITH k
@@ -388,7 +395,7 @@ missing_k
              ON person.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.ks_code = required_skill.ks_code
-                AND jp_code = 'jp_code'
+                AND jp_code = 012
        GROUP BY person_name
       HAVING COUNT(DISTINCT ks_code) - COUNT(ks_code) < k
        ORDER BY COUNT(DISTINCT ks_code) - COUNT(ks_code) ASC)
@@ -396,7 +403,7 @@ SELECT ks_code, COUNT(DISTINCT per_id) AS per_count
   FROM knows
        INNER JOIN required_skill
        ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 'jp_code'
+          AND jp_code = 012
        RIGHT JOIN missing_k
        ON knows.per_id = missing_k.per_id
  GROUP BY ks_code
@@ -407,40 +414,48 @@ SELECT person_name
   FROM person
        INNER JOIN works
        ON person.per_id = works.per_id
+       INNER JOIN job
+       ON works.job_code = job.job_code
        INNER JOIN job_profile
-       ON works.jp_code = job_profile.jp_code
+       ON job.jp_code = job_profile.jp_code
           AND jp_title = 'Special';
 
 -- 22. Find all the unemployed people who once held a job of the given job-profile identifier.
-WITH works_current
+WITH current_works
   AS (SELECT per_id, job_code
         FROM works
        WHERE sysdate >= start_date
          AND (sysdate < end_date
-              OR end_date IS NULL)
+              OR end_date IS NULL))
 SELECT DISTINCT person_name
   FROM person
        INNER JOIN works
        ON person.per_id = works.per_id
+       INNER JOIN job
+       ON works.job_code = job.job_code
+          AND job.jp_code = 001
        INNER JOIN job_profile
-       ON works.jp_code = job_profile.jp_code
-          AND jp_title = 'Given';
-       LEFT JOIN works_current
-       ON person.per_id = works_current.per_id
- WHERE works_current.per_id IS NULL
+       ON job.jp_code = job_profile.jp_code
+       LEFT JOIN current_works
+       ON person.per_id = current_works.per_id
+ WHERE current_works.per_id IS NULL;
 
 -- 23. Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.
-SELECT *
+WITH current_works
+  AS (SELECT per_id, job_code
+        FROM works
+       WHERE sysdate >= start_date
+         AND (sysdate < end_date
+              OR end_date IS NULL))
+SELECT comp_name
   FROM (SELECT comp_name
           FROM company
                INNER JOIN job
                ON company.comp_id = job.comp_id
-               INNER JOIN works
-               ON job.job_code = works.job_code
-                  AND CURRENT_DATE >= start_date
-                  AND CURRENT_DATE < end_date
+               INNER JOIN current_works
+               ON job.job_code = current_works.job_code
          GROUP BY comp_name
-         ORDER BY COUNT(per_id))
+         ORDER BY COUNT(per_id) DESC)
  WHERE ROWNUM = 1;
 
 -- 24. Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.
@@ -478,7 +493,7 @@ SELECT pay_rate, pay_type, AVG(CASECR) AS avg_delta_pay
        END;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
-WITH works_current
+WITH current_works
   AS (SELECT *
         FROM works
        WHERE start_date <= CURRENT_DATE
@@ -487,17 +502,17 @@ WITH works_current
 unemployed
   AS (SELECT per_id
         FROM person
-             LEFT JOIN works_current
-             ON person.per_id = works_current.per_id
-       WHERE works_current.per_id IS NULL),
+             LEFT JOIN current_works
+             ON person.per_id = current_works.per_id
+       WHERE current_works.per_id IS NULL),
 opening
   AS (SELECT job_code, jp_code, jp_title
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
-             LEFT JOIN works_current
-             ON job.job_code = works_current.job_code
-       WHERE works_current.job_code IS NULL),
+             LEFT JOIN current_works
+             ON job.job_code = current_works.job_code
+       WHERE current_works.job_code IS NULL),
 qualified
   AS (SELECT per_id, jp_code, jp_title
         FROM unemployed
@@ -519,7 +534,7 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 27. Find the courses that can help most jobless people find a job by training them toward the job profiles that have the most openings due to lack of qualified workers.
-WITH works_current
+WITH current_works
   AS (SELECT *
         FROM works
        WHERE start_date <= CURRENT_DATE
@@ -528,17 +543,17 @@ WITH works_current
 unemployed
   AS (SELECT per_id
         FROM person
-             LEFT JOIN works_current
-             ON person.per_id = works_current.per_id
-       WHERE works_current.per_id IS NULL),
+             LEFT JOIN current_works
+             ON person.per_id = current_works.per_id
+       WHERE current_works.per_id IS NULL),
 opening
   AS (SELECT job_code, jp_code, jp_title
         FROM job_profile
              INNER JOIN job
              ON job_profile.job_code = job.job_code
-             LEFT JOIN works_current
-             ON job.job_code = works_current.job_code
-       WHERE works_current.job_code IS NULL),
+             LEFT JOIN current_works
+             ON job.job_code = current_works.job_code
+       WHERE current_works.job_code IS NULL),
 qualified
   AS (SELECT per_id, jp_code, jp_title
         FROM unemployed

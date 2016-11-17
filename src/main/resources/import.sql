@@ -181,7 +181,7 @@ insert into specialty (spec_id, spec_title) values (7, 'Power');
 insert into specialty (spec_id, spec_title) values (8, 'Construction and Transportation');
 insert into specialty (spec_id, spec_title) values (9, 'Technology');
 insert into specialty (spec_id, spec_title) values (10, 'Industrials');
---company_specialty
+--company_specialty 
 insert into company_specialty (comp_id, spec_id) values (1, 1);
 insert into company_specialty (comp_id, spec_id) values (2, 2);
 insert into company_specialty (comp_id, spec_id) values (3, 3);
@@ -199,10 +199,10 @@ insert into course (c_code, c_title, c_level, description, status, retail_price)
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (4, 'API and CRUD', 'medium', 'description:', 'expired', 1785.99);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (5, 'REST Practices', 'advanced', 'description:', 'expired', 1852.06);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (6, 'C Certification', 'medium', 'description:', 'expired', 1530.01);
-insert into course (c_code, c_title, c_level, description, status, retail_price) values (7, 'C++ Certification', 'medium', 'description:', 'active', 1212.82);
+insert into course (c_code, c_title, c_level, description, status, retail_price) values (7, 'C++ Certification', 'medium', 'description:', 'expired', 1212.82);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (8, 'Architecture Desgin for Applications', 'advanced', 'description:', 'active', 1373.89);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (9, 'Introduction into Server Administration', 'medium', 'description:', 'expired', 1355.67);
-insert into course (c_code, c_title, c_level, description, status, retail_price) values (10, 'Assembly', 'medium', 'description:', 'active', 1834.04);
+insert into course (c_code, c_title, c_level, description, status, retail_price) values (10, 'Assembly', 'medium', 'description:', 'expired', 1834.04);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (11, 'HTML and CSS Basics', 'beginner', 'description:', 'active', 1461.74);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (12, 'Javascript Certification', 'beginner', 'description:', 'active', 1179.23);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (13, 'Angular and JQuery', 'beginner', 'description:', 'expired', 1533.69);
@@ -219,6 +219,7 @@ insert into course (c_code, c_title, c_level, description, status, retail_price)
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (24, 'Back End Basics', 'medium', 'description:', 'active', 1670.17);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (25, 'Front End Basics', 'medium', 'description:', 'active', 1538.16);
 insert into course (c_code, c_title, c_level, description, status, retail_price) values (26, 'Networking Skills', 'beginner', 'description:', 'active', 500.24);
+insert into course (c_code, c_title, c_level, description, status, retail_price) values (27, 'C++ and Architecture', 'advanced', 'description:', 'active', 1200.58);
 --section
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (1, 1, TO_DATE('2016-12-09','YYYY-MM-DD'), 2016, 'Guru Nanak Dev University', 'online-sync',1355.67);
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (2, 2, TO_DATE('2016-11-09','YYYY-MM-DD'), 2016, 'University of Udine', 'online-sync',1834.04);
@@ -246,9 +247,11 @@ insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_fo
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (24, 24, TO_DATE('2016-11-09','YYYY-MM-DD'), 2016, 'University of California, San Diego', 'online-sync', 1018.64);
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (25, 25, TO_DATE('2016-11-09','YYYY-MM-DD'), 2016, 'National Taiwan Ocean University', 'online-sync', 1109.23);
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (26, 26, TO_DATE('2016-11-09','YYYY-MM-DD'), 2016, 'Universidad Técnica de Cotopaxi', 'online-selfpaced', 1212.82);
+insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (27, 27, TO_DATE('2016-12-09','YYYY-MM-DD'), 2016, 'University of New Orleans', 'online-selfpaced', 1500.82);
 --knows
 insert into knows (per_id, ks_code) values (1, 20);
-insert into knows (per_id, ks_code) values (2, 2);
+insert into knows (per_id, ks_code) values (2, 6);
+insert into knows (per_id, ks_code) values (3, 7);
 insert into knows (per_id, ks_code) values (3, 3);
 insert into knows (per_id, ks_code) values (4, 4);
 insert into knows (per_id, ks_code) values (5, 5);
@@ -300,3 +303,10 @@ insert into teaches (c_code, ks_code) values (25, 14);
 insert into teaches (c_code, ks_code) values (26, 5);
 insert into teaches (c_code, ks_code) values (26, 9);
 insert into teaches (c_code, ks_code) values (26, 19);
+insert into teaches (c_code, ks_code) values (27, 7);
+insert into teaches (c_code, ks_code) values (27, 8);
+
+
+
+
+
