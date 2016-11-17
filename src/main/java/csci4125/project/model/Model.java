@@ -10,9 +10,15 @@ package csci4125.project.model;
 public class Model {
 
     private String id;
+    private String idName;
 
-    public Model(String id) {
+    public Model() {
+
+    }
+
+    public Model(String id, String idName) {
         this.id = id;
+        this.idName = idName;
     }
 
     public String getId() {

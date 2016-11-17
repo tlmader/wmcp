@@ -59,9 +59,9 @@ public class Repository<T extends Model> implements IRepository<T> {
     @Transactional
     public T create(T entity) {
         if (entity.getId() == null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID Is Null.", Response.Status.BAD_REQUEST);
+            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID is null.", Response.Status.BAD_REQUEST);
         } else if (get(entity.getId()) != null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID In Use.", Response.Status.CONFLICT);
+            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID in use.", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
         Session session = sessionFactory.getCurrentSession();
@@ -74,7 +74,7 @@ public class Repository<T extends Model> implements IRepository<T> {
     public T update(T entity) {
         T found = get(entity.getId());
         if (found == null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " Not Found", Response.Status.NOT_FOUND);
+            throw new ClientErrorException(entity.getClass().getSimpleName() + " not found", Response.Status.NOT_FOUND);
         }
         setters.accept(found, entity);
         Session session = sessionFactory.getCurrentSession();
@@ -87,7 +87,7 @@ public class Repository<T extends Model> implements IRepository<T> {
     public void delete(String id) {
         T found = get(id);
         if (found == null) {
-            throw new ClientErrorException(found.getClass().getSimpleName() + " Not Found", Response.Status.NOT_FOUND);
+            throw new ClientErrorException(found.getClass().getSimpleName() + " not found", Response.Status.NOT_FOUND);
         }
         Session session = sessionFactory.getCurrentSession();
         session.delete(found);
