@@ -58,6 +58,4 @@ public class Course extends Model {
     public void setPrice(Currency price) {
         this.price = price;
     }
-
-
 }

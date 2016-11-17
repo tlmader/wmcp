@@ -24,18 +24,24 @@ import java.util.function.BiConsumer;
 public class Repository<T extends Model> implements IRepository<T> {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
+    private BiConsumer<T, T> setters;
+    private Class<T> type;
+    private String typeName;
 
-    protected BiConsumer<T, T> setters;
+    public Repository() {
+    }
 
-    public Repository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public Repository(BiConsumer<T, T> setters, Class<T> type) {
+        this.setters = setters;
+        this.type = type;
+        this.typeName = this.type.getSimpleName();
     }
 
     @Override
     @Transactional
     public List<T> getAll() {
-        Criteria allCriteria = sessionFactory.getCurrentSession().createCriteria(getTypeName());
+        Criteria allCriteria = sessionFactory.getCurrentSession().createCriteria(type);
         return allCriteria.list();
     }
 
@@ -45,7 +51,7 @@ public class Repository<T extends Model> implements IRepository<T> {
         if (id == null) {
             return null;
         }
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(getTypeName());
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(type);
         criteria.add(Restrictions.eq("id", id.toLowerCase()));
         List<T> results = criteria.list();
         if (results.isEmpty()) {
@@ -59,9 +65,9 @@ public class Repository<T extends Model> implements IRepository<T> {
     @Transactional
     public T create(T entity) {
         if (entity.getId() == null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID is null.", Response.Status.BAD_REQUEST);
+            throw new ClientErrorException(typeName + " ID is null.", Response.Status.BAD_REQUEST);
         } else if (get(entity.getId()) != null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " ID in use.", Response.Status.CONFLICT);
+            throw new ClientErrorException(typeName + " ID in use.", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
         Session session = sessionFactory.getCurrentSession();
@@ -74,7 +80,7 @@ public class Repository<T extends Model> implements IRepository<T> {
     public T update(T entity) {
         T found = get(entity.getId());
         if (found == null) {
-            throw new ClientErrorException(entity.getClass().getSimpleName() + " not found", Response.Status.NOT_FOUND);
+            throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
         setters.accept(found, entity);
         Session session = sessionFactory.getCurrentSession();
@@ -87,7 +93,7 @@ public class Repository<T extends Model> implements IRepository<T> {
     public void delete(String id) {
         T found = get(id);
         if (found == null) {
-            throw new ClientErrorException(found.getClass().getSimpleName() + " not found", Response.Status.NOT_FOUND);
+            throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
         Session session = sessionFactory.getCurrentSession();
         session.delete(found);
