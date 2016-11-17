@@ -32,9 +32,8 @@ public class Repository<T extends Model> implements IRepository<T> {
     public Repository() {
     }
 
-    public Repository(BiConsumer<T, T> setFields, Class<T> type, String idName) {
+    public Repository(BiConsumer<T, T> setFields, Class<T> type) {
         this.setFields = setFields;
-        this.idName = idName;
         this.type = type;
         this.typeName = this.type.getSimpleName();
     }
@@ -53,7 +52,7 @@ public class Repository<T extends Model> implements IRepository<T> {
             return null;
         }
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(type);
-        criteria.add(Restrictions.eq(idName, id.toLowerCase()));
+        criteria.add(Restrictions.eq("id", id.toLowerCase()));
         List<T> results = criteria.list();
         if (results.isEmpty()) {
             return null;
@@ -66,9 +65,9 @@ public class Repository<T extends Model> implements IRepository<T> {
     @Transactional
     public T create(T entity) {
         if (entity.getId() == null) {
-            throw new ClientErrorException(typeName + " " + idName + " is null", Response.Status.BAD_REQUEST);
+            throw new ClientErrorException(typeName + " ID is null", Response.Status.BAD_REQUEST);
         } else if (get(entity.getId()) != null) {
-            throw new ClientErrorException(typeName + " " + idName + " in use", Response.Status.CONFLICT);
+            throw new ClientErrorException(typeName + " ID in use", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
         Session session = sessionFactory.getCurrentSession();
