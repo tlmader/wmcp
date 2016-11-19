@@ -150,21 +150,21 @@ insert into person (per_id, person_name, address, phone_num, email, gender) valu
 insert into person (per_id, person_name, address, phone_num, email, gender) values (19, 'Steven Mitchell', '10 Scoville Street', '86-(395)182-1749', 'smitchelli@prnewswire.com', 'Male');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (20, 'Eric Andrews', '18424 Rowland Trail', '86-(282)647-6173', 'eandrewsj@feedburner.com', 'Male');
 --works
-insert into works (per_id, job_code, start_date, end_date) values (1, 700, TO_DATE('2014-05-27','YYYY-MM-DD'), SYSDATE);
+insert into works (per_id, job_code, start_date, end_date) values (1, 700, TO_DATE('2014-05-27','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (2, 701, TO_DATE('2014-05-06','YYYY-MM-DD'), SYSDATE);
 insert into works (per_id, job_code, start_date, end_date) values (3, 702, TO_DATE('2014-11-24','YYYY-MM-DD'), SYSDATE);
-insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2014-10-28','YYYY-MM-DD'), TO_DATE('2016-01-20','YYYY-MM-DD'));
-insert into works (per_id, job_code, start_date, end_date) values (5, 704, TO_DATE('2014-07-02','YYYY-MM-DD'), TO_DATE('2016-08-08','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2014-10-28','YYYY-MM-DD'), NULL);
+insert into works (per_id, job_code, start_date, end_date) values (5, 704, TO_DATE('2014-07-02','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (6, 705, TO_DATE('2014-07-08','YYYY-MM-DD'), TO_DATE('2016-04-27','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (7, 706, TO_DATE('2014-09-11','YYYY-MM-DD'), TO_DATE('2015-12-25','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (8, 707, TO_DATE('2014-02-26','YYYY-MM-DD'), TO_DATE('2016-07-19','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (9, 708, TO_DATE('2014-12-24','YYYY-MM-DD'), TO_DATE('2016-07-14','YYYY-MM-DD'));
-insert into works (per_id, job_code, start_date, end_date) values (10, 709, TO_DATE('2013-05-06','YYYY-MM-DD'), TO_DATE('2015-11-25','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (10, 709, TO_DATE('2013-05-06','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (11, 710, TO_DATE('2010-09-29','YYYY-MM-DD'), TO_DATE('2016-04-03','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (12, 711, TO_DATE('2011-09-01','YYYY-MM-DD'), TO_DATE('2016-03-22','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (13, 712, TO_DATE('2014-01-06','YYYY-MM-DD'), TO_DATE('2015-12-15','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (14, 713, TO_DATE('2011-08-22','YYYY-MM-DD'), TO_DATE('2016-04-04','YYYY-MM-DD'));
-insert into works (per_id, job_code, start_date, end_date) values (15, 714, TO_DATE('2011-07-11','YYYY-MM-DD'), TO_DATE('2016-06-14','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (15, 714, TO_DATE('2011-07-11','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (16, 715, TO_DATE('2011-02-01','YYYY-MM-DD'), TO_DATE('2015-11-07','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (17, 716, TO_DATE('2011-12-29','YYYY-MM-DD'), TO_DATE('2016-03-21','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (18, 717, TO_DATE('2011-10-17','YYYY-MM-DD'), TO_DATE('2016-08-22','YYYY-MM-DD'));
@@ -305,6 +305,8 @@ insert into teaches (c_code, ks_code) values (26, 9);
 insert into teaches (c_code, ks_code) values (26, 19);
 insert into teaches (c_code, ks_code) values (27, 7);
 insert into teaches (c_code, ks_code) values (27, 8);
+
+
 
 
 
