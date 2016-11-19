@@ -1,3 +1,53 @@
+[job_profile]
+001 Cloud Developer
+002 Operating System Developer
+003 Big Data Analyst
+004 Industrial Internet Analyst
+005 Game Dev
+006 Network Admin
+007 Lead Developer
+008 Information Security Analyst
+009 Database Admin
+010 Front End Dev
+012 Lead Architect
+
+[knowledge_skill]
+1 Java
+2 SQL
+3 Amazon Web Services
+4 CRUD
+5 RESTful Services
+6 C
+7 C++
+8 Application Architecture
+9 Server Administration
+10 Asswmbly
+11 HTML
+12 Angular
+13 Jquery
+14 CSS 
+15 System Security
+16 Test Driven Development
+17 Leadership
+18 C#/.NET Framework
+19 Server Architecture
+20 Cloud Development 
+21 Spring Framework
+22 Large Data Manipulation
+23 Debugging
+
+[Company]
+1 Vague Electric
+2 Tosh Incorporated
+3 Mader Machinery
+4 Eaton Foods
+5 The Government
+6 The Company
+7 Putin Power Industrial
+8 Joshua Junction
+9 Ted Technology
+10 Jed Industrial
+
 [PEOPLE]
 1 Marry MIlls
 2 Justin Ryan
@@ -19,5 +69,46 @@
 18 Paul Cox
 19 Steven Mitchell
 20 Eric Andrews
+
+[Specialty]
+1 Electrical Technology
+2 Incorporated Products
+3 Computer Hardware
+4 Food
+5 Corruption 
+6 Logistics Service
+7 Power
+8 Construction and Transportation
+9 Technology
+10 Industrials
+
+[Course]
+1 Java Certification
+2 Database SQL
+3 Amazon Web Services Certification
+4 API and CRUD
+5 REST Practices
+6 C Certification
+7 C++ Certification
+8 Architecture Design for Applications
+9 Introduction into Server Administration
+10 Assembly
+11 HTML and CSS Basics
+12 Javascript Certification
+13 Angular and JQuery
+14 Web Design Basics
+15 System Security Overview
+16 Test Development Certification
+17 Leadership Skills
+18 C#/.NET Certification
+19 Server Architecture Overview
+20 Industrial Cloud Development
+21 Spring Framework Certification
+22 Big Data
+23 Essentials in Debugging
+24 Back End Basics
+25 Front End Basics
+26 Networking Skills
+27 C++ and Architecture
 
 
