@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="csci4125-project" />
+        <module name="csci4125.project" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="csci4125-project" target="1.8" />
+      <module name="csci4125.project" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
