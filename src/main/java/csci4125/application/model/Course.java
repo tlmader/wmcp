@@ -1,4 +1,4 @@
-package csci4125.service.model;
+package csci4125.application.model;
 
 import javax.persistence.*;
 import java.util.Currency;

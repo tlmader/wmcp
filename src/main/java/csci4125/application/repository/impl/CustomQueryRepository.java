@@ -1,9 +1,7 @@
-package csci4125.service.repository.impl;
+package csci4125.application.repository.impl;
 
-import csci4125.service.repository.ICustomQueryRepository;
-import org.hibernate.Criteria;
+import csci4125.application.repository.ICustomQueryRepository;
 import org.hibernate.SQLQuery;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

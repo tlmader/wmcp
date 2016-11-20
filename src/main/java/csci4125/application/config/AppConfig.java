@@ -1,4 +1,4 @@
-package csci4125.service.config;
+package csci4125.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
