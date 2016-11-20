@@ -10,7 +10,6 @@ import java.util.List;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-@Service
 public interface ICustomQueryService {
 
     /**

@@ -24,7 +24,7 @@ public class CustomQueryController {
     @Autowired
     ICustomQueryService service;
 
-    @RequestMapping(value = {"nativeresults"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
     public ResponseEntity<List<Object[]>> getNativeResults(@RequestBody String query) {
         return new ResponseEntity<>(this.service.getNativeResults(query), HttpStatus.OK);
     }
