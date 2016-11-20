@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Description.
+ * Implements manager workflow methods for native SQL query usage.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016

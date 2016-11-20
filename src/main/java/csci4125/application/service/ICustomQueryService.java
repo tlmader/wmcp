@@ -1,10 +1,10 @@
 package csci4125.application.service;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Description
+ * Implements service workflow methods for native SQL query usage.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16

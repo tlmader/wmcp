@@ -1,6 +1,5 @@
 package csci4125.application.repository;
 
-import java.util.Map;
 import java.util.List;
 
 /**
@@ -17,5 +16,5 @@ public interface ICustomQueryRepository {
      * @param query a native query
      * @return the List of data returned by the query
      */
-     List<Object[]> get(String query);
+    List<Object[]> get(String query);
 }

@@ -6,12 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Description.
+ * Defines the REST API for native SQL query usage.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016
@@ -24,9 +23,9 @@ public class CustomQueryController {
     ICustomQueryService service;
 
     /**
-     * Gets results based on a custom query.
+     * Gets results based on a native SQL query.
      *
-     * @param query a SQL query
+     * @param query a native SQL query
      * @return the Response containing the results.
      */
     @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
