@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,11 +23,22 @@ public class CustomQueryService implements ICustomQueryService {
     ICustomQueryRepository repository;
 
     @Override
-    public List<List<Object>> getNativeResults(String query) {
-        return mapNativeResults(repository.get(query));
+    public List<List<Object>> getNativeResults(String query, Map<String, String> vars) {
+        return mapNativeResults(repository.get(mapValuesToKeysForQuery(query, vars)));
     }
 
+    /**
+     * Maps result arrays to Lists.
+     *
+     * @param results a List of Object[]
+     * @return the List of Lists.
+     */
     private List<List<Object>> mapNativeResults(List<Object[]> results) {
         return results.stream().map(Arrays::asList).collect(Collectors.toList());
+    }
+
+    private String mapValuesToKeysForQuery(String query, Map<String, String> vars) {
+        vars.entrySet().stream().map(x -> query.replace("${" + x.getKey() + "}", x.getValue()));
+        return query;
     }
 }

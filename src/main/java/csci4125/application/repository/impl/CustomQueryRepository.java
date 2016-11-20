@@ -24,7 +24,7 @@ public class CustomQueryRepository implements ICustomQueryRepository {
 
     @Override
     @Transactional
-    public List get(String query) {
+    public List<Object[]> get(String query) {
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
         List results = sqlQuery.list();
         if (results.isEmpty()) {
@@ -35,6 +35,12 @@ public class CustomQueryRepository implements ICustomQueryRepository {
         return results;
     }
 
+    /**
+     * Converts String results to Object[].
+     *
+     * @param results a results List
+     * @return the List of results with type Object[]
+     */
     private List<Object[]> convertResultsToObjectArrays(List<String> results) {
         return results.stream().map(x -> new Object[]{x}).collect(Collectors.toList());
     }
