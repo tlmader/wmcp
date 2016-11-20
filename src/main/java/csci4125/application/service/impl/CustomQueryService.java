@@ -22,12 +22,7 @@ public class CustomQueryService implements ICustomQueryService {
     ICustomQueryRepository repository;
 
     @Override
-    public List<String> getNativeResultsForColumn(String query) {
-        return repository.get(query);
-    }
-
-    @Override
-    public List<List<Object>> getNativeResultsForColumns(String query) {
+    public List<List<Object>> getNativeResults(String query) {
         return mapNativeResults(repository.get(query));
     }
 

@@ -18,13 +18,5 @@ public interface ICustomQueryService {
      * @param query a native query
      * @return the List of data returned by the query
      */
-    List<String> getNativeResultsForColumn(String query);
-
-    /**
-     * Returns an unmapped body of data by a native query.
-     *
-     * @param query a native query
-     * @return the List of data returned by the query
-     */
-    List<List<Object>> getNativeResultsForColumns(String query);
+    List<List<Object>> getNativeResults(String query);
 }
