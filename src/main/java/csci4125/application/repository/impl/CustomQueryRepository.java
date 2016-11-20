@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implements data access methods for the usage of native queries.
@@ -28,7 +29,13 @@ public class CustomQueryRepository implements ICustomQueryRepository {
         List results = sqlQuery.list();
         if (results.isEmpty()) {
             return null;
+        } else if (results.get(0) instanceof String) {
+            return convertResultsToObjectArrays(results);
         }
         return results;
+    }
+
+    private List<Object[]> convertResultsToObjectArrays(List<String> results) {
+        return results.stream().map(x -> new Object[]{x}).collect(Collectors.toList());
     }
 }

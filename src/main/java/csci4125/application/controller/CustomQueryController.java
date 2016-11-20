@@ -28,9 +28,4 @@ public class CustomQueryController {
     public ResponseEntity<List<String>> getNativeResultsForColumn(@RequestBody String query) {
         return new ResponseEntity<>(this.service.getNativeResultsForColumn(query), HttpStatus.OK);
     }
-
-    @RequestMapping(value = {"nativeresults/columns"}, method = RequestMethod.POST)
-    public ResponseEntity<List<String>> getNativeResultsForColumns(@RequestBody String query) {
-        return new ResponseEntity<>(this.service.getNativeResultsForColumn(query), HttpStatus.OK);
-    }
 }
