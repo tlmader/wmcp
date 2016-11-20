@@ -14,6 +14,8 @@ public class CourseRepository extends Repository<Course> {
 
     public CourseRepository() {
         super((x, y) -> {
+            x.setTitle(y.getTitle());
+            x.setLevel(y.getLevel());
             x.setDescription(y.getDescription());
             x.setStatus(y.getStatus());
             x.setPrice(y.getPrice());

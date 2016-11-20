@@ -10,8 +10,6 @@ import java.util.Currency;
  * @since 2016-11-17
  */
 @Entity
-@Table(name = "course")
-@AttributeOverride(name = "id", column = @Column(name = "c_code"))
 public class Course extends Model {
 
     @Id
@@ -27,6 +25,10 @@ public class Course extends Model {
     private String status;
     @Column(name = "retail_price")
     private Currency price;
+
+    public Course() {
+
+    }
 
     public Course(String id, String title, String level, String description, String status, Currency price) {
         this.id = id;
