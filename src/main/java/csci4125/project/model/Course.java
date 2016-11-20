@@ -3,6 +3,7 @@ package csci4125.project.model;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Currency;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Currency;
  * @since 2016-11-17
  */
 @Entity
+@Table(name="course")
 @AttributeOverride(name = "id", column = @Column(name = "c_code"))
 public class Course extends Model {
 

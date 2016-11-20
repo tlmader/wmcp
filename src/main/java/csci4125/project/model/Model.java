@@ -12,17 +12,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class Model {
 
-    private String id;
+    public abstract String getId();
 
-    public Model(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public abstract void setId(String id);
 }
