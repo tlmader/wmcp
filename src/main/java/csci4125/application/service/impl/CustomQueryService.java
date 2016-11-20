@@ -38,7 +38,9 @@ public class CustomQueryService implements ICustomQueryService {
     }
 
     private String mapValuesToKeysForQuery(String query, Map<String, String> vars) {
-        vars.entrySet().stream().map(x -> query.replace("${" + x.getKey() + "}", x.getValue()));
+        for (Map.Entry<String, String> var : vars.entrySet()) {
+            query = query.replace("${" + var.getKey() + "}", var.getValue());
+        }
         return query;
     }
 }

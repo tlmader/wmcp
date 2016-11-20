@@ -30,7 +30,7 @@ public class CustomQueryController {
      * @return the Response containing the results.
      */
     @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
-    public ResponseEntity<List<List<Object>>> getNativeResultsForColumn(@RequestBody String query, @RequestParam Map<String, String> vars) {
+    public ResponseEntity<List<List<Object>>> getNativeResultsForColumn(@RequestBody String query, @RequestHeader Map<String, String> vars) {
         return new ResponseEntity<>(this.service.getNativeResults(query, vars), HttpStatus.OK);
     }
 }
