@@ -1,9 +1,6 @@
 package csci4125.project.model;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Currency;
 
 /**
@@ -13,10 +10,13 @@ import java.util.Currency;
  * @since 2016-11-17
  */
 @Entity
-@Table(name="course")
+@Table(name = "course")
 @AttributeOverride(name = "id", column = @Column(name = "c_code"))
 public class Course extends Model {
 
+    @Id
+    @Column(name = "c_code")
+    private String id;
     @Column(name = "c_title")
     private String title;
     @Column(name = "c_level")
@@ -29,12 +29,22 @@ public class Course extends Model {
     private Currency price;
 
     public Course(String id, String title, String level, String description, String status, Currency price) {
-        super(id);
+        this.id = id;
         this.title = title;
         this.level = level;
         this.description = description;
         this.status = status;
         this.price = price;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -80,10 +90,11 @@ public class Course extends Model {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Course)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Course course = (Course) o;
 
+        if (id != null ? !id.equals(course.id) : course.id != null) return false;
         if (title != null ? !title.equals(course.title) : course.title != null) return false;
         if (level != null ? !level.equals(course.level) : course.level != null) return false;
         if (description != null ? !description.equals(course.description) : course.description != null) return false;
@@ -93,7 +104,8 @@ public class Course extends Model {
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
