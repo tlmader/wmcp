@@ -182,7 +182,7 @@ insert into specialty (spec_id, spec_title) values (7, 'Power');
 insert into specialty (spec_id, spec_title) values (8, 'Construction and Transportation');
 insert into specialty (spec_id, spec_title) values (9, 'Technology');
 insert into specialty (spec_id, spec_title) values (10, 'Industrials');
---company_specialty
+--company_specialty 
 insert into company_specialty (comp_id, spec_id) values (1, 1);
 insert into company_specialty (comp_id, spec_id) values (2, 2);
 insert into company_specialty (comp_id, spec_id) values (3, 3);

@@ -4,7 +4,7 @@ CREATE TABLE job_profile
   jp_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
   avg_pay VARCHAR(20)
-  
+
 );
 CREATE TABLE knowledge_skill
 (
@@ -97,7 +97,7 @@ CREATE TABLE course
 );
 CREATE TABLE section
 (
-  c_code VARCHAR2(10) NOT NULL, 
+  c_code VARCHAR2(10) NOT NULL,
   sec_no VARCHAR2(10) NOT NULL,
   sec_year NUMBER(4) NOT NULL,
   complete_date DATE,
