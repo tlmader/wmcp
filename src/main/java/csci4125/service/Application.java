@@ -1,4 +1,4 @@
-package csci4125.project;
+package csci4125.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

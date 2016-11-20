@@ -1,6 +1,6 @@
-package csci4125.project.repository.impl;
+package csci4125.service.repository.impl;
 
-import csci4125.project.model.Course;
+import csci4125.service.model.Course;
 import org.springframework.stereotype.Component;
 
 /**

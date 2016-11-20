@@ -1,4 +1,4 @@
-package csci4125.project.repository;
+package csci4125.service.repository;
 
 import java.util.List;
 

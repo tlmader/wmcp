@@ -1,7 +1,7 @@
-package csci4125.project.repository.impl;
+package csci4125.service.repository.impl;
 
-import csci4125.project.model.Model;
-import csci4125.project.repository.IRepository;
+import csci4125.service.model.Model;
+import csci4125.service.repository.IRepository;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
