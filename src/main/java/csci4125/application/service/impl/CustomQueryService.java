@@ -5,7 +5,9 @@ import csci4125.application.service.ICustomQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Description.
@@ -20,7 +22,16 @@ public class CustomQueryService implements ICustomQueryService {
     ICustomQueryRepository repository;
 
     @Override
-    public List<Object[]> getNativeResults(String query) {
+    public List<String> getNativeResultsForColumn(String query) {
         return repository.get(query);
+    }
+
+    @Override
+    public List<List<Object>> getNativeResultsForColumns(String query) {
+        return mapNativeResults(repository.get(query));
+    }
+
+    private List<List<Object>> mapNativeResults(List<Object[]> results) {
+        return results.stream().map(Arrays::asList).collect(Collectors.toList());
     }
 }

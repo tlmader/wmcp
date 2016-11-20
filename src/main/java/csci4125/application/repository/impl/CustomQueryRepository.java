@@ -23,7 +23,7 @@ public class CustomQueryRepository implements ICustomQueryRepository {
 
     @Override
     @Transactional
-    public List<Object[]> get(String query) {
+    public List get(String query) {
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
         List results = sqlQuery.list();
         if (results.isEmpty()) {

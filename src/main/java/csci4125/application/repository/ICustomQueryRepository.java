@@ -16,5 +16,5 @@ public interface ICustomQueryRepository {
      * @param query a native query
      * @return the List of data returned by the query
      */
-     List<Object[]> get(String query);
+     List get(String query);
 }

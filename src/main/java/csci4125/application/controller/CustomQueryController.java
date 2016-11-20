@@ -24,8 +24,13 @@ public class CustomQueryController {
     @Autowired
     ICustomQueryService service;
 
-    @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
-    public ResponseEntity<List<Object[]>> getNativeResults(@RequestBody String query) {
-        return new ResponseEntity<>(this.service.getNativeResults(query), HttpStatus.OK);
+    @RequestMapping(value = {"nativeresults/column"}, method = RequestMethod.POST)
+    public ResponseEntity<List<String>> getNativeResultsForColumn(@RequestBody String query) {
+        return new ResponseEntity<>(this.service.getNativeResultsForColumn(query), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = {"nativeresults/columns"}, method = RequestMethod.POST)
+    public ResponseEntity<List<String>> getNativeResultsForColumns(@RequestBody String query) {
+        return new ResponseEntity<>(this.service.getNativeResultsForColumn(query), HttpStatus.OK);
     }
 }
