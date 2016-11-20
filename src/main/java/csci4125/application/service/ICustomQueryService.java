@@ -1,5 +1,7 @@
 package csci4125.application.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
+@Service
 public interface ICustomQueryService {
 
     /**

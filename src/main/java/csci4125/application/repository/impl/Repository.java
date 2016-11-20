@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-public abstract class Repository<T extends Model> implements IRepository<T> {
+abstract class Repository<T extends Model> implements IRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
