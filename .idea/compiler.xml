@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="csci4125.project" />
+        <module name="csci4125.service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="csci4125.project" target="1.8" />
+      <module name="csci4125.service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
