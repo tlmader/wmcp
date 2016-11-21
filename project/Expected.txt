@@ -8,7 +8,7 @@ Expected:
 
 #2
 Given:
-	comp_id = 2
+	comp_id = 1
 Expected:
 	person_name = Marry Mills
 	pay_rate = $106693.07
@@ -58,6 +58,9 @@ Expected:
 #6
 Given:
 
+Expected:
+
+
 #7
 Given:
 	jp_code = 002
@@ -66,6 +69,15 @@ Expected:
 	ks_title = C++
 	ks_title = Application Architecture
 	ks_title = Assembly
+(b)
+Given:
+	jp_code = 009
+Expected:
+	ks_title = SQL
+	ks_title = CRUD
+	ks_title = Leadership
+	ks_title = Large Data Manipulation
+	
 
 #8
 Given:
@@ -77,6 +89,16 @@ Expected:
 	ks_title = Application Architecture
 	ks_title = Server Security
 	ks_title = Server Architecture
+(b)
+Given: 
+	job_code = 710
+	per_id <> 20
+Expected:
+	ks_title = HTML
+	ks_title = Angular
+	ks_title = Jquery
+	ks_title = CSS
+	
 
 #9
 Given:
@@ -85,6 +107,13 @@ Given:
 Expected:
 	c_code = 20
 	c_title = Industrial Cloud Development
+(b)
+Given:
+	per_id = 18
+	jp_code = 009
+Expected:
+	c_code = 2
+	c_title = Database SQL
 
 #10
 Given:
@@ -95,6 +124,15 @@ Expected:
 	c_title = Band End Basics
 	sec_no = 24
 	complete_date = 09-NOV-16
+(b)
+Given:
+	per_id = 11
+	jp_code = 001
+Expected:
+	c_code = 20
+	c_title = Industrial Cloud Development
+	sec_no = 20
+	complete_date = 09-April-16
 
 #11
 Given:
@@ -104,6 +142,14 @@ Expected:
 	c_code = 27
 	c_title = C++ and Architecture
 	cost = $1500.82
+(b)
+Given:
+	per_id = 19
+	jp_code = 006
+Expected:
+	c_code = 20
+	c_title = Database SQL
+	cost = $1834.04
 
 #12
 Given:
@@ -113,16 +159,45 @@ Expected:
 	"Ordered under combinations"
 	Combination 1: course_1 = 15 , course_2 = 26 , course_3 = "" , total_cost = $3,046.86
 	Combination 2: course_1 = 15 , course_2 = 19 , course_3 = 26 , total_cost = $4,580.55
+(b)
+Given:
+	per_id = 8
+	jp_code = 008
+Expected:
+	"Ordered under combinations"
+	Combination 1: course_1 = 22 , course_2 = 3 , course_3 = "" , total_cost = $1,797.87
+	Combination 2: course_1 = 2 , course_2 = 13 , course_3 = “” , total_cost = $2,452.68
+	Combination 3: course_1 = 2 , course_2 = 22 , course_3 = 3 , total_cost = $3,631.91
 
 #13
 Given:
+	per_id = 1
 
 Expected:
+	jp_code = 1
+	jp_title = Cloud Developer
+(b)
+Given:
+	per_id = 2
+
+Expected:
+	jp_code = 5
+	jp_title = Game Dev
 
 #14
 Given:
+	per_id = 20
 
 Expected:
+	jp_code = 700
+	pay = $98,485.91
+(b)
+Given:
+	per_id = 19
+
+Expected:
+	jp_code = 712
+	pay = $119,060.46
 
 #15:
 Given:
@@ -145,17 +220,18 @@ Expected:
 
 	person_name = Jason Littler
 	email = jlittle9@cocolog-nifty.com
-#16
-Given:
 
+#16 TODO: Michael Velez missing skill for dab admin by 1 yet does not show up despite not having the job in the first place
+Given:
+		
 Expected:
 
-#17      
+#17 TODO: Has the same issue as 16     
 Given:
 
 Expected:       
 
-#18      
+#18   Updated!   
 Given: 
 	jp_code = 012
 Expected:
@@ -166,13 +242,31 @@ Expected:
 	missing_ks_count = 5
 
 	person_name = Steven Mitchell
-	missing_ks_count = 5
+	missing_ks_count = 1
 
 	person_name = Carol Morrison
 	missing_ks_count = 5
 
 	person_name = Jason Stevens
 	missing_ks_count = 5
+
+	person_name = Nicole Berry
+	missing_ks_count = 5
+
+	person_name = Eric Andrews
+	missing_ks_count = 5
+(b)
+Given: 
+	jp_code = 012
+Expected:
+	person_name = Michael Velez
+	missing_ks_count = 3
+
+	person_name = Martin Ross
+	missing_ks_count = 4
+
+	person_name = Steven Mitchell
+	missing_ks_count = 3
 
 #19
 Given:
@@ -193,56 +287,77 @@ Expected:
 
 	person_name = Jason Stevens
 	missing_ks_count = 5
+(b)
+Given:
+	jp_code = 12
+Expected:
+	Expected:
+	person_name = Michael Velez
+	missing_ks_count = 1
 
-#20
+	person_name = Steven Mitchell
+	missing_ks_count = 3
+
+	person_name = Nicole Berry
+	missing_ks_count = 3
+
+
+#20 TODO: Needs Work
 Given:
 
 Expected
 
 #21
 Given:
+	None to give
 
 Expected:
+	person_name = Micheal Velez
 
 #22
 Given:
 	jp_code = 001
 Expected:
 	person_name = Nicole Miller
+(b)
+Given:
+	jp_code = 011
+Expected:
+	person_name = Carl Crawford
 
 #23
 Given:
 	none to give
 Expected:
-	comp_name = Tosh Incorporated
+	comp_name = Vague Electric
 
 #24
 Given:
 	none to give
 Expected:
-	primary_sector = Company
+	primary_sector = Business Sector
 
-#25
+#25 TODO: Needs Work
 Given:
 
 Expected:
 
-#26
-Given:
-
-Expected:
-	
-#26
+#26 TODO: Needs Work
 Given:
 
 Expected:
 	
-#27
+#26 TODO: Needs Work
+Given:
+
+Expected:
+	
+#27 TODO: Needs Work
 Given:
 
 Expected:
 
-#28
+#28 TODO: Needs Work
 Given:
 
 Expected:
