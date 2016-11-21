@@ -48,13 +48,4 @@ public interface ICrudService<T> {
      * @param id an ID for a <T>
      */
     void delete(String id);
-
-    /**
-     * Determines whether or not the given <T> is set to be updated or inserted, and is called by the controller to
-     * determine the status code.
-     *
-     * @param entity a <T> to be upserted
-     * @return true if insert <T> or false if update <T>
-     */
-    boolean upsertIsInsert(T entity);
 }

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Implements manager workflow methods for T entities.
  *
- * @author tmader
+ * @author tlmader.dev@gmail.com
  * @since 2016-11-20
  */
 @Service
