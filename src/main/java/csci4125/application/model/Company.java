@@ -26,6 +26,7 @@ public class Company extends BaseEntity {
     private String website;
 
     public Company() {
+
     }
 
     public Company(String id, String name, String address, String primarySector, String website) {

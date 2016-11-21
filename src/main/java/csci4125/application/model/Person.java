@@ -28,6 +28,7 @@ public class Person extends BaseEntity {
     private String gender;
 
     public Person() {
+
     }
 
     public Person(String id, String name, String address, String phoneNum, String email, String gender) {
@@ -87,5 +88,31 @@ public class Person extends BaseEntity {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (id != null ? !id.equals(person.id) : person.id != null) return false;
+        if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (address != null ? !address.equals(person.address) : person.address != null) return false;
+        if (phoneNum != null ? !phoneNum.equals(person.phoneNum) : person.phoneNum != null) return false;
+        if (email != null ? !email.equals(person.email) : person.email != null) return false;
+        return gender != null ? gender.equals(person.gender) : person.gender == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (phoneNum != null ? phoneNum.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        return result;
     }
 }

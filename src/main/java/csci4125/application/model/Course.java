@@ -28,6 +28,7 @@ public class Course extends BaseEntity {
     private Float price;
 
     public Course() {
+
     }
 
     public Course(String id, String title, String level, String description, String status, Float price) {
