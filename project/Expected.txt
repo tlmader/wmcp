@@ -90,7 +90,6 @@ Expected:
 Given:
 	per_id = 6
 	jp_code = 007
-	ROWNUM = 1
 Expected:
 	c_code = 24
 	c_title = Band End Basics
@@ -101,8 +100,6 @@ Expected:
 Given:
 	per_id = 16
 	jp_code = 005
-	status = active
-	ROWNUM = 1
 Expected:
 	c_code = 27
 	c_title = C++ and Architecture
@@ -112,7 +109,6 @@ Expected:
 Given:
 	per_id = 8
 	jp_code = 008
-	status = active
 Expected:
 	"Ordered under combinations"
 	Combination 1: course_1 = 15 , course_2 = 26 , course_3 = "" , total_cost = $3,046.86
@@ -142,13 +138,13 @@ Expected:
 	email = challc@fastcompany.com
 
 	person_name = John Ramos
-	email = jramosd@odnoklassniki.ru                              
+	email = jramosd@odnoklassniki.ru
 
 	person_name = Carl Crawford
-	email = ccrawfordb@linkedin.com       
+	email = ccrawfordb@linkedin.com
 
 	person_name = Jason Littler
-	email = jlittle9@cocolog-nifty.com                                                      
+	email = jlittle9@cocolog-nifty.com
 #16
 Given:
 
