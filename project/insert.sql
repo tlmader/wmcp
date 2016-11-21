@@ -11,6 +11,7 @@ insert into job_profile (jp_code, jp_title, description, avg_pay) values (009, '
 insert into job_profile (jp_code, jp_title, description, avg_pay) values (010, 'Front End Dev', 'Job description:', 129989.09);
 insert into job_profile (jp_code, jp_title, description, avg_pay) values (011, 'Back End Dev', 'Job description:', 64294.70);
 insert into job_profile (jp_code, jp_title, description, avg_pay) values (012, 'Lead Architect', 'Job description:', 139430.06);
+insert into job_profile (jp_code, jp_title, description, avg_pay) values (013, 'Special', 'Job description:', 209430.06);
 --knowledge_skill inserts
 insert into knowledge_skill (ks_code, ks_title, description, s_level) values (1, 'Java', 'Knowledge in the Java programming language', 'beginner');
 insert into knowledge_skill (ks_code, ks_title, description, s_level) values (2, 'SQL', 'Knowledge in the development of database queries', 'medium');
@@ -86,13 +87,14 @@ insert into required_skill (jp_code, ks_code) values (012, 8);
 insert into required_skill (jp_code, ks_code) values (012, 15);
 insert into required_skill (jp_code, ks_code) values (012, 19);
 insert into required_skill (jp_code, ks_code) values (012, 21);
+insert into required_skill (jp_code, ks_code) values (013, 17);
 --company
 insert into company (comp_id, comp_name, address, primary_sector, website) values (1, 'Vauge Electric', '52512 Red Cloud Lane', 'Electric', 'www.Vauge.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (2, 'Tosh Incorporated', '9 Hollow Ridge Way', 'Bussiness', 'www.Tosh.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (3, 'Mader Machinery', '4733 Dovetail Center', 'Machinery', 'www.MaderMachinery.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (4, 'Eaton Foods', '79 Lake View Court', 'Food', 'www.EatonFoods.come');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (5, 'The Government', '935 Birchwood Point', 'Public Sector', 'www.Government.gov');
-insert into company (comp_id, comp_name, address, primary_sector, website) values (6, 'The Company', '82 Del Mar Circle', 'Company', 'www.TheCompany.com');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (6, 'The Company', '82 Del Mar Circle', 'Business Sector', 'www.TheCompany.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (7, 'Putin Power Industrial', '45 Lakeland Point', 'Power', 'www.PPI.come');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (8, 'Joshua Junction', '77863 Macpherson Avenue', 'Transportation', 'www.JoshuaJunct.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (9, 'Ted Technology', '21975 Alpine Lane', 'Technology', 'www.TedTech.com');
@@ -128,6 +130,7 @@ insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (7
 insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (727, 012, 9, 'Full Time', 75712.10, 'salary');
 insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (728, 011, 9, 'Full Time', 70365.75, 'salary');
 insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (729, 012, 9, 'Full Time', 75712.10, 'salary');
+insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (730, 013, 5, 'Full Time', 200000.00, 'salary');
 --person
 insert into person (per_id, person_name, address, phone_num, email, gender) values (1, 'Mary Mills', '523 Fremont Place', '62-(824)697-2977', 'mmills0@yandex.ru', 'Female');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (2, 'Justin Ryan', '061 Nelson Road', '62-(684)953-6514', 'jryan1@samsung.com', 'Male');
@@ -151,11 +154,12 @@ insert into person (per_id, person_name, address, phone_num, email, gender) valu
 insert into person (per_id, person_name, address, phone_num, email, gender) values (20, 'Eric Andrews', '18424 Rowland Trail', '86-(282)647-6173', 'eandrewsj@feedburner.com', 'Male');
 --works
 insert into works (per_id, job_code, start_date, end_date) values (1, 700, TO_DATE('2014-05-27','YYYY-MM-DD'), NULL);
-insert into works (per_id, job_code, start_date, end_date) values (2, 701, TO_DATE('2014-05-06','YYYY-MM-DD'), SYSDATE);
+insert into works (per_id, job_code, start_date, end_date) values (2, 701, TO_DATE('2014-05-06','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (3, 702, TO_DATE('2014-11-24','YYYY-MM-DD'), SYSDATE);
-insert into works (per_id, job_code, start_date, end_date) values (4, 705, TO_DATE('2014-10-28','YYYY-MM-DD'), SYSDATE);
+insert into works (per_id, job_code, start_date, end_date) values (4, 705, TO_DATE('2010-10-28','YYYY-MM-DD'), TO_DATE('2015-9-30','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (4, 704, TO_DATE('2014-10-28','YYYY-MM-DD'), NULL);
-insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2014-10-28','YYYY-MM-DD'), NULL);
+insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2014-10-28','YYYY-MM-DD'), TO_DATE('2015-10-11','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 730, TO_DATE('2004-10-28','YYYY-MM-DD'), TO_DATE('2010-10-11','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (5, 704, TO_DATE('2014-07-02','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (6, 705, TO_DATE('2014-07-08','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (7, 706, TO_DATE('2014-09-11','YYYY-MM-DD'), TO_DATE('2015-12-25','YYYY-MM-DD'));
@@ -253,9 +257,13 @@ insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_fo
 --knows
 insert into knows (per_id, ks_code) values (1, 20);
 insert into knows (per_id, ks_code) values (2, 6);
+insert into knows (per_id, ks_code) values (2, 7);
 insert into knows (per_id, ks_code) values (3, 7);
 insert into knows (per_id, ks_code) values (3, 3);
+insert into knows (per_id, ks_code) values (4, 2);
 insert into knows (per_id, ks_code) values (4, 4);
+insert into knows (per_id, ks_code) values (4, 16);
+insert into knows (per_id, ks_code) values (4, 17);
 insert into knows (per_id, ks_code) values (5, 5);
 insert into knows (per_id, ks_code) values (6, 6);
 insert into knows (per_id, ks_code) values (7, 7);
@@ -268,13 +276,24 @@ insert into knows (per_id, ks_code) values (13, 13);
 insert into knows (per_id, ks_code) values (14, 14);
 insert into knows (per_id, ks_code) values (15, 15);
 insert into knows (per_id, ks_code) values (16, 16);
+insert into knows (per_id, ks_code) values (17, 9);
+insert into knows (per_id, ks_code) values (17, 15);
 insert into knows (per_id, ks_code) values (17, 17);
 insert into knows (per_id, ks_code) values (18, 18);
+insert into knows (per_id, ks_code) values (19, 3);
+insert into knows (per_id, ks_code) values (19, 4);
+insert into knows (per_id, ks_code) values (19, 5);
+insert into knows (per_id, ks_code) values (19, 8);
+insert into knows (per_id, ks_code) values (19, 15);
 insert into knows (per_id, ks_code) values (19, 19);
+insert into knows (per_id, ks_code) values (20, 3);
 insert into knows (per_id, ks_code) values (20, 20);
 --teaches
 insert into teaches (c_code, ks_code) values (1, 1);
 insert into teaches (c_code, ks_code) values (2, 2);
+insert into teaches (c_code, ks_code) values (2, 4);
+insert into teaches (c_code, ks_code) values (2, 17);
+insert into teaches (c_code, ks_code) values (2, 22);
 insert into teaches (c_code, ks_code) values (3, 3);
 insert into teaches (c_code, ks_code) values (4, 4);
 insert into teaches (c_code, ks_code) values (5, 5);
@@ -284,7 +303,9 @@ insert into teaches (c_code, ks_code) values (8, 8);
 insert into teaches (c_code, ks_code) values (9, 9);
 insert into teaches (c_code, ks_code) values (10, 10);
 insert into teaches (c_code, ks_code) values (11, 11);
+insert into teaches (c_code, ks_code) values (11, 14);
 insert into teaches (c_code, ks_code) values (12, 12);
+insert into teaches (c_code, ks_code) values (12, 13);
 insert into teaches (c_code, ks_code) values (13, 13);
 insert into teaches (c_code, ks_code) values (14, 14);
 insert into teaches (c_code, ks_code) values (15, 15);
@@ -307,6 +328,8 @@ insert into teaches (c_code, ks_code) values (26, 9);
 insert into teaches (c_code, ks_code) values (26, 19);
 insert into teaches (c_code, ks_code) values (27, 7);
 insert into teaches (c_code, ks_code) values (27, 8);
+
+
 
 
 
