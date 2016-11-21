@@ -37,7 +37,7 @@ public class NativeQueryService implements INativeQueryService {
      * Maps result arrays to Lists.
      *
      * @param results a List of Object[]
-     * @return the List of Lists.
+     * @return the List of Lists
      */
     private List<List<Object>> mapNativeResults(List<Object[]> results) {
         return results.stream().map(Arrays::asList).collect(Collectors.toList());
@@ -46,8 +46,8 @@ public class NativeQueryService implements INativeQueryService {
     /**
      * Maps each ${key} to its matching value and returns the mapped SQL query.
      *
-     * @param query a native query
-     * @return the mapped query.
+     * @param query a SQL query
+     * @return the mapped query
      */
     private String mapValuesToKeysForQuery(String query, Map<String, String> vars) {
         for (Map.Entry<String, String> var : vars.entrySet()) {
@@ -56,6 +56,13 @@ public class NativeQueryService implements INativeQueryService {
         return query;
     }
 
+    /**
+     * Maps each result to its corresponding JSON attribute.
+     *
+     * @param attrs an array of JSON attributes
+     * @param results a List of Object[]
+     * @return the List of results with JSON attributes
+     */
     private List<Map<String, Object>> mapNativeResultsToAttrs(String[] attrs, List<Object[]> results) {
         return results.stream().map(r -> IntStream.range(0, r.length).boxed()
                 .collect(Collectors.toMap(i -> attrs[i], i -> r[i]))).collect(Collectors.toList());

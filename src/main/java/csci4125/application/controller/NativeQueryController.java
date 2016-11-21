@@ -25,7 +25,7 @@ public class NativeQueryController {
     /**
      * Gets results based on a native SQL query.
      *
-     * @param query a native query
+     * @param query a SQL query
      * @return the Response containing the results.
      */
     @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
@@ -34,12 +34,12 @@ public class NativeQueryController {
     }
 
     /**
-     * Gets results with attributes based on a native SQL query.
+     * Gets results with expected attributes based on a native SQL query.
      *
-     * @param query a native query
-     * @return the Response containing the results with attributes.
+     * @param query a SQL query
+     * @return the Response containing the results with JSON attributes.
      */
-    @RequestMapping(value = {"nativeresults/attrs"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"nativeresults/expected"}, method = RequestMethod.POST)
     public ResponseEntity<List<Map<String, Object>>> getNativeResultsWithAtributes(@RequestBody String query, @RequestHeader Map<String, String> vars, @RequestParam("attrs") String[] attrs) {
         return new ResponseEntity<>(this.service.getNativeResultsWithAttrs(query, vars, attrs), HttpStatus.OK);
     }

@@ -36,7 +36,7 @@ public class NativeQueryRepository implements INativeQueryRepository {
     }
 
     /**
-     * Converts String results to Object[].
+     * Converts results to List<Object[]> when Hibernate returns single-column results as List<String>.
      *
      * @param results a results List
      * @return the List of results with type Object[]
