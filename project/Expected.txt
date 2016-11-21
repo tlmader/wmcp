@@ -134,14 +134,13 @@ Given:
 Expected:
 	person_name = Andrew Turner
 	email = aturner8@amazon.co.uk
-                                                       
+
 	person_name = Wayne Coleman
 	email = wcolemana@wp.com
 
 	person_name = Craig Hall
-	email = challc@fastcompany.com                                                             
-	person_name = 
-	email = aturner8@amazon.co.uk                                                           
+	email = challc@fastcompany.com
+
 	person_name = John Ramos
 	email = jramosd@odnoklassniki.ru                              
 

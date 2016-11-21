@@ -15,7 +15,7 @@ import java.util.Map;
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016
  */
-@RequestMapping("api/query/")
+@RequestMapping("api/nativequery")
 @RestController
 public class NativeQueryController {
 
@@ -28,8 +28,8 @@ public class NativeQueryController {
      * @param query a SQL query
      * @return the Response containing the results.
      */
-    @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
-    public ResponseEntity<List<List<Object>>> getNativeResults(@RequestBody String query, @RequestHeader Map<String, String> vars) {
+    @RequestMapping(value = {""}, method = RequestMethod.POST)
+    public ResponseEntity<List<List<Object>>> getResults(@RequestBody String query, @RequestHeader Map<String, String> vars) {
         return new ResponseEntity<>(this.service.getNativeResults(query, vars), HttpStatus.OK);
     }
 
@@ -39,8 +39,8 @@ public class NativeQueryController {
      * @param query a SQL query
      * @return the Response containing the results with JSON attributes.
      */
-    @RequestMapping(value = {"nativeresults/expected"}, method = RequestMethod.POST)
-    public ResponseEntity<List<Map<String, Object>>> getNativeResultsWithAtributes(@RequestBody String query, @RequestHeader Map<String, String> vars, @RequestParam("attrs") String[] attrs) {
+    @RequestMapping(value = {"/expected"}, method = RequestMethod.POST)
+    public ResponseEntity<List<Map<String, Object>>> getResultsWithAtributes(@RequestBody String query, @RequestHeader Map<String, String> vars, @RequestParam("attrs") String[] attrs) {
         return new ResponseEntity<>(this.service.getNativeResultsWithAttrs(query, vars, attrs), HttpStatus.OK);
     }
 }
