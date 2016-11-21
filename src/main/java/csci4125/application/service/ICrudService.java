@@ -29,18 +29,20 @@ public interface ICrudService<T> {
     /**
      * Creates the existing <T>.
      *
+     * @param id an ID for a <T>
      * @param entity a <T> to be created
      * @return the created <T>
      */
-    T create(T entity);
+    T create(String id, T entity);
 
     /**
      * Updates a new <T>.
      *
+     * @param id an ID for a <T>
      * @param entity a <T> to be updated
      * @return the updated <T>
      */
-    T update(T entity);
+    T update(String id, T entity);
 
     /**
      * Deletes a specific <T> by an ID.

@@ -39,12 +39,12 @@ abstract class CrudService<T extends Model> implements ICrudService<T> {
     }
 
     @Override
-    public T create(T entity) {
+    public T create(String id, T entity) {
         return this.repository.create(entity);
     }
 
     @Override
-    public T update(T entity) {
+    public T update(String id, T entity) {
         return this.repository.update(entity);
     }
 
