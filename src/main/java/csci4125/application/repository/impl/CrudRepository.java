@@ -1,6 +1,6 @@
 package csci4125.application.repository.impl;
 
-import csci4125.application.model.Model;
+import csci4125.application.model.BaseEntity;
 import csci4125.application.repository.ICrudRepository;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
- * Implements data access methods for Model entities.
+ * Implements data access methods for BaseEntity entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-abstract class CrudRepository<T extends Model> implements ICrudRepository<T> {
+abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;

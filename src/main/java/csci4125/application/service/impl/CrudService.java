@@ -1,6 +1,6 @@
 package csci4125.application.service.impl;
 
-import csci4125.application.model.Model;
+import csci4125.application.model.BaseEntity;
 import csci4125.application.repository.ICrudRepository;
 import csci4125.application.service.ICrudService;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2016-11-20
  */
 @Service
-abstract class CrudService<T extends Model> implements ICrudService<T> {
+abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
 
     private ICrudRepository<T> repository;
 

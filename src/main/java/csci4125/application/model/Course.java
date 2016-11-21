@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * @since 2016-11-17
  */
 @Entity
-public class Course extends Model {
+public class Course extends BaseEntity {
 
     @Id
     @Column(name = "c_code")

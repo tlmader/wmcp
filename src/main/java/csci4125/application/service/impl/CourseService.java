@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Description.
+ * Implements manager workflow methods for Course entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016
