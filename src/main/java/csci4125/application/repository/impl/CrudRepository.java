@@ -1,7 +1,7 @@
 package csci4125.application.repository.impl;
 
 import csci4125.application.model.Model;
-import csci4125.application.repository.IRepository;
+import csci4125.application.repository.ICrudRepository;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-abstract class Repository<T extends Model> implements IRepository<T> {
+abstract class CrudRepository<T extends Model> implements ICrudRepository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,7 +28,7 @@ abstract class Repository<T extends Model> implements IRepository<T> {
     private Class<T> type;
     private String typeName;
 
-    public Repository(BiConsumer<T, T> setFields, Class<T> type) {
+    public CrudRepository(BiConsumer<T, T> setFields, Class<T> type) {
         this.setFields = setFields;
         this.type = type;
         this.typeName = this.type.getSimpleName();

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
  * @since 2016-11-17
  */
 @Component
-public class CourseRepository extends Repository<Course> {
+public class CourseCrudRepository extends CrudRepository<Course> {
 
-    public CourseRepository() {
+    public CourseCrudRepository() {
         super((x, y) -> {
             x.setTitle(y.getTitle());
             x.setLevel(y.getLevel());

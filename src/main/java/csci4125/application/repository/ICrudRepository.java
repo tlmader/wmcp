@@ -9,7 +9,7 @@ import java.util.List;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-public interface IRepository<T> {
+public interface ICrudRepository<T> {
 
     /**
      * Finds and returns all <T> from the database.
