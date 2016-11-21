@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * Implements manager workflow methods for T entities.
+ * Implements manager workflow methods for BaseEntity entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-20
