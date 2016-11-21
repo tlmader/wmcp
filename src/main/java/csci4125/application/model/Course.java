@@ -3,7 +3,6 @@ package csci4125.application.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Currency;
 
 /**
  * Contains the methods and fields for Course entities.
@@ -26,13 +25,13 @@ public class Course extends Model {
     @Column(name = "status")
     private String status;
     @Column(name = "retail_price")
-    private Currency price;
+    private Float price;
 
     public Course() {
 
     }
 
-    public Course(String id, String title, String level, String description, String status, Currency price) {
+    public Course(String id, String title, String level, String description, String status, Float price) {
         this.id = id;
         this.title = title;
         this.level = level;
@@ -83,11 +82,11 @@ public class Course extends Model {
         this.status = status;
     }
 
-    public Currency getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Currency price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
