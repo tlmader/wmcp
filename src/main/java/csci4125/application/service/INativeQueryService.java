@@ -15,7 +15,15 @@ public interface INativeQueryService {
      * Returns an unmapped body of data by a native query.
      *
      * @param query a native query
-     * @return the List of data returned by the query
+     * @return the List of results
      */
     List<List<Object>> getNativeResults(String query, Map<String, String> vars);
+
+    /**
+     * Returns an unmapped body of data by a native query.
+     *
+     * @param query a native query
+     * @return the List of results with attributes
+     */
+    List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String[] attrs);
 }
