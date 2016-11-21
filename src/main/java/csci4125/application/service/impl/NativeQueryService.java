@@ -1,7 +1,7 @@
 package csci4125.application.service.impl;
 
-import csci4125.application.repository.ICustomQueryRepository;
-import csci4125.application.service.ICustomQueryService;
+import csci4125.application.repository.INativeQueryRepository;
+import csci4125.application.service.INativeQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
  * @since 11/20/2016
  */
 @Service
-public class CustomQueryService implements ICustomQueryService {
+public class NativeQueryService implements INativeQueryService {
 
     @Autowired
-    ICustomQueryRepository repository;
+    INativeQueryRepository repository;
 
     @Override
     public List<List<Object>> getNativeResults(String query, Map<String, String> vars) {
@@ -37,6 +37,12 @@ public class CustomQueryService implements ICustomQueryService {
         return results.stream().map(Arrays::asList).collect(Collectors.toList());
     }
 
+    /**
+     * Maps each ${key} to its matching value and returns the mapped SQL query.
+     *
+     * @param query a native query
+     * @return the mapped query.
+     */
     private String mapValuesToKeysForQuery(String query, Map<String, String> vars) {
         for (Map.Entry<String, String> var : vars.entrySet()) {
             query = query.replace("${" + var.getKey() + "}", var.getValue());

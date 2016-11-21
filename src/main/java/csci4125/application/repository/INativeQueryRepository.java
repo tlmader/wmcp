@@ -8,7 +8,7 @@ import java.util.List;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-public interface ICustomQueryRepository {
+public interface INativeQueryRepository {
 
     /**
      * Returns a generic body of data from the database by a native query.

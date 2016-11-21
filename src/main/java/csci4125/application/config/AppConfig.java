@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
 /**
- * Contains Beans and configs.
+ * Defines Beans and configurations.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-17

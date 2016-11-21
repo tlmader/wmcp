@@ -1,6 +1,6 @@
 package csci4125.application.repository.impl;
 
-import csci4125.application.repository.ICustomQueryRepository;
+import csci4125.application.repository.INativeQueryRepository;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @since 2016-11-20
  */
 @Component
-public class CustomQueryRepository implements ICustomQueryRepository {
+public class NativeQueryRepository implements INativeQueryRepository {
 
     @Autowired
     private SessionFactory sessionFactory;

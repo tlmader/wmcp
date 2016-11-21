@@ -9,7 +9,7 @@ import java.util.Map;
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16
  */
-public interface ICustomQueryService {
+public interface INativeQueryService {
 
     /**
      * Returns an unmapped body of data by a native query.

@@ -1,6 +1,6 @@
 package csci4125.application.controller;
 
-import csci4125.application.service.ICustomQueryService;
+import csci4125.application.service.INativeQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +17,15 @@ import java.util.Map;
  */
 @RequestMapping("api/query/")
 @RestController
-public class CustomQueryController {
+public class NativeQueryController {
 
     @Autowired
-    ICustomQueryService service;
+    INativeQueryService service;
 
     /**
      * Gets results based on a native SQL query.
      *
-     * @param query a native SQL query
+     * @param query a native query
      * @return the Response containing the results.
      */
     @RequestMapping(value = {"nativeresults"}, method = RequestMethod.POST)
