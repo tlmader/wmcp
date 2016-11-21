@@ -67,4 +67,26 @@ public class Skill extends BaseEntity {
     public void setLevel(String level) {
         this.level = level;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Skill skill = (Skill) o;
+
+        if (id != null ? !id.equals(skill.id) : skill.id != null) return false;
+        if (title != null ? !title.equals(skill.title) : skill.title != null) return false;
+        if (description != null ? !description.equals(skill.description) : skill.description != null) return false;
+        return level != null ? level.equals(skill.level) : skill.level == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        return result;
+    }
 }
