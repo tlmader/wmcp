@@ -3,8 +3,8 @@ CREATE TABLE job_profile
   jp_code VARCHAR2(10) NOT NULL PRIMARY KEY,
   jp_title VARCHAR2(100) NOT NULL,
   description VARCHAR2(100),
-  avg_pay VARCHAR(20)
-
+  avg_pay DECIMAL(10,2)
+  
 );
 CREATE TABLE knowledge_skill
 (
@@ -38,8 +38,8 @@ CREATE TABLE job
   jp_code VARCHAR2(10) NOT NULL,
   comp_id VARCHAR2(10) NOT NULL,
   type VARCHAR2(100) NOT NULL,
-  pay_rate VARCHAR(20),
-  pay_type VARCHAR(10),
+  pay_rate DECIMAL(10,2),
+  pay_type VARCHAR2(10),
   CONSTRAINT fk_job_comp FOREIGN KEY (comp_id)
     REFERENCES company(comp_id),
   CONSTRAINT fk_job_jp FOREIGN KEY (jp_code)
@@ -54,7 +54,7 @@ CREATE TABLE person
   address VARCHAR2(100),
   phone_num VARCHAR2(20) NOT NULL,
   email VARCHAR2(100),
-  gender VARCHAR2(100),
+  gender VARCHAR2(20),
   CHECK(gender IN('Male','Female'))
 );
 CREATE TABLE works
@@ -97,13 +97,13 @@ CREATE TABLE course
 );
 CREATE TABLE section
 (
-  c_code VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL, 
   sec_no VARCHAR2(10) NOT NULL,
   sec_year NUMBER(4) NOT NULL,
   complete_date DATE,
   offered_by VARCHAR2(100),
   sec_format VARCHAR2(100),
-  price VARCHAR(38),
+  price DECIMAL(10,2),
   CONSTRAINT pk_section PRIMARY KEY (c_code, sec_no, sec_year),
   CONSTRAINT fk_sec_c FOREIGN KEY (c_code)
     REFERENCES course(c_code),
@@ -141,3 +141,4 @@ CREATE TABLE teaches
   CONSTRAINT fk_teaches_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
+
