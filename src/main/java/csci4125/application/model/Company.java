@@ -91,7 +91,6 @@ public class Company extends BaseEntity {
         if (primarySector != null ? !primarySector.equals(company.primarySector) : company.primarySector != null)
             return false;
         return website != null ? website.equals(company.website) : company.website == null;
-
     }
 
     @Override

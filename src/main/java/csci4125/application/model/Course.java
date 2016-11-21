@@ -14,7 +14,7 @@ import javax.persistence.Id;
 public class Course extends BaseEntity {
 
     @Id
-    @Column(name = "comp_id")
+    @Column(name = "c_code")
     private String id;
     @Column(name = "c_title")
     private String title;
