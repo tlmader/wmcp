@@ -44,7 +44,7 @@ public class NativeQueryService implements INativeQueryService {
     }
 
     /**
-     * Maps each ${key} to its matching value and returns the mapped SQL query.
+     * Maps each ${key} in the given query to its corresponding value and returns the mapped SQL query.
      *
      * @param query a SQL query
      * @return the mapped query
