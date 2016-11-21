@@ -40,6 +40,9 @@ public class NativeQueryService implements INativeQueryService {
      * @return the List of Lists
      */
     private List<List<Object>> mapNativeResults(List<Object[]> results) {
+        if (results == null) {
+            return null;
+        }
         return results.stream().map(Arrays::asList).collect(Collectors.toList());
     }
 
@@ -64,6 +67,9 @@ public class NativeQueryService implements INativeQueryService {
      * @return the List of results with JSON attributes
      */
     private List<Map<String, Object>> mapNativeResultsToAttrs(String[] attrs, List<Object[]> results) {
+        if (results == null) {
+            return null;
+        }
         return results.stream().map(r -> IntStream.range(0, r.length).boxed()
                 .collect(Collectors.toMap(i -> attrs[i], i -> r[i]))).collect(Collectors.toList());
     }

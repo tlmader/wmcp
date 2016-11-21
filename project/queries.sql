@@ -45,7 +45,7 @@ job_rel_pay
              THEN pay_rate * 1920 / 2080
               END AS pay
         FROM job)
-SELECT comp_name, TO_CHAR(pay_sum, 'L999,999,999.00') AS labor_cost
+SELECT comp_name, ROUND(pay_sum, 2) AS labor_cost
   FROM (SELECT comp_name, SUM(pay) AS pay_sum
           FROM person
                INNER JOIN current_works
@@ -180,8 +180,7 @@ missing_ks
              ON required_skill.ks_code = known_ks.ks_code
        WHERE known_ks.ks_code IS NULL
          AND required_skill.jp_code = 002)
-SELECT c_code, c_title,
-       TO_CHAR(price, 'L999,999,999.00') AS cost
+SELECT c_code, c_title, ROUND(price, 2) AS cost
   FROM (SELECT course.c_code, course.c_title, price
           FROM course
                INNER JOIN section
@@ -210,7 +209,7 @@ missing_ks
              LEFT JOIN known_ks
              ON required_skill.ks_code = known_ks.ks_code
        WHERE known_ks.ks_code IS NULL
-         AND required_skill.jp_code = 002)
+         AND required_skill.jp_code = 002),
 course_for_missing_ks
   AS (SELECT course.c_code, missing_ks.ks_code, price
         FROM course
@@ -228,7 +227,7 @@ course_sets
              c1.ks_code AS ks_1,
              c2.ks_code AS ks_2,
              NULL AS ks_3,
-             TO_CHAR(c1.price + c2.price, 'L999,999,999.00') AS total_cost
+             ROUND(c1.price + c2.price, 2) AS total_cost
         FROM course_for_missing_ks c1
              INNER JOIN course_for_missing_ks c2
              ON c1.c_code < c2.c_code
@@ -239,7 +238,7 @@ course_sets
              c1.ks_code AS ks_1,
              c2.ks_code AS ks_2,
              c3.ks_code AS ks_3,
-             TO_CHAR(c1.price + c2.price + c3.price, 'L999,999,999.00') AS total_cost
+             ROUND(c1.price + c2.price + c3.price, 2) AS total_cost
         FROM course_for_missing_ks c1
              INNER JOIN course_for_missing_ks c2
              ON c1.c_code < c2.c_code
