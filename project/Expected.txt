@@ -1,3 +1,5 @@
+TODO: Give second test case for numbers 8-28
+
 #1
 Given:
 	comp_id = 1
@@ -120,6 +122,146 @@ Expected:
 Given:
 
 Expected:
+
+#14
+Given:
+
+Expected:
+
+#15:
+Given:
+	Nothing to give
+Expected:
+	person_name = Andrew Turner
+	email = aturner8@amazon.co.uk
+                                                       
+	person_name = Wayne Coleman
+	email = wcolemana@wp.com
+
+	person_name = Craig Hall
+	email = challc@fastcompany.com                                                             
+	person_name = 
+	email = aturner8@amazon.co.uk                                                           
+	person_name = John Ramos
+	email = jramosd@odnoklassniki.ru                              
+
+	person_name = Carl Crawford
+	email = ccrawfordb@linkedin.com       
+
+	person_name = Jason Littler
+	email = jlittle9@cocolog-nifty.com                                                      
+#16
+Given:
+
+Expected:
+
+#17      
+Given:
+
+Expected:       
+
+#18      
+Given: 
+	jp_code = 012
+Expected:
+	person_name = Michael Fisher
+	missing_ks_count = 5
+
+	person_name = Michael Velez
+	missing_ks_count = 5
+
+	person_name = Steven Mitchell
+	missing_ks_count = 5
+
+	person_name = Carol Morrison
+	missing_ks_count = 5
+
+	person_name = Jason Stevens
+	missing_ks_count = 5
+
+#19
+Given:
+	jp_code = 12
+Expected:
+	Expected:
+	person_name = Michael Fisher
+	missing_ks_count = 5
+
+	person_name = Michael Velez
+	missing_ks_count = 5
+
+	person_name = Steven Mitchell
+	missing_ks_count = 5
+
+	person_name = Carol Morrison
+	missing_ks_count = 5
+
+	person_name = Jason Stevens
+	missing_ks_count = 5
+
+#20
+Given:
+
+Expected
+
+#21
+Given:
+
+Expected:
+
+#22
+Given:
+	jp_code = 001
+Expected:
+	person_name = Nicole Miller
+
+#23
+Given:
+	none to give
+Expected:
+	comp_name = Tosh Incorporated
+
+#24
+Given:
+	none to give
+Expected:
+	primary_sector = Company
+
+#25
+Given:
+
+Expected:
+
+#26
+Given:
+
+Expected:
+	
+#26
+Given:
+
+Expected:
+	
+#27
+Given:
+
+Expected:
+
+#28
+Given:
+
+Expected:
+	
+	
+
+
+
+
+
+
+
+
+
 
 	
 
