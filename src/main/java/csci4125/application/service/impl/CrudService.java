@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Implements manager workflow methods for BaseEntity entities.
@@ -40,11 +41,19 @@ abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
 
     @Override
     public T create(String id, T entity) {
+        if (!Objects.equals(id, entity.getId())) {
+            throw new ClientErrorException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
+        }
+        entity.setId(id);
         return this.repository.create(entity);
     }
 
     @Override
     public T update(String id, T entity) {
+        if (!Objects.equals(id, entity.getId())) {
+            throw new ClientErrorException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
+        }
+        entity.setId(id);
         return this.repository.update(entity);
     }
 

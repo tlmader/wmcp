@@ -12,7 +12,7 @@ import java.util.List;
 public interface ICrudRepository<T> {
 
     /**
-     * Finds and returns all <T> from the database.
+     * Returns all <T> from the database.
      *
      * @return the list of <T> currently in the database
      */
