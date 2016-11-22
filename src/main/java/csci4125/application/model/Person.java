@@ -27,6 +27,13 @@ public class Person extends BaseEntity {
     private String gender;
     @ManyToMany(mappedBy = "persons")
     private List<Job> jobs;
+    @ManyToMany
+    @JoinTable(
+            name = "required_skill",
+            joinColumns = @JoinColumn(name = "per_id"),
+            inverseJoinColumns = @JoinColumn(name = "ks_code")
+    )
+    private List<Skill> knownSkills;
 
     public Person() {
 
@@ -97,6 +104,14 @@ public class Person extends BaseEntity {
 
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
+    }
+
+    public List<Skill> getKnownSkills() {
+        return knownSkills;
+    }
+
+    public void setKnownSkills(List<Skill> knownSkills) {
+        this.knownSkills = knownSkills;
     }
 
     @Override

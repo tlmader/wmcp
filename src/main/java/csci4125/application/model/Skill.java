@@ -26,6 +26,8 @@ public class Skill extends BaseEntity {
     private String level;
     @ManyToMany(mappedBy = "requiredSkills")
     private List<JobProfile> jobProfiles;
+    @ManyToMany(mappedBy = "knownSkills")
+    private List<Person> persons;
 
     public Skill() {
 
@@ -70,6 +72,22 @@ public class Skill extends BaseEntity {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public List<JobProfile> getJobProfiles() {
+        return jobProfiles;
+    }
+
+    public void setJobProfiles(List<JobProfile> jobProfiles) {
+        this.jobProfiles = jobProfiles;
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
     @Override
