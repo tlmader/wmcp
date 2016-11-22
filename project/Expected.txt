@@ -318,7 +318,7 @@ Given:
 	None to give
 
 Expected:
-	person_name = Micheal Velez
+	person_name = Michael Velez
 
 #22
 Given:
@@ -348,11 +348,6 @@ Given:
 
 Expected:
 
-#26 TODO: Needs Work
-Given:
-
-Expected:
-	
 #26 TODO: Needs Work
 Given:
 	None to give
