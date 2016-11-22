@@ -540,38 +540,39 @@ WITH current_works
          AND end_date > CURRENT_DATE
           OR end_date IS NULL),
 unemployed
-  AS (SELECT per_id
+  AS (SELECT person.per_id
         FROM person
              LEFT JOIN current_works
              ON person.per_id = current_works.per_id
        WHERE current_works.per_id IS NULL),
 opening
-  AS (SELECT job_code, jp_code, jp_title
+  AS (SELECT job.job_code, job.jp_code, jp_title
         FROM job_profile
              INNER JOIN job
-             ON job_profile.job_code = job.job_code
+             ON job_profile.jp_code = job.jp_code
              LEFT JOIN current_works
              ON job.job_code = current_works.job_code
        WHERE current_works.job_code IS NULL),
 qualified
-  AS (SELECT per_id, jp_code, jp_title
+  AS (SELECT unemployed.per_id, opening.jp_code, jp_title
         FROM unemployed
              INNER JOIN knows
              ON unemployed.per_id = knows.per_id
              INNER JOIN required_skill
-             ON knows.per_id = required_skill.per_id
+             ON knows.ks_code = required_skill.ks_code
              INNER JOIN opening
              ON required_skill.jp_code = opening.jp_code
-       GROUP BY per_id, jp_code, jp_title
-      HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
+       GROUP BY unemployed.per_id, opening.jp_code, jp_title
+      HAVING COUNT(knows.ks_code) = COUNT(DISTINCT knows.ks_code)),
 jp_most_openings
-  AS (SELECT jp_code, jp_title, COUNT(job_code) - COUNT(per_id) AS difference
+  AS (SELECT qualified.jp_code, qualified.jp_title,
+             COUNT(job_code) - COUNT(per_id) AS difference
         FROM qualified
              INNER JOIN opening
              ON qualified.jp_code = opening.jp_code
-       GROUP BY (jp_code, jp_title)
+       GROUP BY (qualified.jp_code, qualified.jp_title)
        ORDER BY difference DESC)
-SELECT c_code, c_title
+SELECT course.c_code, c_title, difference
   FROM course
        INNER JOIN teaches
        ON course.c_code = teaches.c_code
@@ -580,9 +581,9 @@ SELECT c_code, c_title
        INNER JOIN jp_most_openings
        ON required_skill.jp_code = jp_most_openings.jp_code
           AND status = 'active'
- GROUP BY c_code, c_title
-HAVING COUNT(*) = COUNT(DISTINCT ks_code))
- ORDER BY difference
+ GROUP BY course.c_code, c_title, difference
+HAVING COUNT(*) = COUNT(DISTINCT teaches.ks_code)
+ ORDER BY difference;
 
 -- 28. (BONUS) List all the courses, directly or indirectly required, that a person has to take in order to be qualified for a job of the given profile, according to his/her skills possessed and courses taken.
 WITH knows_by_person
