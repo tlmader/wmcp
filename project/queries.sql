@@ -301,7 +301,7 @@ missing_ks
              LEFT JOIN known_ks
              ON required_skill.ks_code = known_ks.ks_code
        WHERE known_ks.ks_code IS NULL)
-SELECT job_code, TO_CHAR(rel_pay, 'L999,999,999.00') AS pay
+SELECT job_code, ROUND(rel_pay, 2) AS pay
 FROM (SELECT DISTINCT job_code, rel_pay
         FROM job_rel_pay
              INNER JOIN job_profile
