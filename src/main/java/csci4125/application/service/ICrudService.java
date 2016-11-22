@@ -27,7 +27,7 @@ public interface ICrudService<T> {
     T get(String id);
 
     /**
-     * Creates the existing <T>.
+     * Creates a new <T>.
      *
      * @param id an ID for a <T>
      * @param entity a <T> to be created
@@ -36,7 +36,7 @@ public interface ICrudService<T> {
     T create(String id, T entity);
 
     /**
-     * Updates a new <T>.
+     * Updates an existing <T>.
      *
      * @param id an ID for a <T>
      * @param entity a <T> to be updated
