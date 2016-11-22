@@ -473,23 +473,31 @@ SELECT *
  WHERE ROWNUM = 1;
 
 -- 25. Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.
-SELECT pay_rate, pay_type, AVG(CASECR) AS avg_delta_pay
-  FROM works w1
-       INNER JOIN job j1
-       ON w1.job_code = j1.job_code
+WITH job_rel_pay
+  AS (SELECT job_code, jp_code, comp_id,
+             CASE pay_type
+             WHEN 'wage'
+             THEN pay_rate * 1920
+             WHEN 'salary'
+             THEN pay_rate * 1920 / 2080
+              END AS pay
+        FROM job),
+works_ordered
+  AS (SELECT job_rel_A, ROWNUM AS row
+        FROM (SELECT pay
+                FROM job_rel_pay
+                     INNER JOIN works
+                     ON job_rel_pay.job_code = works.job_code
+               ORDER BY job_rel_pay.start_date ASC)),
+per_delta_pay
+  AS (SELECT w1.per_id, j2.pay - j1.pay AS delta_pay
+  FROM works_ordered w1
        INNER JOIN works w2
-       ON w1.start_date < w2.start_date
-          AND w1.per_id = w2.per_id
-       INNER JOIN job j2
-       ON w2.job_code = j2.job_code
-       INNER JOIN company
-       ON job.comp_id = company.comp_id
-          AND primary_sector = 'Specific sector'
-  CASE pay_type
-       WHEN 'wage'
-       THEN (j2.pay_rate - j1.pay_rate) * 1920
-       ELSE (j2.pay_rate - j1.pay_rate) * 1920 / 2080
-       END;
+       ON w1.comp_id = w2.comp_id
+          AND w1.row + 1 = w2.row
+          AND comp_id = 'Electric')
+SELECT AVG(delta_pay) AS avg_delta_pay
+  FROM per_delta_pay;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
 WITH current_works
@@ -499,36 +507,36 @@ WITH current_works
          AND end_date > CURRENT_DATE
           OR end_date IS NULL),
 unemployed
-  AS (SELECT per_id
+  AS (SELECT person.per_id
         FROM person
              LEFT JOIN current_works
              ON person.per_id = current_works.per_id
        WHERE current_works.per_id IS NULL),
 opening
-  AS (SELECT job_code, jp_code, jp_title
-        FROM job_profile
-             INNER JOIN job
-             ON job_profile.job_code = job.job_code
+  AS (SELECT job.job_code, job.jp_code, jp_title
+        FROM job
+             INNER JOIN job_profile
+             ON job.jp_code = job_profile.jp_code
              LEFT JOIN current_works
              ON job.job_code = current_works.job_code
        WHERE current_works.job_code IS NULL),
 qualified
-  AS (SELECT per_id, jp_code, jp_title
+  AS (SELECT unemployed.per_id, opening.jp_code, jp_title
         FROM unemployed
              INNER JOIN knows
              ON unemployed.per_id = knows.per_id
              INNER JOIN required_skill
-             ON knows.per_id = required_skill.per_id
+             ON knows.ks_code = required_skill.ks_code
              INNER JOIN opening
              ON required_skill.jp_code = opening.jp_code
-       GROUP BY per_id, jp_code, jp_title
-      HAVING COUNT(ks_code) = COUNT(DISTINCT ks_code))
+       GROUP BY unemployed.per_id, opening.jp_code, jp_title
+      HAVING COUNT(knows.ks_code) = COUNT(DISTINCT knows.ks_code))
 SELECT *
-  FROM (SELECT jp_code, jp_title
+  FROM (SELECT qualified.jp_code, qualified.jp_title
           FROM qualified
                INNER JOIN opening
                ON qualified.jp_code = opening.jp_code
-         GROUP BY (jp_code, jp_title)
+         GROUP BY (qualified.jp_code, qualified.jp_title)
          ORDER BY COUNT(job_code) - COUNT(per_id) DESC)
  WHERE ROWNUM = 1;
 
