@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Implements manager workflow methods for BaseEntity entities.
+ * Implements service workflow methods for BaseEntity entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-20

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implements service workflow methods for native SQL query usage.
+ * Defines methods for handling orchestration of native SQL query workflows and performing calls to repositories.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-16

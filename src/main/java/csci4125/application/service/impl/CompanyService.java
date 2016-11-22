@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Implements manager workflow methods for Company entities.
+ * Implements service workflow methods for Company entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016

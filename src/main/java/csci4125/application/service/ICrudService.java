@@ -3,7 +3,7 @@ package csci4125.application.service;
 import java.util.List;
 
 /**
- * Defines methods for handling orchestration of workflows and performing calls to engines and resource accessors.
+ * Defines methods for handling orchestration of workflows and performing calls to repositories.
  *
  * @param <T>
  * @author tlmader.dev@gmail.com

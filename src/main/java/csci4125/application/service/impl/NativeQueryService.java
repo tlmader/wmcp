@@ -1,7 +1,6 @@
 package csci4125.application.service.impl;
 
 import csci4125.application.repository.INativeQueryRepository;
-import csci4125.application.repository.impl.NativeQueryRepository;
 import csci4125.application.service.INativeQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Implements manager workflow methods for native SQL query usage.
+ * Implements service workflow methods for native SQL query usage.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/20/2016
@@ -64,7 +63,7 @@ public class NativeQueryService implements INativeQueryService {
     /**
      * Maps each result to its corresponding JSON attribute.
      *
-     * @param attrs an array of JSON attributes
+     * @param attrs   an array of JSON attributes
      * @param results a List of Object[]
      * @return the List of results with JSON attributes
      */
