@@ -1,5 +1,8 @@
 package csci4125.application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import java.util.List;
  * @since 2016-11-21
  */
 @Entity
+@JsonIgnoreProperties({"jobs"})
 public class Company extends BaseEntity {
 
     @Id
@@ -23,6 +27,7 @@ public class Company extends BaseEntity {
     private String primarySector;
     @Column(name = "website")
     private String website;
+    @JsonProperty("jobs")
     @OneToMany
     @JoinColumn(name = "comp_id")
     private List<Job> jobs;

@@ -7,6 +7,7 @@ import csci4125.application.repository.ICrudRepository;
 import csci4125.application.service.IWorkforceManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;

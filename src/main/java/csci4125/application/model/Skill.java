@@ -1,9 +1,9 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -13,6 +13,8 @@ import java.util.List;
  * @since 2016-11-21
  */
 @Entity
+@Table(name = "knowledge_skill")
+@JsonIgnoreProperties({"jobProfiles", "persons"})
 public class Skill extends BaseEntity {
 
     @Id
@@ -24,8 +26,10 @@ public class Skill extends BaseEntity {
     private String description;
     @Column(name = "s_level")
     private String level;
+    @JsonProperty("jobProfiles")
     @ManyToMany(mappedBy = "requiredSkills")
     private List<JobProfile> jobProfiles;
+    @JsonProperty("persons")
     @ManyToMany(mappedBy = "knownSkills")
     private List<Person> persons;
 
