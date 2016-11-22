@@ -89,7 +89,7 @@ insert into required_skill (jp_code, ks_code) values (012, 19);
 insert into required_skill (jp_code, ks_code) values (012, 21);
 insert into required_skill (jp_code, ks_code) values (013, 17);
 --company
-insert into company (comp_id, comp_name, address, primary_sector, website) values (1, 'Vauge Electric', '52512 Red Cloud Lane', 'Electric', 'www.Vauge.com');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (1, 'Vague Electric', '52512 Red Cloud Lane', 'Electric', 'www.Vauge.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (2, 'Tosh Incorporated', '9 Hollow Ridge Way', 'Bussiness', 'www.Tosh.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (3, 'Mader Machinery', '4733 Dovetail Center', 'Machinery', 'www.MaderMachinery.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (4, 'Eaton Foods', '79 Lake View Court', 'Food', 'www.EatonFoods.come');
@@ -135,7 +135,7 @@ insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (7
 insert into person (per_id, person_name, address, phone_num, email, gender) values (1, 'Mary Mills', '523 Fremont Place', '62-(824)697-2977', 'mmills0@yandex.ru', 'Female');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (2, 'Justin Ryan', '061 Nelson Road', '62-(684)953-6514', 'jryan1@samsung.com', 'Male');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (3, 'Michael Fisher', '6325 Havey Road', '55-(420)700-6395', 'mfisher2@techcrunch.com', 'Male');
-insert into person (per_id, person_name, address, phone_num, email, gender) values (4, 'Micheal Velez', '4 Golf View Place', '86-(258)135-8369', 'velez@gmail.com', 'Male');
+insert into person (per_id, person_name, address, phone_num, email, gender) values (4, 'Michael Velez', '4 Golf View Place', '86-(258)135-8369', 'velez@gmail.com', 'Male');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (5, 'Martin Ross', '859 Southridge Road', '504-(705)477-5676', 'mross4@eepurl.com', 'Male');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (6, 'Gerald Hall', '1 Manley Alley', '86-(941)467-8953', 'ghall5@foxnews.com', 'Male');
 insert into person (per_id, person_name, address, phone_num, email, gender) values (7, 'Roger Elliott', '2 Schurz Trail', '54-(417)570-7461', 'relliott6@reference.com', 'Male');
