@@ -1,8 +1,7 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Contains the methods and fields for Company entities.
@@ -24,6 +23,9 @@ public class Company extends BaseEntity {
     private String primarySector;
     @Column(name = "website")
     private String website;
+    @OneToMany
+    @JoinColumn(name = "comp_id")
+    private List<Job> jobs;
 
     public Company() {
 
@@ -77,6 +79,14 @@ public class Company extends BaseEntity {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 
     @Override

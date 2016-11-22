@@ -1,8 +1,7 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Contains the methods and fields for Person entities.
@@ -26,6 +25,8 @@ public class Person extends BaseEntity {
     private String email;
     @Column(name = "gender")
     private String gender;
+    @ManyToMany(mappedBy = "persons")
+    private List<Job> jobs;
 
     public Person() {
 
@@ -88,6 +89,14 @@ public class Person extends BaseEntity {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 
     @Override

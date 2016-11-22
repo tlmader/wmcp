@@ -1,6 +1,7 @@
 package csci4125.application.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Contains the methods and fields for Job entities.
@@ -26,6 +27,13 @@ public class Job extends BaseEntity {
     private Float payRate;
     @Column(name = "pay_type")
     private String payType;
+    @ManyToMany
+    @JoinTable(
+            name = "works",
+            joinColumns = @JoinColumn(name = "job_code"),
+            inverseJoinColumns = @JoinColumn(name = "per_id")
+    )
+    private List<Person> persons;
 
     public Job() {
 
