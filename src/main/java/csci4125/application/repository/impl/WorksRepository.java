@@ -44,6 +44,7 @@ public class WorksRepository implements IWorksRepository {
     }
 
     @Override
+    @Transactional
     public Works create(String personId, String jobId) {
         if (personId == null || jobId == null) {
             throw new ClientErrorException("One or more entities are null", Response.Status.BAD_REQUEST);
@@ -51,8 +52,6 @@ public class WorksRepository implements IWorksRepository {
             throw new ClientErrorException("Person to Job association exists", Response.Status.CONFLICT);
         }
         Works works = new Works(personId, jobId);
-        works.setPersonId(personId);
-        works.setJobId(jobId);
         Session session = sessionFactory.getCurrentSession();
         session.save(works);
         return works;

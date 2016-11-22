@@ -2,6 +2,7 @@ package csci4125.application.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 /**
  * Embeddable class for Works.
@@ -10,7 +11,7 @@ import javax.persistence.Embeddable;
  * @since 11/22/2016
  */
 @Embeddable
-public class WorksId {
+public class WorksId implements Serializable {
 
     @Column(name = "per_id")
     private String personId;
