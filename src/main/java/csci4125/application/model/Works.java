@@ -1,6 +1,9 @@
 package csci4125.application.model;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 /**
@@ -10,33 +13,33 @@ import java.time.LocalDate;
  * @since 11/21/2016
  */
 @Entity
+@Table(name = "works")
 public class Works {
 
-    private Person person;
-    private Job job;
+    @EmbeddedId
+    private WorksId id;
     private LocalDate start;
     private LocalDate end;
 
-    public Works(Person person, Job job) {
-        this.person = person;
-        this.job = job;
+    public Works(String personId, String jobId) {
+        this.id = new WorksId(personId, jobId);
         this.start = LocalDate.now();
     }
 
-    public Person getPerson() {
-        return person;
+    public String getPersonId() {
+        return this.id.getPerson();
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonId(String personId) {
+        this.id.setPerson(personId);
     }
 
-    public Job getJob() {
-        return job;
+    public String getJobId() {
+        return id.getJob();
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJobId(String jobId) {
+        this.id.setJob(jobId);
     }
 
     public LocalDate getStart() {

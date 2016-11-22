@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +31,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
 
     @Override
     public Works assignPersonToJob(String personId, String jobId) {
-        return worksRepository.create(personRepository.get(personId), jobRepository.get(jobId));
+        return worksRepository.create(personRepository.get(personId).getId(), jobRepository.get(jobId).getId());
     }
 
     @Override

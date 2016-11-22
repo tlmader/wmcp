@@ -1,7 +1,5 @@
 package csci4125.application.repository.impl;
 
-import csci4125.application.model.Job;
-import csci4125.application.model.Person;
 import csci4125.application.model.Works;
 import csci4125.application.repository.IWorksRepository;
 import org.hibernate.Criteria;
@@ -46,15 +44,15 @@ public class WorksRepository implements IWorksRepository {
     }
 
     @Override
-    public Works create(Person person, Job job) {
-        if (person == null || job == null) {
-            throw new ClientErrorException("Entity is null", Response.Status.BAD_REQUEST);
-        } else if (get(person.getId(), job.getId()) != null) {
+    public Works create(String personId, String jobId) {
+        if (personId == null || jobId == null) {
+            throw new ClientErrorException("One or more entities are null", Response.Status.BAD_REQUEST);
+        } else if (get(personId, jobId) != null) {
             throw new ClientErrorException("Person to Job association exists", Response.Status.CONFLICT);
         }
-        Works works = new Works(person, job);
-        works.setPerson(person);
-        works.setJob(job);
+        Works works = new Works(personId, jobId);
+        works.setPersonId(personId);
+        works.setJobId(jobId);
         Session session = sessionFactory.getCurrentSession();
         session.save(works);
         return works;

@@ -13,6 +13,7 @@ import java.util.List;
  * @since 2016-11-21
  */
 @Entity
+@Table(name = "job")
 @JsonIgnoreProperties({"persons"})
 public class Job extends BaseEntity {
 
