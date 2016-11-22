@@ -1,14 +1,14 @@
-TODO: Give second test case for numbers 8-28
-
 #1
 Given:
 	comp_id = 1
+
 Expected:
 	person_name = Marry Mills
 
 #2
 Given:
 	comp_id = 1
+
 Expected:
 	person_name = Marry Mills
 	pay_rate = $106693.07
@@ -16,6 +16,7 @@ Expected:
 #3
 Given:
 	nothing to give
+
 Expected:
 	comp_name = Tosh Incorporated
 	labor_cost = $189,589.87
@@ -35,6 +36,7 @@ Expected:
 #4
 Given:
 	per_id = 4
+
 Expected:
 	job_code = 703
 	jp_title = Game Dev
@@ -48,6 +50,7 @@ Expected:
 #5
 Given:
 	per_id = 3
+
 Expected:
 	ks_title = Amazon Web Services
 	description = Knowledge in services such as S3
@@ -55,7 +58,7 @@ Expected:
 	ks_title = C++
 	description = Competency in C++ programming language
 
-#6
+#6	TODO: Needs work
 Given:
 
 Expected:
@@ -64,6 +67,7 @@ Expected:
 #7
 Given:
 	jp_code = 002
+
 Expected:
 	ks_title = C
 	ks_title = C++
@@ -72,6 +76,7 @@ Expected:
 (b)
 Given:
 	jp_code = 009
+
 Expected:
 	ks_title = SQL
 	ks_title = CRUD
@@ -83,6 +88,7 @@ Expected:
 Given:
 	job_code = 702
 	per_id <> 6
+
 Expected:
 	ks_title = Amazon Web Services
 	ks_title = CRUD
@@ -93,6 +99,7 @@ Expected:
 Given: 
 	job_code = 710
 	per_id <> 20
+
 Expected:
 	ks_title = HTML
 	ks_title = Angular
@@ -104,6 +111,7 @@ Expected:
 Given:
 	per_id = 2
 	jp_code = 001
+
 Expected:
 	c_code = 20
 	c_title = Industrial Cloud Development
@@ -111,6 +119,7 @@ Expected:
 Given:
 	per_id = 18
 	jp_code = 009
+
 Expected:
 	c_code = 2
 	c_title = Database SQL
@@ -119,6 +128,7 @@ Expected:
 Given:
 	per_id = 6
 	jp_code = 007
+
 Expected:
 	c_code = 24
 	c_title = Band End Basics
@@ -128,6 +138,7 @@ Expected:
 Given:
 	per_id = 11
 	jp_code = 001
+
 Expected:
 	c_code = 20
 	c_title = Industrial Cloud Development
@@ -138,6 +149,7 @@ Expected:
 Given:
 	per_id = 16
 	jp_code = 005
+
 Expected:
 	c_code = 27
 	c_title = C++ and Architecture
@@ -146,6 +158,7 @@ Expected:
 Given:
 	per_id = 19
 	jp_code = 006
+
 Expected:
 	c_code = 20
 	c_title = Database SQL
@@ -155,6 +168,7 @@ Expected:
 Given:
 	per_id = 8
 	jp_code = 008
+
 Expected:
 	"Ordered under combinations"
 	Combination 1: course_1 = 15 , course_2 = 26 , course_3 = "" , total_cost = $3,046.86
@@ -163,6 +177,7 @@ Expected:
 Given:
 	per_id = 14
 	jp_code = 009
+
 Expected:
 	"Ordered under combinations"
 	Combination 1: course_1 = 2 , course_2 = 24 , course_3 = “” , total_cost = $2852.68
@@ -202,6 +217,7 @@ Expected:
 #15:
 Given:
 	Nothing to give
+
 Expected:
 	person_name = Andrew Turner
 	email = aturner8@amazon.co.uk
@@ -234,7 +250,9 @@ Expected:
 #18    
 Given: 
 	jp_code = 4
+
 Expected:
+
 	person_name = Steven Mitchel
 	missing_ks_count = 1
 
@@ -256,6 +274,7 @@ Expected:
 (b)
 Given: 
 	jp_code = 9
+
 Expected:
 	person_name = Michael Velez
 	missing_ks_count = 1
@@ -269,6 +288,7 @@ Expected:
 #19
 Given:
 	jp_code = 009
+
 Expected:
 	Expected:
 	person_name = Michael Velez
@@ -284,6 +304,7 @@ Expected:
 Given:
 	jp_code = 008
 	ks_count <= 2
+
 Expected:
 	Expected:
 
@@ -333,7 +354,7 @@ Given:
 
 Expected:
 
-#26 TODO: Needs Work
+#26 
 Given:
 	None to give
 
@@ -341,31 +362,41 @@ Expected:
 	jp_code = 10
 	jp_title = Front End Dev
 	
-#27 TODO:
+#27 
 Given: 
 	None to give
 
 Expected:
 	c_code = 8
 	c_title = Architecture Design for Applications
+
 	c_code = 24
 	c_title = Back End Basics
+
 	c_code = 27
 	c_title = C++ and Architecture
+
 	c_code = 23
 	c_title Essentials in Debugging
+
 	c_code = 25
 	c_title = Front End Basics
+
 	c_code = 11
 	c_title = HTML and CSS Basics
+
 	c_code = 20
 	c_title = Industrial Cloud Development
+
 	c_code = 1 
 	c_title = Java Certification
+
 	c_code = 12 
 	c_title = Javascript Certification
+
 	c_code = 19 
 	c_title = Server Architecture Overview
+
 	c_code = 15
 	c_title = System Security Overview
 
