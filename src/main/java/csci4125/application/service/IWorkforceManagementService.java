@@ -2,9 +2,9 @@ package csci4125.application.service;
 
 import csci4125.application.model.Job;
 import csci4125.application.model.Person;
+import csci4125.application.model.Works;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Defines methods for handling orchestration of Workforce Management workflows and performing calls to repositories.
@@ -17,11 +17,11 @@ public interface IWorkforceManagementService {
     /**
      * Assigns a Job to a Person if qualified.
      *
-     * @param jobId    an ID for the Job to be assigned
      * @param personId an ID for the Person to be hired
-     * @return the Mapped Job and Person if assigned
+     * @param jobId    an ID for the Job to be assigned
+     * @return the Person to Job association
      */
-    Map<String, Object> assignJobToPerson(String jobId, String personId);
+    Works assignPersonToJob(String personId, String jobId);
 
     /**
      * Returns the List of possible Jobs for a specific Person by an ID.

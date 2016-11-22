@@ -3,7 +3,9 @@ package csci4125.application.service.impl;
 import csci4125.application.model.Job;
 import csci4125.application.model.Person;
 import csci4125.application.model.Skill;
+import csci4125.application.model.Works;
 import csci4125.application.repository.ICrudRepository;
+import csci4125.application.repository.IWorksRepository;
 import csci4125.application.service.IWorkforceManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +27,12 @@ public class WorkforceManagementService implements IWorkforceManagementService {
     ICrudRepository<Job> jobRepository;
     @Autowired
     ICrudRepository<Person> personRepository;
+    @Autowired
+    IWorksRepository worksRepository;
 
     @Override
-    public Map<String, Object> assignJobToPerson(String jobId, String personId) {
-        Job job = jobRepository.get(jobId);
-        Person person = personRepository.get(personId);
-
-        return null;
+    public Works assignPersonToJob(String personId, String jobId) {
+        return worksRepository.create(personRepository.get(personId), jobRepository.get(jobId));
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.ClientErrorException;
@@ -21,6 +22,7 @@ import java.util.List;
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016
  */
+@Component
 public class WorksRepository implements IWorksRepository {
 
     @Autowired
