@@ -1,9 +1,7 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -14,32 +12,42 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "works")
-public class Works {
+@IdClass(WorksId.class)
+public class Works implements Serializable {
 
-    @EmbeddedId
-    private WorksId id;
+    @Id
+    @Column(name = "per_id")
+    private String personId;
+    @Id
+    @Column(name = "job_code")
+    private String jobId;
+    @Column(name = "start_date")
     private LocalDate start;
+    @Column(name = "end_date")
     private LocalDate end;
 
-    public Works(String personId, String jobId) {
-        this.id = new WorksId(personId, jobId);
-        this.start = LocalDate.now();
+    public Works() {
+
     }
 
+    public Works(String personId, String jobId) {
+        this.personId = personId;
+        this.jobId = jobId;
+        this.start = LocalDate.now();
+    }
     public String getPersonId() {
-        return this.id.getPerson();
+        return personId;
     }
 
     public void setPersonId(String personId) {
-        this.id.setPerson(personId);
+        this.personId = personId;
     }
-
     public String getJobId() {
-        return id.getJob();
+        return jobId;
     }
 
     public void setJobId(String jobId) {
-        this.id.setJob(jobId);
+        this.jobId = jobId;
     }
 
     public LocalDate getStart() {

@@ -1,7 +1,5 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 /**
@@ -10,32 +8,33 @@ import java.io.Serializable;
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016
  */
-@Embeddable
 public class WorksId implements Serializable {
 
-    @Column(name = "per_id")
     private String personId;
-    @Column(name = "job")
     private String jobId;
+
+    public WorksId() {
+        
+    }
 
     public WorksId(String personId, String jobId) {
         this.personId = personId;
         this.jobId = jobId;
     }
 
-    public String getPerson() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPerson(String personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
-    public String getJob() {
+    public String getJobId() {
         return jobId;
     }
 
-    public void setJob(String jobId) {
+    public void setJobId(String jobId) {
         this.jobId = jobId;
     }
 }
