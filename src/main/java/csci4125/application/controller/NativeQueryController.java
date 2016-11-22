@@ -29,7 +29,7 @@ public class NativeQueryController {
      * @return the Response containing the results.
      */
     @RequestMapping(value = {""}, method = RequestMethod.POST)
-    public ResponseEntity<List<List<Object>>> getResults(@RequestBody String query, @RequestHeader Map<String, String> vars) {
+    public ResponseEntity<List<List<Object>>> getResults(@RequestBody String query, @RequestParam Map<String, String> vars) {
         return new ResponseEntity<>(this.service.getNativeResults(query, vars), HttpStatus.OK);
     }
 
@@ -39,8 +39,8 @@ public class NativeQueryController {
      * @param query a SQL query
      * @return the Response containing the results with JSON attributes.
      */
-    @RequestMapping(value = {"/expected"}, method = RequestMethod.POST)
-    public ResponseEntity<List<Map<String, Object>>> getResultsWithAtributes(@RequestBody String query, @RequestHeader Map<String, String> vars, @RequestParam("attrs") String[] attrs) {
+    @RequestMapping(value = {"/{attrs}"}, method = RequestMethod.POST)
+    public ResponseEntity<List<Map<String, Object>>> getResultsWithAtributes(@RequestBody String query, @PathVariable("attrs") String attrs, @RequestParam Map<String, String> vars) {
         return new ResponseEntity<>(this.service.getNativeResultsWithAttrs(query, vars, attrs), HttpStatus.OK);
     }
-}
+}Or

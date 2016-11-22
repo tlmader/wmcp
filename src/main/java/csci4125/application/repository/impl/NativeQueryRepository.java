@@ -1,6 +1,7 @@
 package csci4125.application.repository.impl;
 
 import csci4125.application.repository.INativeQueryRepository;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,17 @@ public class NativeQueryRepository implements INativeQueryRepository {
         return results;
     }
 
-    private SQLQuery prepareSQLQuery(String query, Map<String, String> vars) {
-        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
-        vars.entrySet().stream().map(x -> sqlQuery.setParameter(x.getKey(), x.getValue()));
+    /**
+     * Sets each parameter in the given query to its corresponding value and returns the mapped SQL query.
+     *
+     * @param query a SQL query
+     * @return the mapped query
+     */
+    private Query prepareSQLQuery(String query, Map<String, String> vars) {
+        Query sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
+        for (Map.Entry<String, String> var : vars.entrySet()) {
+            sqlQuery = sqlQuery.setParameter(var.getKey(), var.getValue());
+        }
         return sqlQuery;
     }
 

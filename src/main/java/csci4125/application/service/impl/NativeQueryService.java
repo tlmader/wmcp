@@ -30,7 +30,7 @@ public class NativeQueryService implements INativeQueryService {
     }
 
     @Override
-    public List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String[] attrs) {
+    public List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String attrs) {
         return mapNativeResultsToAttrs(attrs, repository.get(query, vars));
     }
 
@@ -68,11 +68,12 @@ public class NativeQueryService implements INativeQueryService {
      * @param results a List of Object[]
      * @return the List of results with JSON attributes
      */
-    private List<Map<String, Object>> mapNativeResultsToAttrs(String[] attrs, List<Object[]> results) {
+    private List<Map<String, Object>> mapNativeResultsToAttrs(String attrs, List<Object[]> results) {
         if (results == null) {
             return null;
         }
+        String[] attrsArray = attrs.split(",");
         return results.stream().map(r -> IntStream.range(0, r.length).boxed()
-                .collect(Collectors.toMap(i -> attrs[i], i -> r[i]))).collect(Collectors.toList());
+                .collect(Collectors.toMap(i -> attrsArray[i], i -> r[i]))).collect(Collectors.toList());
     }
 }

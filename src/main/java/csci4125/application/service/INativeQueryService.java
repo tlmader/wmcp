@@ -28,5 +28,5 @@ public interface INativeQueryService {
      * @param attrs an array of JSON attributes
      * @return the List of results with JSON attributes
      */
-    List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String[] attrs);
+    List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String attrs);
 }
