@@ -355,13 +355,39 @@ Expected:
 	
 #26 TODO: Needs Work
 Given:
+	None to give
 
 Expected:
+	jp_code = 10
+	jp_title = Front End Dev
 	
-#27 TODO: Needs Work
-Given:
+#27 TODO:
+Given: 
+	None to give
 
 Expected:
+	c_code = 8
+	c_title = Architecture Design for Applications
+	c_code = 24
+	c_title = Back End Basics
+	c_code = 27
+	c_title = C++ and Architecture
+	c_code = 23
+	c_title Essentials in Debugging
+	c_code = 25
+	c_title = Front End Basics
+	c_code = 11
+	c_title = HTML and CSS Basics
+	c_code = 20
+	c_title = Industrial Cloud Development
+	c_code = 1 
+	c_title = Java Certification
+	c_code = 12 
+	c_title = Javascript Certification
+	c_code = 19 
+	c_title = Server Architecture Overview
+	c_code = 15
+	c_title = System Security Overview
 
 #28 TODO: Needs Work
 Given:
