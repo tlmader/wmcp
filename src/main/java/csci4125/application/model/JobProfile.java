@@ -1,8 +1,7 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Contains the methods and fields for JobProfile entities.
@@ -22,6 +21,13 @@ public class JobProfile extends BaseEntity {
     private String description;
     @Column(name = "avg_pay")
     private Float avgPay;
+    @ManyToMany
+    @JoinTable(
+            name = "required_skill",
+            joinColumns = @JoinColumn(name = "jp_code"),
+            inverseJoinColumns = @JoinColumn(name = "ks_code")
+    )
+    private List<Skill> requiredSkills;
 
     public JobProfile() {
 
@@ -66,6 +72,14 @@ public class JobProfile extends BaseEntity {
 
     public void setAvgPay(Float avgPay) {
         this.avgPay = avgPay;
+    }
+
+    public List<Skill> getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public void setRequiredSkills(List<Skill> requiredSkills) {
+        this.requiredSkills = requiredSkills;
     }
 
     @Override

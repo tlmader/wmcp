@@ -98,6 +98,14 @@ public class Job extends BaseEntity {
         this.payType = payType;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -3,6 +3,8 @@ package csci4125.application.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 /**
  * Contains the methods and fields for Skill entities.
@@ -22,6 +24,8 @@ public class Skill extends BaseEntity {
     private String description;
     @Column(name = "s_level")
     private String level;
+    @ManyToMany(mappedBy = "requiredSkills")
+    private List<JobProfile> jobProfiles;
 
     public Skill() {
 
