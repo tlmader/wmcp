@@ -29,7 +29,7 @@ public class Person extends BaseEntity {
     private List<Job> jobs;
     @ManyToMany
     @JoinTable(
-            name = "required_skill",
+            name = "knows",
             joinColumns = @JoinColumn(name = "per_id"),
             inverseJoinColumns = @JoinColumn(name = "ks_code")
     )
