@@ -43,4 +43,4 @@ public class NativeQueryController {
     public ResponseEntity<List<Map<String, Object>>> getResultsWithAtributes(@RequestBody String query, @PathVariable("attrs") String attrs, @RequestParam Map<String, String> vars) {
         return new ResponseEntity<>(this.service.getNativeResultsWithAttrs(query, vars, attrs), HttpStatus.OK);
     }
-}Or
+}

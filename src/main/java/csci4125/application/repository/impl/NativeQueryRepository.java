@@ -40,6 +40,7 @@ public class NativeQueryRepository implements INativeQueryRepository {
      * Sets each parameter in the given query to its corresponding value and returns the mapped SQL query.
      *
      * @param query a SQL query
+     * @param vars a map of query variables
      * @return the mapped query
      */
     private Query prepareSQLQuery(String query, Map<String, String> vars) {
