@@ -1,0 +1,1010 @@
+{
+	"variables": [],
+	"info": {
+		"name": "CSCI 4125 - NativeQuery",
+		"_postman_id": "1e2b15dc-b89a-4d6e-d3a7-8e961fb19914",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Query 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/name?comp_id=1",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = :comp_id"
+				},
+				"description": "List a company's workers by names.\n\nGiven:\n\tcomp_id = 1\n\nExpected:\n\tperson_name = Marry Mills"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].person_name === \"Mary Mills\";",
+							"tests[\"Row 1, pay_rate is '106693.07'\"] = jsonData[0].pay_rate === 106693.07;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,pay_rate?comp_id=1",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name, pay_rate\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = :comp_id\r\n ORDER BY pay_rate DESC"
+				},
+				"description": "List a company’s staff by salary in descending order."
+			},
+			"response": []
+		},
+		{
+			"name": "Query 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, comp_name is 'Tosh Incorporated'\"] = jsonData[0].comp_name === \"Tosh Incorporated\";",
+							"tests[\"Row 1, labor_cost is '314304.01'\"] = jsonData[0].labor_cost === 314304.01;",
+							"",
+							"tests[\"Row 2, comp_name is 'Vauge Electric'\"] = jsonData[1].comp_name === \"Vauge Electric\";",
+							"tests[\"Row 2, labor_cost is '98485.91'\"] = jsonData[1].labor_cost === 98485.91;",
+							"",
+							"tests[\"Row 3, comp_name is 'Eaton Foods'\"] = jsonData[2].comp_name === \"Eaton Foods\";",
+							"tests[\"Row 3, labor_cost is '88401.45'\"] = jsonData[2].labor_cost === 88401.45;",
+							"",
+							"tests[\"Row 4, comp_name is 'Mader Machinery'\"] = jsonData[3].comp_name === \"Mader Machinery\";",
+							"tests[\"Row 4, labor_cost is '77563.28'\"] = jsonData[3].labor_cost === 77563.28;",
+							"",
+							"tests[\"Row 5, comp_name is 'The Government'\"] = jsonData[4].comp_name === \"The Government\";",
+							"tests[\"Row 5, labor_cost is '63675.85'\"] = jsonData[4].labor_cost === 63675.85;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/comp_name,labor_cost",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL)),\r\njob_rel_pay\r\n  AS (SELECT job_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS pay\r\n        FROM job)\r\nSELECT comp_name, ROUND(pay_sum, 2) AS labor_cost\r\n  FROM (SELECT comp_name, SUM(pay) AS pay_sum\r\n          FROM person\r\n               INNER JOIN current_works\r\n               ON person.per_id = current_works.per_id\r\n               INNER JOIN job_rel_pay\r\n               ON current_works.job_code = job_rel_pay.job_code\r\n               INNER JOIN company\r\n               ON job_rel_pay.comp_id = company.comp_id\r\n         GROUP BY comp_name)\r\n ORDER BY pay_sum DESC"
+				},
+				"description": "List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.\n\nExpected:\n\tcomp_name = Tosh Incorporated\n\tlabor_cost = $189,589.87\n\n\tcomp_name = Vague Electric\n\tlabor_cost = $98,485.91    \n\n\tcomp_name = Eaton Foods\n\tlabor_cost = $88,401.45\n\n\tcomp_name = Mader Machinery                  \n\tlabor_cost = $77,563.28\n\n\tcomp_name = The Government\n\tlabor_cost = $63,675.85"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, job_code is '703'\"] = jsonData[0].job_code === \"703\";",
+							"tests[\"Row 1, jp_title is 'Game Dev'\"] = jsonData[0].jp_title === \"Game Dev\";",
+							"",
+							"tests[\"Row 2, job_code is '705'\"] = jsonData[1].job_code === \"705\";",
+							"tests[\"Row 2, jp_title is 'Network Admin'\"] = jsonData[1].jp_title === \"Network Admin\";",
+							"",
+							"tests[\"Row 3, job_code is '704'\"] = jsonData[2].job_code === \"704\";",
+							"tests[\"Row 3, jp_title is 'Lead Developer'\"] = jsonData[2].jp_title === \"Lead Developer\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/job_code,jp_title?per_id=4",
+				"method": "POST",
+				"header": [
+					{
+						"key": "per_id",
+						"value": "4",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT job.job_code, jp_title\r\n  FROM job\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       INNER JOIN works\r\n       ON job.job_code = works.job_code\r\n       INNER JOIN person\r\n       ON works.per_id = person.per_id\r\n          AND person.per_id = :per_id"
+				},
+				"description": "4. Find all the jobs a person is currently holding and worked in the past.\n\nGiven:\n\tper_id = 4\n\t\nExpected:\n\tjp_title = Game Dev\n\tjob_code = 703\n\n\tjp_title = Network Admin\n\tjob_code = 705\n\n\tjp_title = Lead Developer\n\tjob_code = 704 "
+			},
+			"response": []
+		},
+		{
+			"name": "Query 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"row 1, ks_title is 'Amazon Web Services'\"] = jsonData[0].ks_title === \"Amazon Web Services\";",
+							"tests[\"row 1, description is 'Knowledge in services such as S3'\"] = jsonData[0].description === \"Knowledge in services such as S3\";",
+							"",
+							"tests[\"row 2, ks_title is 'C++'\"] = jsonData[1].ks_title === \"C++\";",
+							"tests[\"row 2, description is 'Competency in C++ programming language'\"] = jsonData[1].description === \"Competency in C++ programming language\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/ks_title,description?per_id=3",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ks_title, description\r\n  FROM knowledge_skill\r\n       INNER JOIN knows\r\n       ON knows.ks_code = knowledge_skill.ks_code\r\n       INNER JOIN person\r\n       ON knows.per_id = person.per_id\r\n          AND person.per_id = :per_id"
+				},
+				"description": "List a person’s knowledge/skills in a readable format.\n\nGiven:\n\tper_id = 3\n\t\nExpected:\n\tks_title = Amazon Web Services\n\tdescription = Knowledge in services such as S3\n\n\tks_title = C++\n\tdescription = Competency in C++ programming language"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 6 - NO RESULTS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Body matches string\"] = responseBody.has(\"Mary Mills\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery",
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "1",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT job.job_code, jp_title, ks_title\r\n  FROM job\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       INNER JOIN knowledge_skill\r\n       ON required_skill.ks_code = knowledge_skill.ks_code\r\n       INNER JOIN works\r\n       ON job.job_code = works.job_code\r\n       INNER JOIN person\r\n       ON works.per_id = person.per_id\r\n          AND person.per_id = 1\r\n       LEFT JOIN knows\r\n       ON works.per_id = knows.per_id\r\n WHERE knows.per_id IS NULL"
+				},
+				"description": "List the skill gap of a worker between his/her job(s) and his/her skills."
+			},
+			"response": []
+		},
+		{
+			"name": "Query 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, ks_title is 'Assembly'\"] = jsonData[0].ks_title === \"Assembly\";",
+							"",
+							"tests[\"Row 2, ks_title is 'C'\"] = jsonData[1].ks_title === \"C\";",
+							"",
+							"tests[\"Row 3, ks_title is 'C++'\"] = jsonData[2].ks_title === \"C++\";",
+							"",
+							"tests[\"Row 4, ks_title is 'Application Architecture'\"] = jsonData[3].ks_title === \"Application Architecture\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/ks_title?jp_code=2",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job_profile\r\n       ON required_skill.jp_code = job_profile.jp_code\r\n          AND job_profile.jp_code = :jp_code"
+				},
+				"description": "List the required knowledge/skills of a job profile in a readable format.\n\nGiven:\n\tjp_code = 002\n\t\nExpected:\n\tks_title = C\n\tks_title = C++\n\tks_title = Application Architecture\n\tks_title = Assembly\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 8a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, ks_title is 'Amazon Web Services'\"] = jsonData[0].ks_title === \"Amazon Web Services\";",
+							"",
+							"tests[\"Row 2, ks_title is 'CRUD'\"] = jsonData[1].ks_title === \"CRUD\";",
+							"",
+							"tests[\"Row 3, ks_title is 'Application Architecture'\"] = jsonData[2].ks_title === \"Application Architecture\";",
+							"",
+							"tests[\"Row 4, ks_title is 'System Security'\"] = jsonData[3].ks_title === \"System Security\";",
+							"",
+							"tests[\"Row 5, ks_title is 'Server Architecture'\"] = jsonData[4].ks_title === \"Server Architecture\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/ks_title?job_code=702&per_id=6",
+				"method": "POST",
+				"header": [
+					{
+						"key": "job_code",
+						"value": "702",
+						"description": ""
+					},
+					{
+						"key": "per_id",
+						"value": "6",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
+				},
+				"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven:\n\tjob_code = 702\n\tper_id <> 6\n\t\nExpected:\n\tks_title = Amazon Web Services\n\tks_title = CRUD\n\tks_title = Application Architecture\n\tks_title = Server Security\n\tks_title = Server Architecture"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 8b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, ks_title is 'HTML'\"] = jsonData[0].ks_title === \"HTML\";",
+							"",
+							"tests[\"Row 2, ks_title is 'Angular'\"] = jsonData[1].ks_title === \"Angular\";",
+							"",
+							"tests[\"Row 3, ks_title is 'Jquery'\"] = jsonData[2].ks_title === \"Jquery\";",
+							"",
+							"tests[\"Row 4, ks_title is 'CSS'\"] = jsonData[3].ks_title === \"CSS\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/ks_title?job_code=710&per_id=20",
+				"method": "POST",
+				"header": [
+					{
+						"key": "job_code",
+						"value": "702",
+						"description": ""
+					},
+					{
+						"key": "per_id",
+						"value": "6",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
+				},
+				"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven: \n\tjob_code = 710\n\tper_id <> 20\nExpected:\n\tks_title = HTML\n\tks_title = Angular\n\tks_title = Jquery\n\tks_title = CSS"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 9a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"20\";",
+							"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Industrial Cloud Development\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title?per_id=2&jp_code=1",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT course.c_code, course.c_title\r\n  FROM course\r\n       INNER JOIN teaches\r\n       ON course.c_code = teaches.c_code\r\n       INNER JOIN missing_ks\r\n       ON teaches.ks_code = missing_ks.ks_code\r\n GROUP BY course.c_code, course.c_title\r\nHAVING COUNT(*) = (SELECT COUNT(*)\r\n                     FROM missing_ks)"
+				},
+				"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n\tper_id = 2\n\tjp_code = 001\n\t\nExpected:\n\tc_code = 20\n\tc_title = Industrial Cloud Development"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 9b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"2\";",
+							"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Database SQL\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title?per_id=18&jp_code=9",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT course.c_code, course.c_title\r\n  FROM course\r\n       INNER JOIN teaches\r\n       ON course.c_code = teaches.c_code\r\n       INNER JOIN missing_ks\r\n       ON teaches.ks_code = missing_ks.ks_code\r\n GROUP BY course.c_code, course.c_title\r\nHAVING COUNT(*) = (SELECT COUNT(*)\r\n                     FROM missing_ks)"
+				},
+				"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n\tper_id = 18\n\tjp_code = 9\n\t\nExpected:\n\tc_code = 2\n\tc_title = Database SQL"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 10a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"24\";",
+							"tests[\"Row 1, sec_no is '20'\"] = jsonData[0].sec_no === \"24\";",
+							"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Back End Basics\";",
+							"tests[\"Row 1, complete_date is 'Industrial Cloud Development'\"] = jsonData[0].complete_date === 1478671200000;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title,sec_no,complete_date?per_id=6&jp_code=7",
+				"method": "POST",
+				"header": [
+					{
+						"key": "per_id",
+						"value": "6",
+						"description": ""
+					},
+					{
+						"key": "jp_code",
+						"value": "007",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT *\r\n  FROM (SELECT course.c_code, course.c_title, sec_no, complete_date\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, sec_no, complete_date\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY complete_date)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n\tper_id = 6\r\n\tjp_code = 7\r\n\t\r\nExpected:\r\n\tc_code = 24\r\n\tc_title = Band End Basics\r\n\tsec_no = 24\r\n\tcomplete_date = 09-NOV-16"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 10b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"20\";",
+							"tests[\"Row 1, sec_no is '20'\"] = jsonData[0].sec_no === \"20\";",
+							"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Industrial Cloud Development\";",
+							"tests[\"Row 1, complete_date is 'Industrial Cloud Development'\"] = jsonData[0].complete_date === 1460178000000;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title,sec_no,complete_date?per_id=11&jp_code=1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "per_id",
+						"value": "6",
+						"description": ""
+					},
+					{
+						"key": "jp_code",
+						"value": "007",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT *\r\n  FROM (SELECT course.c_code, course.c_title, sec_no, complete_date\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, sec_no, complete_date\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY complete_date)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n\tper_id = 11\r\n\tjp_code = 1\r\n\t\r\nExpected:\r\n\tc_code = 20\r\n\tc_title = Industrial Cloud Development\r\n\tsec_no = 20\r\n\tcomplete_date = 09-April-16"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 11a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '27'\"] = jsonData[0].c_code === \"27\";",
+							"tests[\"Row 1, cost is '1500.82'\"] = jsonData[0].cost === 1500.82;",
+							"tests[\"Row 1, c_title is 'C++ and Architecture'\"] = jsonData[0].c_title === \"C++ and Architecture\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title,cost?per_id=16&jp_code=5",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT c_code, c_title, ROUND(price, 2) AS cost\r\n  FROM (SELECT course.c_code, course.c_title, price\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, price\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY price DESC)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n\tper_id = 16\n\tjp_code = 005\n\t\nExpected:\n\tc_code = 27\n\tc_title = C++ and Architecture\n\tcost = $1500.82"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 11b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, c_code is '27'\"] = jsonData[0].c_code === \"27\";",
+							"tests[\"Row 1, cost is '1500.82'\"] = jsonData[0].cost === 1500.82;",
+							"tests[\"Row 1, c_title is 'C++ and Architecture'\"] = jsonData[0].c_title === \"C++ and Architecture\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/c_code,c_title,cost?per_id=16&jp_code=5",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT c_code, c_title, ROUND(price, 2) AS cost\r\n  FROM (SELECT course.c_code, course.c_title, price\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, price\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY price DESC)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n\tper_id = 16\n\tjp_code = 005\n\t\nExpected:\n\tc_code = 27\n\tc_title = C++ and Architecture\n\tcost = $1500.82"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 12a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, course_1 is '15'\"] = jsonData[0].course_1 === \"15\";",
+							"tests[\"Row 1, course_2 is '26\"] = jsonData[0].course_2 === \"26\";",
+							"tests[\"Row 1, course_3 is ' '\"] = jsonData[0].course_3 === \" \";",
+							"tests[\"Row 1, total_cost is '3046.86'\"] = jsonData[0].total_cost === 3046.86;",
+							"",
+							"tests[\"Row 2, course_1 is '15'\"] = jsonData[1].course_1 === \"15\";",
+							"tests[\"Row 2, course_2 is '26\"] = jsonData[1].course_2 === \"19\";",
+							"tests[\"Row 2, course_3 is null\"] = jsonData[1].course_3 === \"26\";",
+							"tests[\"Row 2, total_cost is '3046.86'\"] = jsonData[1].total_cost === 4580.55;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/course_1,course_2,course_3,total_cost?per_id=8&jp_code=8",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code),\r\ncourse_for_missing_ks\r\n  AS (SELECT course.c_code, missing_ks.ks_code, price\r\n        FROM course\r\n             INNER JOIN section\r\n             ON course.c_code = section.c_code\r\n             INNER JOIN teaches\r\n             ON course.c_code = teaches.c_code\r\n             INNER JOIN missing_ks\r\n             ON teaches.ks_code = missing_ks.ks_code\r\n       WHERE status = 'active'),\r\ncourse_sets\r\n  AS (SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             NULL AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             NULL AS ks_3,\r\n             ROUND(c1.price + c2.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n       UNION ALL\r\n      SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             c3.c_code AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             c3.ks_code AS ks_3,\r\n             ROUND(c1.price + c2.price + c3.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n             INNER JOIN course_for_missing_ks c3\r\n             ON c1.c_code < c3.c_code\r\n                AND c2.c_code < c3.c_code),\r\ncourse_set_per_ks\r\n  AS (SELECT ks_1 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_2 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_3 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets)\r\nSELECT course_1, course_2, COALESCE(course_3, ' '), total_cost\r\n  FROM course_set_per_ks\r\n GROUP BY course_1, course_2, course_3, total_cost\r\nHAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)\r\n                                    FROM missing_ks)\r\n ORDER BY total_cost ASC"
+				},
+				"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n  per_id = 8\n  jp_code = 008\n  \nExpected:\n  course_1 = 15\n  course_2 = 26\n  course_3 = \"\"\n  total_cost = $3,046.86\n  \n  course_1 = 15\n  course_2 = 19\n  course_3 = 26\n  total_cost = $4,580.55"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 12b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, course_1 is '2'\"] = jsonData[0].course_1 === \"2\";",
+							"tests[\"Row 1, course_2 is '24\"] = jsonData[0].course_2 === \"24\";",
+							"tests[\"Row 1, course_3 is ' '\"] = jsonData[0].course_3 === \" \";",
+							"tests[\"Row 1, total_cost is '2852.68'\"] = jsonData[0].total_cost === 2852.68;",
+							"",
+							"tests[\"Row 2, course_1 is '2'\"] = jsonData[1].course_1 === \"2\";",
+							"tests[\"Row 2, course_2 is '22\"] = jsonData[1].course_2 === \"22\";",
+							"tests[\"Row 2, course_3 is ' \"] = jsonData[1].course_3 === \" \";",
+							"tests[\"Row 2, total_cost is '3013.27'\"] = jsonData[1].total_cost === 3013.27;",
+							"",
+							"tests[\"Row 3, course_1 is '2'\"] = jsonData[2].course_1 === \"2\";",
+							"tests[\"Row 3, course_2 is '22\"] = jsonData[2].course_2 === \"22\";",
+							"tests[\"Row 3, course_3 is 24\"] = jsonData[2].course_3 === \"24\";",
+							"tests[\"Row 3, total_cost is '4031.91'\"] = jsonData[2].total_cost === 4031.91;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/course_1,course_2,course_3,total_cost?per_id=14&jp_code=9",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code),\r\ncourse_for_missing_ks\r\n  AS (SELECT course.c_code, missing_ks.ks_code, price\r\n        FROM course\r\n             INNER JOIN section\r\n             ON course.c_code = section.c_code\r\n             INNER JOIN teaches\r\n             ON course.c_code = teaches.c_code\r\n             INNER JOIN missing_ks\r\n             ON teaches.ks_code = missing_ks.ks_code\r\n       WHERE status = 'active'),\r\ncourse_sets\r\n  AS (SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             NULL AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             NULL AS ks_3,\r\n             ROUND(c1.price + c2.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n       UNION ALL\r\n      SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             c3.c_code AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             c3.ks_code AS ks_3,\r\n             ROUND(c1.price + c2.price + c3.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n             INNER JOIN course_for_missing_ks c3\r\n             ON c1.c_code < c3.c_code\r\n                AND c2.c_code < c3.c_code),\r\ncourse_set_per_ks\r\n  AS (SELECT ks_1 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_2 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_3 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets)\r\nSELECT course_1, course_2, COALESCE(course_3, ' '), total_cost\r\n  FROM course_set_per_ks\r\n GROUP BY course_1, course_2, course_3, total_cost\r\nHAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)\r\n                                    FROM missing_ks)\r\n ORDER BY total_cost ASC"
+				},
+				"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n\tper_id = 8\n\tjp_code = 008\n\t\nExpected:\n\tcourse_1 = 15\n\tcourse_2 = 26\n\tcourse_3 = \"\"\n\ttotal_cost = $3,046.86\n\t\n\tcourse_1 = 15\n\tcourse_2 = 19\n\tcourse_3 = 26\n\ttotal_cost = $4,580.55"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 13a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, jp_title is 'Cloud Developer'\"] = jsonData[0].jp_title === \"Cloud Developer\";",
+							"tests[\"Row 1, jp_code is '1'\"] = jsonData[0].jp_code === \"1\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/jp_code,jp_title?per_id=1",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_profile.jp_code, job_profile.jp_title\r\n  FROM job_profile\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       LEFT JOIN missing_ks\r\n       ON required_skill.jp_code = missing_ks.jp_code\r\n WHERE missing_ks.jp_code IS NULL\r\n GROUP BY job_profile.jp_code, job_profile.jp_title"
+				},
+				"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\r\n\r\nGiven:\r\n\tper_id = 1\r\n\r\nExpected:\r\n\tjp_code = 1\r\n\tjp_title = Cloud Developer"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 13b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, jp_title is 'Game Dev'\"] = jsonData[0].jp_title === \"Game Dev\";",
+							"tests[\"Row 1, jp_code is '5'\"] = jsonData[0].jp_code === \"5\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/jp_code,jp_title?per_id=2",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_profile.jp_code, job_profile.jp_title\r\n  FROM job_profile\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       LEFT JOIN missing_ks\r\n       ON required_skill.jp_code = missing_ks.jp_code\r\n WHERE missing_ks.jp_code IS NULL\r\n GROUP BY job_profile.jp_code, job_profile.jp_title"
+				},
+				"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 2\n\nExpected:\n\tjp_code = 5\n\tjp_title = Game Dev"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 14a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, jp_code is '700'\"] = jsonData[0].jp_code === \"700\";",
+							"tests[\"Row 1, pay is '98485.91'\"] = jsonData[0].pay === 98485.91;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/jp_code,pay?per_id=20",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH job_rel_pay\r\n  AS (SELECT job_code, jp_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS rel_pay\r\n        FROM job),\r\nknown_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_code, ROUND(rel_pay, 2) AS pay\r\nFROM (SELECT DISTINCT job_code, rel_pay\r\n        FROM job_rel_pay\r\n             INNER JOIN job_profile\r\n             ON job_rel_pay.jp_code = job_profile.jp_code\r\n             INNER JOIN required_skill\r\n             ON job_profile.jp_code = required_skill.jp_code\r\n             LEFT JOIN missing_ks\r\n             ON required_skill.jp_code = missing_ks.jp_code\r\n       WHERE missing_ks.jp_code IS NULL\r\n       ORDER BY rel_pay DESC)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 20\n\nExpected:\n\tjp_code = 700\n\tpay = $98,485.91"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 14b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, jp_code is '712'\"] = jsonData[0].jp_code === \"712\";",
+							"tests[\"Row 1, pay is '119060.46'\"] = jsonData[0].pay === 119060.46;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/jp_code,pay?per_id=19",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH job_rel_pay\r\n  AS (SELECT job_code, jp_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS rel_pay\r\n        FROM job),\r\nknown_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_code, ROUND(rel_pay, 2) AS pay\r\nFROM (SELECT DISTINCT job_code, rel_pay\r\n        FROM job_rel_pay\r\n             INNER JOIN job_profile\r\n             ON job_rel_pay.jp_code = job_profile.jp_code\r\n             INNER JOIN required_skill\r\n             ON job_profile.jp_code = required_skill.jp_code\r\n             LEFT JOIN missing_ks\r\n             ON required_skill.jp_code = missing_ks.jp_code\r\n       WHERE missing_ks.jp_code IS NULL\r\n       ORDER BY rel_pay DESC)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 19\n\nExpected:\n\tjp_code = 712\n\tpay = $119,060.46"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 15",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
+							"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+							"",
+							"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
+							"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+							"",
+							"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
+							"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
+							"",
+							"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
+							"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
+							"",
+							"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
+							"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
+							"",
+							"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
+							"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,email",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT person_name, email\r\n  FROM person\r\n       INNER JOIN knows\r\n       ON person.per_id = knows.per_id\r\n       INNER JOIN required_skill\r\n       ON knows.ks_code = required_skill.ks_code\r\n GROUP BY person_name, email\r\nHAVING COUNT(*) = COUNT(DISTINCT knows.ks_code)"
+				},
+				"description": "List all the names along with the emails of the persons who are qualified for a job profile.\n\nExpected:\n\tperson_name = Andrew Turner\n\temail = aturner8@amazon.co.uk\n\n\tperson_name = Wayne Coleman\n\temail = wcolemana@wp.com\n\n\tperson_name = Craig Hall\n\temail = challc@fastcompany.com                                 \n\tperson_name = John Ramos\n\temail = jramosd@odnoklassniki.ru           \n\n\tperson_name = Carl Crawford\n\temail = ccrawfordb@linkedin.com\n\n\tperson_name = Jason Littler\n\temail = jlittle9@cocolog-nifty.com"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 18a - NEEDS WORK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
+							"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
+							"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
+							"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 1;",
+							"",
+							"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
+							"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
+							"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 6, person_name is 'Nicole Berry'\"] = jsonData[5].person_name === \"Nicole Berry\";",
+							"tests[\"Row 6, missing_ks_count is '5'\"] = jsonData[5].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 7, person_name is 'Eric Andrews'\"] = jsonData[6].person_name === \"Eric Andrews\";",
+							"tests[\"Row 7, missing_ks_count is '5'\"] = jsonData[6].missing_ks_count === 5;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,missing_ks_count?jp_code=12",
+				"method": "POST",
+				"header": [
+					{
+						"key": "jp_code",
+						"value": "012",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n GROUP BY person_name"
+				},
+				"description": "Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.\n\nGiven: \n\tjp_code = 012\n\t\nExpected:\n\tperson_name = Michael Fisher\n\tmissing_ks_count = 5\n\n\tperson_name = Michael Velez\n\tmissing_ks_count = 5\n\n\tperson_name = Steven Mitchell\n\tmissing_ks_count = 5\n\n\tperson_name = Carol Morrison\n\tmissing_ks_count = 5\n\n\tperson_name = Jason Stevens\n\tmissing_ks_count = 5"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 19a - INCORRECT RESULTS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
+							"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
+							"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
+							"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
+							"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
+							"",
+							"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
+							"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,missing_ks_count?jp_code=12",
+				"method": "POST",
+				"header": [
+					{
+						"key": "jp_code",
+						"value": "012",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n GROUP BY person_name"
+				},
+				"description": "For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills.\n\nGiven:\n\tjp_code = 12\n\t\nExpected:\n\tperson_name = Michael Fisher\n\tmissing_ks_count = 5\n\n\tperson_name = Michael Velez\n\tmissing_ks_count = 5\n\n\tperson_name = Steven Mitchell\n\tmissing_ks_count = 5\n\n\tperson_name = Carol Morrison\n\tmissing_ks_count = 5\n\n\tperson_name = Jason Stevens\n\tmissing_ks_count = 5"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 21",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Michael Velez'\"] = jsonData[0].person_name === \"Michael Velez\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name",
+				"method": "POST",
+				"header": [
+					{
+						"key": "jp_code",
+						"value": "012",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n          AND jp_title = 'Special'"
+				},
+				"description": "In a local or national crisis, we need to find all the people who once held a job of the special job-profile identifier.\n\nExpected:\n\tperson_name = Michael Velez"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 22a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Nicole Miller'\"] = jsonData[0].person_name === \"Nicole Miller\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,missing_ks_count?jp_code=1",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT DISTINCT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n          AND job.jp_code = :jp_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       LEFT JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n WHERE current_works.per_id IS NULL"
+				},
+				"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n\tjp_code = 001\nExpected:\n\tperson_name = Nicole Miller"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 22b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, person_name is 'Carl Crawford'\"] = jsonData[0].person_name === \"Carl Crawford\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/person_name,missing_ks_count?jp_code=11",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT DISTINCT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n          AND job.jp_code = :jp_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       LEFT JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n WHERE current_works.per_id IS NULL"
+				},
+				"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n\tjp_code = 11\n\t\nExpected:\n\tperson_name = Carl Crawford"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, comp_name is 'Vague Electric'\"] = jsonData[0].comp_name === \"Vague Electric\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/comp_name",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT comp_name\r\n  FROM (SELECT comp_name\r\n          FROM company\r\n               INNER JOIN job\r\n               ON company.comp_id = job.comp_id\r\n               INNER JOIN current_works\r\n               ON job.job_code = current_works.job_code\r\n         GROUP BY comp_name\r\n         ORDER BY COUNT(per_id) DESC)\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n\tcomp_name = Tosh Incorporated"
+			},
+			"response": []
+		},
+		{
+			"name": "Query 24",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Row 1, primary_sector is 'Business Sector'\"] = jsonData[0].primary_sector === \"Business Sector\";",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/nativequery/primary_sector",
+				"method": "POST",
+				"header": [
+					{
+						"key": "jp_code",
+						"value": "001",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "SELECT *\r\n  FROM (SELECT primary_sector\r\n          FROM company\r\n               INNER JOIN job\r\n               ON company.comp_id = job.comp_id\r\n               INNER JOIN works\r\n               ON job.job_code = works.job_code\r\n                  AND CURRENT_DATE >= start_date\r\n                  AND CURRENT_DATE < end_date\r\n                   OR end_date IS NULL\r\n         GROUP BY primary_sector\r\n         ORDER BY COUNT(per_id))\r\n WHERE ROWNUM = 1"
+				},
+				"description": "Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n\tprimary_sector = Company"
+			},
+			"response": []
+		}
+	]
+}

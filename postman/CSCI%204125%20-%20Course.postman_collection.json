@@ -1,0 +1,93 @@
+{
+	"variables": [],
+	"info": {
+		"name": "CSCI 4125 - Course",
+		"_postman_id": "e6188816-fca2-4836-ec3a-6978ed4d4c02",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All",
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/course",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+				},
+				"description": "Returns all entities from the database."
+			},
+			"response": []
+		},
+		{
+			"name": "Get",
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/course/50",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+				},
+				"description": "Returns a specific entity from the database by an ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/course/50",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"50\",\n  \"title\": \"F# Certification\",\n  \"level\": \"advanced\",\n  \"description\": \"Learn key F# principles in just a few minutes.\",\n  \"status\": \"active\",\n  \"price\": 2400\n}"
+				},
+				"description": "Creates an entity and adds it to the database."
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/course/50",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"50\",\n  \"title\": \"F# Certification\",\n  \"level\": \"advanced\",\n  \"description\": \"Learn key F# principles in just a few minutes.\",\n  \"status\": \"active\",\n  \"price\": 3200\n}"
+				},
+				"description": "Updates a specific entity in the database."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"url": "http://{{csci4125.application.host}}/api/course/50",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+				},
+				"description": "Deletes a specific entity in the database by an ID."
+			},
+			"response": []
+		}
+	]
+}
