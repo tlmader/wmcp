@@ -1,5 +1,7 @@
 package csci4125.application.repository;
 
+import org.hibernate.Session;
+
 import java.util.List;
 
 /**
@@ -48,4 +50,11 @@ public interface ICrudRepository<T> {
      * @param id an ID for a <T>
      */
     void delete(String id);
+
+    /**
+     * Returns a Hibernate Session object from the current SessionFactory.
+     *
+     * @return the Session
+     */
+    Session getSession();
 }

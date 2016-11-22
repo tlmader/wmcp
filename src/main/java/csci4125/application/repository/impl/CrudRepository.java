@@ -37,7 +37,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     @Override
     @Transactional
     public List<T> getAll() {
-        Criteria allCriteria = sessionFactory.getCurrentSession().createCriteria(type);
+        Criteria allCriteria = getSession().createCriteria(type);
         return allCriteria.list();
     }
 
@@ -47,7 +47,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
         if (id == null) {
             return null;
         }
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(type);
+        Criteria criteria = getSession().createCriteria(type);
         criteria.add(Restrictions.eq("id", id.toLowerCase()));
         List<T> results = criteria.list();
         if (results.isEmpty()) {
@@ -66,7 +66,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
             throw new ClientErrorException(typeName + " ID in use", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         session.save(entity);
         return entity;
     }
@@ -79,7 +79,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
             throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
         setFields.accept(found, entity);
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         session.merge(found);
         return found;
     }
@@ -91,7 +91,12 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
         if (found == null) {
             throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
         }
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         session.delete(found);
+    }
+
+    @Override
+    public Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 }

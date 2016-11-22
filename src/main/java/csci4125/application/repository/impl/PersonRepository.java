@@ -1,6 +1,8 @@
 package csci4125.application.repository.impl;
 
+import csci4125.application.model.Job;
 import csci4125.application.model.Person;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
 /**
