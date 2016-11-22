@@ -372,7 +372,7 @@ SELECT person_name,
 WITH ks_for_jp
   AS (SELECT ks_code
         FROM required_skill
-       WHERE jp_code = 012)
+       WHERE jp_code = 008)
 SELECT person_name,
        (SELECT COUNT(*) FROM ks_for_jp) - ks_count AS missing_ks_count
   FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
@@ -382,7 +382,8 @@ SELECT person_name,
                INNER JOIN ks_for_jp
                ON knows.ks_code = ks_for_jp.ks_code
          GROUP BY person_name)
- WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= 5;
+ WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= 3
+ ORDER BY missing_ks_count ASC;
 
 -- 20. (BONUS) Given a job profile and its corresponding missing-k list specified in Question 19. Find every skill that is needed by at least one person in the given missing-k list. List each skillID and the number of people who need it in the descending order of the people counts.
 WITH k
