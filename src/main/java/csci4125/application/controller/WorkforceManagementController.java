@@ -30,12 +30,12 @@ public class WorkforceManagementController {
     }
 
     @RequestMapping(value = {"/find/jobs/{personId}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Job>> getJobsForPersonByKnownSkills(@PathVariable("personId") String personId) {
-        return new ResponseEntity<>(this.service.getJobsForPersonByKnownSkills(personId), HttpStatus.OK);
+    public ResponseEntity<List<Job>> findJobsForPersonByKnownSkills(@PathVariable("personId") String personId) {
+        return new ResponseEntity<>(this.service.findJobsForPersonByKnownSkills(personId), HttpStatus.OK);
     }
 
     @RequestMapping(value = {"/find/persons/{jobId}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Person>> getPersonsForJobByRequiredSkills(@PathVariable("jobId") String jobId) {
-        return new ResponseEntity<>(this.service.getPersonsForJobByRequiredSkills(jobId), HttpStatus.OK);
+    public ResponseEntity<List<Person>> findPersonsForJobByRequiredSkills(@PathVariable("jobId") String jobId) {
+        return new ResponseEntity<>(this.service.findPersonsForJobByRequiredSkills(jobId), HttpStatus.OK);
     }
 }

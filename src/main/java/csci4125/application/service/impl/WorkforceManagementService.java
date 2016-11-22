@@ -35,7 +35,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
     }
 
     @Override
-    public List<Job> getJobsForPersonByKnownSkills(String personId) {
+    public List<Job> findJobsForPersonByKnownSkills(String personId) {
         List<Job> jobs = jobRepository.getAll();
         Person person = personRepository.get(personId);
         List<Skill> knownSkills = person.getKnownSkills();
@@ -45,7 +45,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
     }
 
     @Override
-    public List<Person> getPersonsForJobByRequiredSkills(String jobId) {
+    public List<Person> findPersonsForJobByRequiredSkills(String jobId) {
         List<Person> persons = personRepository.getAll();
         Job job = jobRepository.get(jobId);
         List<Skill> requiredSkills = job.getJobProfile().getRequiredSkills();

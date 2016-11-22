@@ -24,18 +24,18 @@ public interface IWorkforceManagementService {
     Map<String, Object> assignJobToPerson(String jobId, String personId);
 
     /**
-     * Gets the List of possible Jobs for a specific Person by an ID.
+     * Returns the List of possible Jobs for a specific Person by an ID.
      *
      * @param personId an ID for the Person
      * @return the List of Jobs
      */
-    List<Job> getJobsForPersonByKnownSkills(String personId);
+    List<Job> findJobsForPersonByKnownSkills(String personId);
 
     /**
-     * Gets the List of Persons qualified for a specific Job by an ID.
+     * Returns the List of Persons qualified for a specific Job by an ID.
      *
      * @param jobId an ID for a Job
      * @return the List of Persons
      */
-    List<Person> getPersonsForJobByRequiredSkills(String jobId);
+    List<Person> findPersonsForJobByRequiredSkills(String jobId);
 }
