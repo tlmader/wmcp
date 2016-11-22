@@ -32,10 +32,10 @@ public interface IWorkforceManagementService {
     List<Job> getJobsForPersonByKnownSkills(String personId);
 
     /**
-     * Gets the List of Persons qualified for a specific JobProfile by an ID.
+     * Gets the List of Persons qualified for a specific Job by an ID.
      *
-     * @param jobProfileId an ID for a JobProfile
+     * @param jobId an ID for a Job
      * @return the List of Persons
      */
-    List<Person> getPersonsForJobProfileByRequiredSkills(String jobProfileId);
+    List<Person> getPersonsForJobByRequiredSkills(String jobId);
 }

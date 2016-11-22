@@ -3,6 +3,7 @@ package csci4125.application.service.impl;
 import csci4125.application.model.Job;
 import csci4125.application.model.Person;
 import csci4125.application.service.IWorkforceManagementService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
  * @author tlmader.dev@gmail.com
  * @since 11/21/2016
  */
+@Service
 public class WorkforceManagementService implements IWorkforceManagementService {
 
     @Override
@@ -26,7 +28,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
     }
 
     @Override
-    public List<Person> getPersonsForJobProfileByRequiredSkills(String jobProfileId) {
+    public List<Person> getPersonsForJobByRequiredSkills(String jobId) {
         return null;
     }
 }
