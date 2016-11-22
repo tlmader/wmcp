@@ -368,6 +368,24 @@ SELECT person_name,
          GROUP BY person_name)
  GROUP BY person_name
  ORDER BY missing_ks_count ASC;
+-- Least number
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 002)
+SELECT missing_ks_count AS least_number_of_missing_ks
+  FROM (SELECT person_name,
+               (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count
+          FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count
+                  FROM person
+                       INNER JOIN knows
+                       ON person.per_id = knows.per_id
+                       INNER JOIN ks_for_jp
+                       ON knows.ks_code = ks_for_jp.ks_code
+                 GROUP BY person_name)
+         GROUP BY person_name
+         ORDER BY missing_ks_count ASC)
+ WHERE ROWNUM = 1;
 
 -- 19. For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills
 WITH ks_for_jp
