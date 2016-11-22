@@ -1,6 +1,7 @@
 package csci4125.application.service.impl;
 
 import csci4125.application.repository.INativeQueryRepository;
+import csci4125.application.repository.impl.NativeQueryRepository;
 import csci4125.application.service.INativeQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,12 @@ public class NativeQueryService implements INativeQueryService {
 
     @Override
     public List<List<Object>> getNativeResults(String query, Map<String, String> vars) {
-        return mapNativeResults(repository.get(mapValuesToKeysForQuery(query, vars)));
+        return mapNativeResults(repository.get(query, vars));
     }
 
     @Override
     public List<Map<String, Object>> getNativeResultsWithAttrs(String query, Map<String, String> vars, String[] attrs) {
-        return mapNativeResultsToAttrs(attrs, repository.get(mapValuesToKeysForQuery(query, vars)));
+        return mapNativeResultsToAttrs(attrs, repository.get(query, vars));
     }
 
     /**
@@ -52,6 +53,7 @@ public class NativeQueryService implements INativeQueryService {
      * @param query a SQL query
      * @return the mapped query
      */
+    @Deprecated
     private String mapValuesToKeysForQuery(String query, Map<String, String> vars) {
         for (Map.Entry<String, String> var : vars.entrySet()) {
             query = query.replace("${" + var.getKey() + "}", var.getValue());

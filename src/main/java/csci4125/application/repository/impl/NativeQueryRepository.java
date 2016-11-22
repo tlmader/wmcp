@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -24,15 +25,20 @@ public class NativeQueryRepository implements INativeQueryRepository {
 
     @Override
     @Transactional
-    public List<Object[]> get(String query) {
-        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
-        List results = sqlQuery.list();
+    public List<Object[]> get(String query, Map<String, String> vars) {
+        List results = prepareSQLQuery(query, vars).list();
         if (results.isEmpty()) {
             return null;
         } else if (results.get(0) instanceof String) {
             return convertResultsToObjectArrays(results);
         }
         return results;
+    }
+
+    private SQLQuery prepareSQLQuery(String query, Map<String, String> vars) {
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(query);
+        vars.entrySet().stream().map(x -> sqlQuery.setParameter(x.getKey(), x.getValue()));
+        return sqlQuery;
     }
 
     /**
