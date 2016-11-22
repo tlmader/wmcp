@@ -161,13 +161,13 @@ Expected:
 	Combination 2: course_1 = 15 , course_2 = 19 , course_3 = 26 , total_cost = $4,580.55
 (b)
 Given:
-	per_id = 8
-	jp_code = 008
+	per_id = 14
+	jp_code = 009
 Expected:
 	"Ordered under combinations"
-	Combination 1: course_1 = 22 , course_2 = 3 , course_3 = "" , total_cost = $1,797.87
-	Combination 2: course_1 = 2 , course_2 = 13 , course_3 = “” , total_cost = $2,452.68
-	Combination 3: course_1 = 2 , course_2 = 22 , course_3 = 3 , total_cost = $3,631.91
+	Combination 1: course_1 = 2 , course_2 = 24 , course_3 = “” , total_cost = $2852.68
+	Combination 2: course_1 = 2 , course_2 = 22 , course_3 = “” , total_cost = $3013.27
+	Combination 3: course_1 = 2 , course_2 = 22 , course_3 = 24 , total_cost = $4031.91
 
 #13
 Given:
