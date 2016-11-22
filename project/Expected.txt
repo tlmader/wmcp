@@ -233,37 +233,35 @@ Expected:
 
 #18    
 Given: 
-	jp_code = 012
+	jp_code = 4
 Expected:
-	person_name = Michael Fisher
-	missing_ks_count = 5
-
-	person_name = Michael Velez
-	missing_ks_count = 5
-
-	person_name = Steven Mitchell
+	person_name = Steven Mitchel
 	missing_ks_count = 1
 
-	person_name = Carol Morrison
-	missing_ks_count = 5
-
-	person_name = Jason Stevens
-	missing_ks_count = 5
-
-	person_name = Nicole Berry
-	missing_ks_count = 5
-
 	person_name = Eric Andrews
-	missing_ks_count = 5
-(b)
-Given: 
-	jp_code = 012
-Expected:
-	person_name = Michael Velez
-	missing_ks_count = 3
+	missing_ks_count = 2
 
 	person_name = Martin Ross
-	missing_ks_count = 4
+	missing_ks_count = 3
+
+	person_name = Carol Morrison
+	missing_ks_count = 3
+
+	person_name = Marry Mills
+	missing_ks_count = 3
+
+	person_name = Michael Fisher
+	missing_ks_count = 3
+
+(b)
+Given: 
+	jp_code = 9
+Expected:
+	person_name = Michael Velez
+	missing_ks_count = 1
+
+	person_name = Nicole Berry
+	missing_ks_count = 3
 
 	person_name = Steven Mitchell
 	missing_ks_count = 3
