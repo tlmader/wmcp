@@ -92,7 +92,7 @@ SELECT job.job_code, jp_title, ks_title
        ON works.per_id = person.per_id
           AND person.per_id = 1
        LEFT JOIN knows
-       ON works.per_id = knows.per_id
+       ON required_skill.ks_code = knows.ks_code
  WHERE knows.per_id IS NULL;
 
 -- 7. List the required knowledge/skills of a job profile in a readable format.
