@@ -343,14 +343,15 @@ WITH missing_one
              ON person.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.ks_code = required_skill.ks_code
-                AND jp_code = 001
+                AND jp_code = 2
        GROUP BY person.per_id
       HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1)
 SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
   FROM missing_one
        INNER JOIN knows
        ON missing_one.per_id = knows.per_id
- GROUP BY knows.ks_code;
+ GROUP BY knows.ks_code
+ ORDER BY person_count ASC;
 
 -- 18. Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.
 WITH ks_for_jp
