@@ -9,12 +9,14 @@
         <module name="csci4125-api" />
         <module name="csci4125.api" />
         <module name="csci4125.project" />
+        <module name="wmcp.api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="csci4125-api" target="1.8" />
       <module name="csci4125.api" target="1.8" />
       <module name="csci4125.project" target="1.8" />
+      <module name="wmcp.api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
