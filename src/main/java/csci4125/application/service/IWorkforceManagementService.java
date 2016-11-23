@@ -7,7 +7,7 @@ import csci4125.application.model.Works;
 import java.util.List;
 
 /**
- * Defines methods for handling orchestration of Workforce Management workflows and performing calls to repositories.
+ * Defines methods for handling orchestration of workforce management workflows and performing calls to repositories.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/21/2016
@@ -34,7 +34,7 @@ public interface IWorkforceManagementService {
     /**
      * Returns the List of Persons qualified for a specific Job by an ID.
      *
-     * @param jobId an ID for a Job
+     * @param jobProfileId an ID for a Job
      * @return the List of Persons
      */
     List<Person> findPersonsForJobProfileByRequiredSkills(String jobProfileId);

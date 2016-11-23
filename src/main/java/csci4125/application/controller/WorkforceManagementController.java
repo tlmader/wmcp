@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Defines the REST API for workforce management.
+ * Defines the REST API for workforce management workflows.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-20

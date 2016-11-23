@@ -1,8 +1,7 @@
 package csci4125.application.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Contains the methods and fields for Course entities.
@@ -26,6 +25,13 @@ public class Course extends BaseEntity {
     private String status;
     @Column(name = "retail_price")
     private Float price;
+    @ManyToMany
+    @JoinTable(
+            name = "teaches",
+            joinColumns = @JoinColumn(name = "c_code"),
+            inverseJoinColumns = @JoinColumn(name = "ks_code")
+    )
+    private List<Skill> teaches;
 
     public Course() {
 
@@ -88,6 +94,14 @@ public class Course extends BaseEntity {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public List<Skill> getTeaches() {
+        return teaches;
+    }
+
+    public void setTeaches(List<Skill> teaches) {
+        this.teaches = teaches;
     }
 
     @Override
