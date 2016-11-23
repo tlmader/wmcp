@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * Implements data access methods for Person to Job associations.
+ * Implements data access methods for Works entities used to store Person to Job associations.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016
