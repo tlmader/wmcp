@@ -325,27 +325,33 @@ SELECT person_name, email
 HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code);
 
 -- 16. When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 002)
 SELECT person_name
   FROM person
        INNER JOIN knows
        ON person.per_id = knows.per_id
        INNER JOIN required_skill
        ON knows.ks_code = required_skill.ks_code
-          AND jp_code = 001
  GROUP BY person_name
-HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1;
+HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1;
 
 -- 17. List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.
-WITH missing_one
+WITH ks_for_jp
+  AS (SELECT ks_code
+        FROM required_skill
+       WHERE jp_code = 002),
+missing_one
   AS (SELECT person.per_id
         FROM person
              INNER JOIN knows
              ON person.per_id = knows.per_id
              INNER JOIN required_skill
              ON knows.ks_code = required_skill.ks_code
-                AND jp_code = 2
        GROUP BY person.per_id
-      HAVING COUNT(*) = COUNT(DISTINCT knows.ks_code) - 1)
+      HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1)
 SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
   FROM missing_one
        INNER JOIN knows
