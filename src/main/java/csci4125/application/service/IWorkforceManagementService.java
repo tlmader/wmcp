@@ -37,5 +37,5 @@ public interface IWorkforceManagementService {
      * @param jobId an ID for a Job
      * @return the List of Persons
      */
-    List<Person> findPersonsForJobByRequiredSkills(String jobId);
+    List<Person> findPersonsForJobProfileByRequiredSkills(String jobProfileId);
 }

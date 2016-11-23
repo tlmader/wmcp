@@ -34,8 +34,8 @@ public class WorkforceManagementController {
         return new ResponseEntity<>(this.service.findJobsForPersonByKnownSkills(personId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = {"/persons/{jobId}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Person>> findPersonsForJobByRequiredSkills(@PathVariable("jobId") String jobId) {
-        return new ResponseEntity<>(this.service.findPersonsForJobByRequiredSkills(jobId), HttpStatus.OK);
+    @RequestMapping(value = {"/persons/{jobProfileId}"}, method = RequestMethod.GET)
+    public ResponseEntity<List<Person>> findPersonsForJobProfileByRequiredSkills(@PathVariable("jobProfileId") String jobProfileId) {
+        return new ResponseEntity<>(this.service.findPersonsForJobProfileByRequiredSkills(jobProfileId), HttpStatus.OK);
     }
 }
