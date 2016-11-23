@@ -41,7 +41,7 @@ public class CareerPlanningService implements ICareerPlanningService {
     }
 
     @Override
-    public List<Course> findCoursesForJobProfile(String jobProfileId, String personId) {
+    public List<Course> findCourseSetForJobProfile(String jobProfileId, String personId) {
         List<Skill> requiredSkills;
         Person person = personRepository.get(personId);
         if (person != null) {

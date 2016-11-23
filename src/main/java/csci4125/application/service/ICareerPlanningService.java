@@ -22,12 +22,12 @@ public interface ICareerPlanningService {
     List<Job> findJobsByPrimarySector(String primarySector);
 
     /**
-     * Finds a Courses required for a Job Profile based on required skills and known skills (optional) and returns a
+     * Finds a set of Courses required for a Job Profile based on required skills and known skills (optional) and returns a
      * List containing the minimum number of Courses teaching the least unneeded skills.
      *
      * @param jobProfileId
      * @param personId
      * @return
      */
-    List<Course> findCoursesForJobProfile(String jobProfileId, String personId);
+    List<Course> findCourseSetForJobProfile(String jobProfileId, String personId);
 }

@@ -25,12 +25,12 @@ public class CareerPlanningController {
     ICareerPlanningService service;
 
     @RequestMapping(value = {"/jobs/{primarySector}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Job>> findJobsForPersonByKnownSkills(@PathVariable("primarySector") String primarySector) {
+    public ResponseEntity<List<Job>> findJobsByPrimarySector(@PathVariable("primarySector") String primarySector) {
         return new ResponseEntity<>(this.service.findJobsByPrimarySector(primarySector), HttpStatus.OK);
     }
 
     @RequestMapping(value = {"/courses/{personId}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Course>> findJobsForPersonByKnownSkills(@PathVariable("jobProfileId") String jobProfileId, @RequestParam("personId") String personId) {
-        return new ResponseEntity<>(this.service.findCoursesForJobProfile(jobProfileId, personId), HttpStatus.OK);
+    public ResponseEntity<List<Course>> findCourseSetForJobProfile(@PathVariable("jobProfileId") String jobProfileId, @RequestParam("personId") String personId) {
+        return new ResponseEntity<>(this.service.findCourseSetForJobProfile(jobProfileId, personId), HttpStatus.OK);
     }
 }
