@@ -29,8 +29,8 @@ public class CareerPlanningController {
         return new ResponseEntity<>(this.service.findJobsByPrimarySector(primarySector), HttpStatus.OK);
     }
 
-    @RequestMapping(value = {"/courses/{personId}"}, method = RequestMethod.GET)
-    public ResponseEntity<List<Course>> findCourseSetForJobProfile(@PathVariable("jobProfileId") String jobProfileId, @RequestParam("personId") String personId) {
+    @RequestMapping(value = {"/courses/{jobProfileId}"}, method = RequestMethod.GET)
+    public ResponseEntity<List<Course>> findCourseSetForJobProfile(@PathVariable("jobProfileId") String jobProfileId, @RequestParam(required = false) String personId) {
         return new ResponseEntity<>(this.service.findCourseSetForJobProfile(jobProfileId, personId), HttpStatus.OK);
     }
 }
