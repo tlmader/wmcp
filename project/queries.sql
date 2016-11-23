@@ -342,20 +342,22 @@ HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1;
 WITH ks_for_jp
   AS (SELECT ks_code
         FROM required_skill
-       WHERE jp_code = 002),
+       WHERE jp_code = 003),
 missing_one
   AS (SELECT person.per_id
         FROM person
              INNER JOIN knows
              ON person.per_id = knows.per_id
-             INNER JOIN required_skill
-             ON knows.ks_code = required_skill.ks_code
+             INNER JOIN ks_for_jp
+             ON knows.ks_code = ks_for_jp.ks_code
        GROUP BY person.per_id
       HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1)
 SELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count
   FROM missing_one
        INNER JOIN knows
        ON missing_one.per_id = knows.per_id
+       INNER JOIN ks_for_jp
+       ON knows.ks_code = ks_for_jp.ks_code
  GROUP BY knows.ks_code
  ORDER BY person_count ASC;
 
