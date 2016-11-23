@@ -60,10 +60,30 @@ Expected:
 
 #6	TODO: Needs work
 Given:
+	per_id = 5
 
 Expected:
+	job_code = 704
+	jp_title = Lead Developer
+	ks_title = Java
+	
+	job_code = 704
+	jp_title = Lead Developer
+	ks_title = Debugging
 
+	job_code = 704
+	jp_title = Lead Developer
+	ks_title = Spring Framework
+(b)
+Given:
+	per_id = 8
+Expected:
 
+	job_code = 707
+	jp_title = Big Data Analyst
+	ks_title = Large Data Manipulation 
+
+	
 #7
 Given:
 	jp_code = 002
