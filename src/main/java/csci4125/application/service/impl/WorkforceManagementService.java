@@ -35,26 +35,24 @@ public class WorkforceManagementService implements IWorkforceManagementService {
 
     @Override
     public List<Job> findJobsForPersonByKnownSkills(String personId) {
-        List<Job> jobs = jobRepository.getAll();
         Person person = personRepository.get(personId);
         if (person == null) {
             return null;
         }
         List<Skill> knownSkills = person.getKnownSkills();
-        return jobs.stream()
+        return jobRepository.getAll().stream()
                 .filter(x -> x.getJobProfile().getRequiredSkills().containsAll(knownSkills))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Person> findPersonsForJobProfileByRequiredSkills(String jobProfileId) {
-        List<Person> persons = personRepository.getAll();
         JobProfile jobProfile = jobProfileRepository.get(jobProfileId);
         if (jobProfile == null) {
             return null;
         }
         List<Skill> requiredSkills = jobProfile.getRequiredSkills();
-        return persons.stream()
+        return personRepository.getAll().stream()
                 .filter(x -> x.getKnownSkills().containsAll(requiredSkills))
                 .collect(Collectors.toList());
     }
