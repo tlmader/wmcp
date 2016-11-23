@@ -513,7 +513,7 @@ per_delta_pay
              INNER JOIN works_pay w2
              ON w1.per_id = w2.per_id
                 AND w1.start_date < w2.start_date)
-SELECT AVG(delta_pay)
+SELECT AVG(delta_pay) AS average_rate
   FROM per_delta_pay
  GROUP BY per_id;
 
