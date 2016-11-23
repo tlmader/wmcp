@@ -615,7 +615,7 @@ SELECT course.c_code, c_title
        ON required_skill.jp_code = jp_most_openings.jp_code
           AND status = 'active'
  GROUP BY course.c_code, c_title
-HAVING COUNT(*) = COUNT(DISTINCT teaches.ks_code)
+HAVING COUNT(*) = COUNT(DISTINCT teaches.ks_code);
 
 -- 28. (BONUS) List all the courses, directly or indirectly required, that a person has to take in order to be qualified for a job of the given profile, according to his/her skills possessed and courses taken.
 WITH knows_by_person
