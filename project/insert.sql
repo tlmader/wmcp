@@ -256,6 +256,7 @@ insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_fo
 insert into section (sec_no, c_code, complete_date, sec_year, offered_by, sec_format, price) values (27, 27, TO_DATE('2016-12-09','YYYY-MM-DD'), 2016, 'University of New Orleans', 'online-selfpaced', 1500.82);
 --knows
 insert into knows (per_id, ks_code) values (1, 20);
+insert into knows (per_id, ks_code) values (1, 22);
 insert into knows (per_id, ks_code) values (2, 6);
 insert into knows (per_id, ks_code) values (2, 7);
 insert into knows (per_id, ks_code) values (3, 7);
