@@ -58,7 +58,7 @@ Expected:
 	ks_title = C++
 	description = Competency in C++ programming language
 
-#6	TODO: Needs work
+#6	
 Given:
 	per_id = 5
 
@@ -76,7 +76,7 @@ Expected:
 	ks_title = Spring Framework
 (b)
 Given:
-	per_id = 8
+	per_id = 
 Expected:
 
 	job_code = 707
@@ -257,10 +257,28 @@ Expected:
 	person_name = Jason Littler
 	email = jlittle9@cocolog-nifty.com
 
-#16 TODO: Michael Velez missing skill for dab admin by 1 yet does not show up despite not having the job in the first place
+#16
 Given:
+	jp_code = 006
 		
 Expected:
+
+	person_name = Martin Ross
+	person_name = Justin Ryan
+(b)
+Given:
+	jp_code = 003
+		
+Expected:
+
+	person_name = Jason Little
+	person_name = Andrew Turner
+	person_name = Carl Crawford
+	person_name = Craig Hall
+	person_name = John Ramos
+	person_name = Wayne Coleman
+
+
 
 #17 TODO: Has the same issue as 16     
 Given:
