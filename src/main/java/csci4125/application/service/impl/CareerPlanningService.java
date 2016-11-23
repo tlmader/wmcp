@@ -36,7 +36,7 @@ public class CareerPlanningService implements ICareerPlanningService {
     @Override
     public List<Job> findJobsByPrimarySector(String primarySector) {
         return jobRepository.getAll().stream()
-                .filter(x -> x.getCompany().getPrimarySector().equals(primarySector))
+                .filter(j -> j.getCompany().getPrimarySector().equals(primarySector))
                 .collect(Collectors.toList());
     }
 
@@ -47,7 +47,7 @@ public class CareerPlanningService implements ICareerPlanningService {
         if (person != null) {
             List<Skill> knownSkills = person.getKnownSkills();
             requiredSkills = jobProfileRepository.get(jobProfileId).getRequiredSkills().stream()
-                    .filter(knownSkills::contains)
+                    .filter(s -> !knownSkills.contains(s))
                     .collect(Collectors.toList());
         } else {
             requiredSkills = jobProfileRepository.get(jobProfileId).getRequiredSkills();
