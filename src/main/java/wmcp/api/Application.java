@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Runs the Spring api.
+ * Launches the application.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-17

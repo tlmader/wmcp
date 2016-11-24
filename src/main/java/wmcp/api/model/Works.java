@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Contains the methods and fields for Works entities used to associate Persons with Jobs.
+ * Contains the methods and fields for Works entities used to associate Persons to Jobs.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/21/2016
