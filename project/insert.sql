@@ -334,6 +334,45 @@ insert into teaches (c_code, ks_code) values (26, 19);
 insert into teaches (c_code, ks_code) values (27, 7);
 insert into teaches (c_code, ks_code) values (27, 8);
 
+insert into takes (per_id, c_code, sec_no, sec_year) values (1, 20, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (1, 22, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (2, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (2, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (3, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (3, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (4, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (4, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (4, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (4, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (4, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (5, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (6, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (7, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (8, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (9, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (10, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (11, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (11, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (12, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (12, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (13, 20, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (13, 22, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (14, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (15, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (16, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (17, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (17, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (17, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (18, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (19, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (20, 1, 20);
+insert into takes (per_id, c_code, sec_no, sec_year) values (20, 1, 20);
+
 
 
 
