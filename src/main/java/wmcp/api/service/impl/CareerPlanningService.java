@@ -84,8 +84,7 @@ public class CareerPlanningService implements ICareerPlanningService {
     }
 
     /**
-     * Defines the strategy for prioritizing courses, favoring greater number of required Skills and fewer unneeded
-     * Skills.
+     * Compares two Courses for prioritization, favoring greater number of required Skills and fewer unneeded Skills.
      *
      * @param requiredSkills a List of required skills
      * @return 1 if greater than, -1 if less than, and 0 if equal

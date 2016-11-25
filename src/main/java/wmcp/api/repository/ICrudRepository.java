@@ -14,14 +14,14 @@ import java.util.List;
 public interface ICrudRepository<T> {
 
     /**
-     * Returns all <T> from the DataSource.
+     * Returns all <T> from the database.
      *
-     * @return the list of <T> currently in the DataSource
+     * @return the list of <T> currently in the database
      */
     List<T> getAll();
 
     /**
-     * Returns a specific <T> from the DataSource by an ID.
+     * Returns a specific <T> from the database by an ID.
      *
      * @param id an ID for a <T>
      * @return the <T> found by the specified ID
@@ -29,7 +29,7 @@ public interface ICrudRepository<T> {
     T get(String id);
 
     /**
-     * Creates a <T> and adds it to the DataSource.
+     * Creates a <T> and adds it to the database.
      *
      * @param entity a <T> to be added
      * @return the created <T>
@@ -37,7 +37,7 @@ public interface ICrudRepository<T> {
     T create(T entity);
 
     /**
-     * Updates a specific <T> in the DataSource.
+     * Updates a specific <T> in the database.
      *
      * @param entity a <T> containing the updated values
      * @return the updated <T>
@@ -45,7 +45,7 @@ public interface ICrudRepository<T> {
     T update(T entity);
 
     /**
-     * Deletes a specific <T> in the DataSource by an ID.
+     * Deletes a specific <T> in the database by an ID.
      *
      * @param id an ID for a <T>
      */

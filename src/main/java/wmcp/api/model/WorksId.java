@@ -3,7 +3,7 @@ package wmcp.api.model;
 import java.io.Serializable;
 
 /**
- * Contains the methods and fields for compound primary keys for Works entities.
+ * Embeddable class for Works.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016
