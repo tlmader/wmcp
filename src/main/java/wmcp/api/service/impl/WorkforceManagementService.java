@@ -1,5 +1,8 @@
 package wmcp.api.service.impl;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import wmcp.api.model.*;
 import wmcp.api.repository.ICrudRepository;
 import wmcp.api.repository.IWorksRepository;
@@ -7,6 +10,8 @@ import wmcp.api.service.IWorkforceManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +35,20 @@ public class WorkforceManagementService implements IWorkforceManagementService {
 
     @Override
     public Works assignPersonToJob(String personId, String jobId) {
-        return worksRepository.create(personRepository.get(personId).getId(), jobRepository.get(jobId).getId());
+        Job job = jobRepository.get(jobId);
+        Person person = personRepository.get(personId);
+        List<Skill> knownSkills = person.getKnownSkills();
+        Errors errors = new BeanPropertyBindingResult(knownSkills, "requiredSkills");
+        job.getJobProfile().getRequiredSkills().stream()
+                .filter(k -> !knownSkills.contains(k))
+                .forEach(u -> errors.reject("Missing skill: " + u.toString()));
+        if (errors.hasErrors()) {
+            throw new ClientErrorException(errors.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getCode)
+                    .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);
+        } else {
+            return worksRepository.create(person.getId(), job.getId());
+        }
     }
 
     @Override
@@ -41,7 +59,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
         }
         List<Skill> knownSkills = person.getKnownSkills();
         return jobRepository.getAll().stream()
-                .filter(x -> x.getJobProfile().getRequiredSkills().containsAll(knownSkills))
+                .filter(j -> j.getJobProfile().getRequiredSkills().containsAll(knownSkills))
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +71,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
         }
         List<Skill> requiredSkills = jobProfile.getRequiredSkills();
         return personRepository.getAll().stream()
-                .filter(x -> x.getKnownSkills().containsAll(requiredSkills))
+                .filter(p -> p.getKnownSkills().containsAll(requiredSkills))
                 .collect(Collectors.toList());
     }
 }
