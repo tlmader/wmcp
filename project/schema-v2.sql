@@ -109,13 +109,33 @@ CREATE TABLE section
     REFERENCES course(c_code),
   CHECK (sec_format IN('classroom', 'online-sync', 'online-selfpaced', 'correspondence'))
 );
+CREATE TABLE takes
+(
+  per_id VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL,
+  sec_no VARCHAR2(10) NOT NULL,
+  sec_year NUMBER(4) NOT NULL,
+  CONSTRAINT pk_takes PRIMARY KEY (per_id, sec_no),
+  CONSTRAINT fk_takes_per FOREIGN KEY (per_id)
+    REFERENCES person(per_id),
+  CONSTRAINT fk_takes_sec FOREIGN KEY (c_code, sec_no, sec_year)
+    REFERENCES section(c_code, sec_no, sec_year),
+  CONSTRAINT per_id_check
+	CHECK (taken.per_id = person.per_id),
+  CONSTRAINT c_code_check
+	CHECK (taken.c_code = teaches.c_code)
+
+);
 CREATE TABLE knows
 (
   per_id VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL,
   ks_code VARCHAR2(10) NOT NULL,
-  CONSTRAINT pk_knows PRIMARY KEY (per_id, ks_code),
-  CONSTRAINT fk_knows_per FOREIGN KEY (per_id)
+  CONSTRAINT pk_knows PRIMARY KEY (per_id, c_code, ks_code),
+   CONSTRAINT fk_knows_per FOREIGN KEY (per_id)
     REFERENCES person(per_id),
+   CONSTRAINT fk_knows_c FOREIGN KEY (c_code)
+    REFERENCES course(c_code),
   CONSTRAINT fk_knows_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
