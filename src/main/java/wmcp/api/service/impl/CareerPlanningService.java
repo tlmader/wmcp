@@ -36,6 +36,9 @@ public class CareerPlanningService implements ICareerPlanningService {
 
     @Override
     public Person addPersonWithQualifications(Person person) {
+        List<Skill> knownSkills = person.getKnownSkills();
+        List<Course> completedCourses = person.getTakesCourses().stream()
+                .filter(c -> c.);
         return null;
     }
 
