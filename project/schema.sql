@@ -124,10 +124,13 @@ CREATE TABLE takes
 CREATE TABLE knows
 (
   per_id VARCHAR2(10) NOT NULL,
+  c_code VARCHAR2(10) NOT NULL,
   ks_code VARCHAR2(10) NOT NULL,
-  CONSTRAINT pk_knows PRIMARY KEY (per_id, ks_code),
-  CONSTRAINT fk_knows_per FOREIGN KEY (per_id)
+  CONSTRAINT pk_knows PRIMARY KEY (per_id, c_code, ks_code),
+   CONSTRAINT fk_knows_per FOREIGN KEY (per_id)
     REFERENCES person(per_id),
+   CONSTRAINT fk_knows_c FOREIGN KEY (c_code)
+    REFERENCES course(c_code),
   CONSTRAINT fk_knows_ks FOREIGN KEY (ks_code)
     REFERENCES knowledge_skill(ks_code)
 );
