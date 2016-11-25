@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-@JsonIgnoreProperties({"jobs, knownSkills"})
+@JsonIgnoreProperties({"jobs, takenCourses, knownSkills"})
 public class Person extends BaseEntity {
 
     @Id
@@ -33,6 +33,14 @@ public class Person extends BaseEntity {
     @JsonProperty("jobs")
     @ManyToMany(mappedBy = "persons")
     private List<Job> jobs;
+    @JsonProperty("takesCourses")
+    @ManyToMany
+    @JoinTable(
+            name = "takes",
+            joinColumns = @JoinColumn(name = "per_id"),
+            inverseJoinColumns = @JoinColumn(name = "c_code")
+    )
+    private List<Course> takesCourses;
     @JsonProperty("knownSkills")
     @ManyToMany
     @JoinTable(
@@ -119,6 +127,14 @@ public class Person extends BaseEntity {
 
     public void setKnownSkills(List<Skill> knownSkills) {
         this.knownSkills = knownSkills;
+    }
+
+    public List<Course> getTakesCourses() {
+        return takesCourses;
+    }
+
+    public void setTakesCourses(List<Course> takesCourses) {
+        this.takesCourses = takesCourses;
     }
 
     @Override

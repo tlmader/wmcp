@@ -22,15 +22,22 @@ import java.util.stream.Collectors;
 public class CareerPlanningService implements ICareerPlanningService {
 
     @Autowired
+    ICrudRepository<Person> personRepository;
+    @Autowired
+    ICrudRepository<Course> courseRepository;
+    @Autowired
+    ICrudRepository<Skill> skillRepository;
+    @Autowired
     ICrudRepository<Job> jobRepository;
     @Autowired
     ICrudRepository<JobProfile> jobProfileRepository;
     @Autowired
     ICrudRepository<Company> companyRepository;
-    @Autowired
-    ICrudRepository<Course> courseRepository;
-    @Autowired
-    ICrudRepository<Person> personRepository;
+
+    @Override
+    public Person addPersonWithQualifications(Person person) {
+        return null;
+    }
 
     @Override
     public List<Job> findJobsByPrimarySector(String primarySector) {

@@ -2,6 +2,7 @@ package wmcp.api.service;
 
 import wmcp.api.model.Course;
 import wmcp.api.model.Job;
+import wmcp.api.model.Person;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ import java.util.List;
  * @since 11/22/2016
  */
 public interface ICareerPlanningService {
+
+    /**
+     * Adds a Person and validates the known Skills are credited by Courses taken.
+     *
+     * @param person a Person to be added with Skills and Courses
+     * @return the added Person
+     */
+    Person addPersonWithQualifications(Person person);
 
     /**
      * Finds Jobs by a specific primary sector.
