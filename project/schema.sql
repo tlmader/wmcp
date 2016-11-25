@@ -119,7 +119,12 @@ CREATE TABLE takes
   CONSTRAINT fk_takes_per FOREIGN KEY (per_id)
     REFERENCES person(per_id),
   CONSTRAINT fk_takes_sec FOREIGN KEY (c_code, sec_no, sec_year)
-    REFERENCES section(c_code, sec_no, sec_year)
+    REFERENCES section(c_code, sec_no, sec_year),
+  CONSTRAINT per_id_check
+	CHECK (taken.per_id = person.per_id),
+  CONSTRAINT c_code_check
+	CHECK (taken.c_code = teaches.c_code)
+
 );
 CREATE TABLE knows
 (
