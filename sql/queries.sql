@@ -105,13 +105,13 @@ SELECT ks_title
           AND job_profile.jp_code = 001;
 
 -- 8. List a person’s missing knowledge/skills for a specific job in a readable format.
-SELECT ks_title
+SELECT DISTINCT ks_title
   FROM knowledge_skill
        INNER JOIN required_skill
        ON knowledge_skill.ks_code = required_skill.ks_code
        INNER JOIN job
        ON required_skill.jp_code = job.jp_code
-          AND job_code = 703
+          AND job_code = 702
        LEFT JOIN knows
        ON required_skill.ks_code = knows.ks_code
  WHERE knows.per_id <> 6;
