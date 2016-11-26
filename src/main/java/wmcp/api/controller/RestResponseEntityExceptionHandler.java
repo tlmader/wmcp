@@ -24,19 +24,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
-    @ExceptionHandler(value = {ClientErrorException.class})
+    @ExceptionHandler(ClientErrorException.class)
     protected ResponseEntity<Object> handleClientErrorException(ClientErrorException ex, WebRequest request) {
-        String message = "ClientErrorException occurred:: " + request.getDescription(false);
-        logger.info(message);
+        String description = "ClientErrorException occurred:: " + request.getDescription(false);
+        logger.info(description);
         return handleExceptionInternal(ex, request, new HttpHeaders(),
                 HttpStatus.valueOf(ex.getResponse().getStatus()), request);
     }
 
-    @ExceptionHandler(value = {SQLException.class})
+    @ExceptionHandler(SQLException.class)
     public ResponseEntity<Object> handleSQLException(SQLException ex, WebRequest request) {
-        String message = "SQLException occurred:: URL=" + request.getDescription(false);
-        logger.info(message);
-        return handleExceptionInternal(ex, request, new HttpHeaders(),
+        String description = "SQLException occurred:: " + request.getDescription(false);
+        logger.info(description);
+        return handleExceptionInternal(ex, description, new HttpHeaders(),
                 HttpStatus.BAD_REQUEST, request);
     }
 }
