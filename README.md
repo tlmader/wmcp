@@ -19,4 +19,4 @@ A web service supporting workforce management and career planning.
 * Server: 9000
 
 ### Additional Info
-Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/project/wmcp.api.postman_collection.json) into Postman for example API calls.
+Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into Postman for example API calls.
