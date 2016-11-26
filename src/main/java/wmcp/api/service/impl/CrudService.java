@@ -5,7 +5,8 @@ import wmcp.api.repository.ICrudRepository;
 import wmcp.api.service.ICrudService;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +35,7 @@ abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
     public T get(String id) {
         T entity = this.repository.get(id);
         if (entity == null) {
-            throw new ClientErrorException(String.valueOf(id), Response.Status.NOT_FOUND);
+            throw new WebApplicationException(String.valueOf(id), Response.Status.NOT_FOUND);
         }
         return entity;
     }
@@ -42,7 +43,7 @@ abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
     @Override
     public T create(String id, T entity) {
         if (!Objects.equals(id, entity.getId())) {
-            throw new ClientErrorException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
         }
         entity.setId(id);
         return this.repository.create(entity);
@@ -51,7 +52,7 @@ abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
     @Override
     public T update(String id, T entity) {
         if (!Objects.equals(id, entity.getId())) {
-            throw new ClientErrorException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
         }
         entity.setId(id);
         return this.repository.update(entity);

@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -61,9 +61,9 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     @Transactional
     public T create(T entity) {
         if (entity.getId() == null) {
-            throw new ClientErrorException(typeName + " ID is null", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException(typeName + " ID is null", Response.Status.BAD_REQUEST);
         } else if (get(entity.getId()) != null) {
-            throw new ClientErrorException(typeName + " ID in use", Response.Status.CONFLICT);
+            throw new WebApplicationException(typeName + " ID in use", Response.Status.CONFLICT);
         }
         entity.setId(entity.getId().toLowerCase());
         Session session = getSession();
@@ -76,7 +76,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     public T update(T entity) {
         T found = get(entity.getId());
         if (found == null) {
-            throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
+            throw new WebApplicationException(typeName + " not found", Response.Status.NOT_FOUND);
         }
         setFields.accept(found, entity);
         Session session = getSession();
@@ -89,7 +89,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     public void delete(String id) {
         T found = get(id);
         if (found == null) {
-            throw new ClientErrorException(typeName + " not found", Response.Status.NOT_FOUND);
+            throw new WebApplicationException(typeName + " not found", Response.Status.NOT_FOUND);
         }
         Session session = getSession();
         session.delete(found);

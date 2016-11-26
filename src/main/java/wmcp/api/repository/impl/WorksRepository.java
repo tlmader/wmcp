@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -47,9 +47,9 @@ public class WorksRepository implements IWorksRepository {
     @Transactional
     public Works create(String personId, String jobId) {
         if (personId == null || jobId == null) {
-            throw new ClientErrorException("One or more entities are null", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("One or more entities are null", Response.Status.BAD_REQUEST);
         } else if (get(personId, jobId) != null) {
-            throw new ClientErrorException("Person to Job association exists", Response.Status.CONFLICT);
+            throw new WebApplicationException("Person to Job association exists", Response.Status.CONFLICT);
         }
         Works works = new Works(personId, jobId);
         Session session = sessionFactory.getCurrentSession();

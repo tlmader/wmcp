@@ -10,7 +10,7 @@ import wmcp.api.service.IWorkforceManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +43,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
                 .filter(k -> !knownSkills.contains(k))
                 .forEach(u -> errors.reject("Missing skill: " + u.toString()));
         if (errors.hasErrors()) {
-            throw new ClientErrorException(errors.getAllErrors().stream()
+            throw new WebApplicationException(errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getCode)
                     .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);
         } else {

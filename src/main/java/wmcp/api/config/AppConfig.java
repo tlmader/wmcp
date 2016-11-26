@@ -3,6 +3,9 @@ package wmcp.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 /**
  * Defines Beans and configurations.
@@ -14,7 +17,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 public class AppConfig {
 
     @Bean
-    public HibernateJpaSessionFactoryBean sessionFactory() {
+    public HibernateJpaSessionFactoryBean createSessionFactory() {
         return new HibernateJpaSessionFactoryBean();
     }
 }

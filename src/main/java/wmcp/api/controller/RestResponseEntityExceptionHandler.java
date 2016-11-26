@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
 import java.sql.SQLException;
 
 /**
- * Handles errors and builds responses for ClientErrorExceptions.
+ * Handles errors and builds responses for WebApplicationExceptions.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-25
@@ -24,9 +24,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
-    @ExceptionHandler(ClientErrorException.class)
-    protected ResponseEntity<Object> handleClientErrorException(ClientErrorException ex, WebRequest request) {
-        String description = "ClientErrorException occurred:: " + request.getDescription(false);
+    @ExceptionHandler(WebApplicationException.class)
+    protected ResponseEntity<Object> handleWebApplicationException(WebApplicationException ex, WebRequest request) {
+        String description = "WebApplicationException occurred:: " + request.getDescription(false);
         logger.info(description);
         return handleExceptionInternal(ex, request, new HttpHeaders(),
                 HttpStatus.valueOf(ex.getResponse().getStatus()), request);
