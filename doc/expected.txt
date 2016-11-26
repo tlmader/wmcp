@@ -4,12 +4,15 @@ Given:
 
 Expected:
 	person_name = Marry Mills
+	person_name = Justin Ryan
 
 #2
 Given:
 	comp_id = 1
 
 Expected:
+	person_name = Justin Ryan
+	pay_rate = $120500.45
 	person_name = Marry Mills
 	pay_rate = $106693.07
 
@@ -19,10 +22,10 @@ Given:
 
 Expected:
 	comp_name = Tosh Incorporated
-	labor_cost = $189,589.87
+	labor_cost = $249,428.27
 
 	comp_name = Vague Electric
-	labor_cost = $98,485.91    
+	labor_cost = $209,717.1    
 
 	comp_name = Eaton Foods
 	labor_cost = $88,401.45    
@@ -41,22 +44,28 @@ Expected:
 	job_code = 703
 	jp_title = Game Dev
 
+	job_code = 705
+	jp_title = Network Admin
+
 	job_code = 704 
 	jp_title = Lead Developer
 
-	job_code = 705
-	jp_title = Network Admin
+	job_code = 730
+	jp_title = Special
 
 #5
 Given:
 	per_id = 3
 
 Expected:
+	ks_title = C++
+	description = Competency in C++ programming language
+
 	ks_title = Amazon Web Services
 	description = Knowledge in services such as S3
 
-	ks_title = C++
-	description = Competency in C++ programming language
+	ks_title = Server Administration
+	description = Knowledge in server administration
 
 #6	
 Given:
@@ -65,23 +74,7 @@ Given:
 Expected:
 	job_code = 704
 	jp_title = Lead Developer
-	ks_title = Java
-	
-	job_code = 704
-	jp_title = Lead Developer
 	ks_title = Debugging
-
-	job_code = 704
-	jp_title = Lead Developer
-	ks_title = Spring Framework
-(b)
-Given:
-	per_id = 
-Expected:
-
-	job_code = 707
-	jp_title = Big Data Analyst
-	ks_title = Large Data Manipulation 
 
 	
 #7
@@ -93,17 +86,7 @@ Expected:
 	ks_title = C++
 	ks_title = Application Architecture
 	ks_title = Assembly
-(b)
-Given:
-	jp_code = 009
-
-Expected:
-	ks_title = SQL
-	ks_title = CRUD
-	ks_title = Leadership
-	ks_title = Large Data Manipulation
 	
-
 #8
 Given:
 	job_code = 702
@@ -111,38 +94,42 @@ Given:
 
 Expected:
 	ks_title = Amazon Web Services
-	ks_title = CRUD
-	ks_title = Application Architecture
 	ks_title = Server Security
+	ks_title = CRUD
+	ks_title = Spring Framework
 	ks_title = Server Architecture
+	ks_title = Application Architecture
+	
 (b)
 Given: 
 	job_code = 710
 	per_id <> 20
 
 Expected:
-	ks_title = HTML
 	ks_title = Angular
 	ks_title = Jquery
+	ks_title = HTML
 	ks_title = CSS
 	
 
 #9
 Given:
-	per_id = 2
-	jp_code = 001
-
-Expected:
-	c_code = 20
-	c_title = Industrial Cloud Development
-(b)
-Given:
-	per_id = 18
+	per_id = 1
 	jp_code = 009
 
 Expected:
 	c_code = 2
 	c_title = Database SQL
+(b)
+Given:
+	per_id = 18
+	jp_code = 013
+
+Expected:
+	c_code = 2
+	c_title = Database SQL
+	c_code = 17
+	c_title = Leadership Skills
 
 #10
 Given:
@@ -176,7 +163,7 @@ Expected:
 	cost = $1500.82
 (b)
 Given:
-	per_id = 19
+	per_id = 20
 	jp_code = 006
 
 Expected:
@@ -191,8 +178,8 @@ Given:
 
 Expected:
 	"Ordered under combinations"
-	Combination 1: course_1 = 15 , course_2 = 26 , course_3 = "" , total_cost = $3,046.86
-	Combination 2: course_1 = 15 , course_2 = 19 , course_3 = 26 , total_cost = $4,580.55
+	Combination 1: course_1 = 19 , course_2 = 26 , course_3 = "" , total_cost = $2,746.51
+
 (b)
 Given:
 	per_id = 14
@@ -213,11 +200,15 @@ Expected:
 	jp_title = Cloud Developer
 (b)
 Given:
-	per_id = 2
+	per_id = 4
 
 Expected:
 	jp_code = 5
 	jp_title = Game Dev
+	jp_code = 2
+	jp_title = Operating System Developer
+	jp_code = 13
+	jp_title = Special
 
 #14
 Given:
@@ -239,8 +230,6 @@ Given:
 	Nothing to give
 
 Expected:
-	person_name = Andrew Turner
-	email = aturner8@amazon.co.uk
 
 	person_name = Wayne Coleman
 	email = wcolemana@wp.com
@@ -254,9 +243,6 @@ Expected:
 	person_name = Carl Crawford
 	email = ccrawfordb@linkedin.com
 
-	person_name = Jason Littler
-	email = jlittle9@cocolog-nifty.com
-
 #16
 Given:
 	jp_code = 006
@@ -264,6 +250,8 @@ Given:
 Expected:
 
 	person_name = Martin Ross
+	person_name = John Ramos
+	person_name = Mary Mills
 	person_name = Justin Ryan
 (b)
 Given:
@@ -271,14 +259,9 @@ Given:
 		
 Expected:
 
-	person_name = Jason Little
-	person_name = Andrew Turner
 	person_name = Carl Crawford
 	person_name = Craig Hall
-	person_name = John Ramos
 	person_name = Wayne Coleman
-
-
 
 #17   
 Given:
@@ -303,15 +286,15 @@ Expected:
 	person_count = 1
 	
 	ks_code = 3
-	person_count = 2
+	person_count = 3
 	
 #18    
 Given: 
-	jp_code = 4
+	jp_code = 004
 
 Expected:
 
-	person_name = Steven Mitchel
+	person_name = Steven Mitchell
 	missing_ks_count = 1
 
 	person_name = Eric Andrews
@@ -320,32 +303,54 @@ Expected:
 	person_name = Martin Ross
 	missing_ks_count = 3
 
-	person_name = Carol Morrison
+	person_name = Andrew Turner
 	missing_ks_count = 3
-
-	person_name = Marry Mills
-	missing_ks_count = 3
-
+	
 	person_name = Michael Fisher
 	missing_ks_count = 3
 
+	person_name = Mary Mills
+	missing_ks_count = 3
+		
+	person_name = Michael Velez
+	missing_ks_count = 3
+	
+	person_name = Jason Stevens
+	missing_ks_count = 3
+
+	person_name = Jason Little
+	missing_ks_count = 3
+
+	person_name = Carol Morrison
+	missing_ks_count = 3
+
+	least_number_of_missing_ks = 1
+
+	
+	
 (b)
 Given: 
-	jp_code = 9
+	jp_code = 009
 
 Expected:
 	person_name = Michael Velez
 	missing_ks_count = 1
 
 	person_name = Nicole Berry
-	missing_ks_count = 3
+	missing_ks_count = 2
 
 	person_name = Steven Mitchell
 	missing_ks_count = 3
+	
+	person_name = Mary Mills
+	missing_ks_count = 3
+
+	least_number_of_missing_ks = 1
 
 #19
 Given:
 	jp_code = 009
+	ks_count <= 3
 
 Expected:
 	Expected:
@@ -353,15 +358,18 @@ Expected:
 	missing_ks_count = 1
 
 	person_name = Nicole Berry
-	missing_ks_count = 3
+	missing_ks_count = 2
 
 	person_name = Steven Mitchell
+	missing_ks_count = 3
+
+	person_name = Mary Mills
 	missing_ks_count = 3
 
 (b)
 Given:
 	jp_code = 008
-	ks_count <= 2
+	ks_count <= 3
 
 Expected:
 	Expected:
@@ -371,6 +379,24 @@ Expected:
 	
 	person_name = Nicole Berry
 	missing_ks_count = 2
+
+	person_name = Carol Morrison
+	missing_ks_count = 2
+	
+	person_name = Jason Stevens
+	missing_ks_count = 2
+
+	person_name = Jason Little
+	missing_ks_count = 3
+	
+	person_name = Andrew Turner
+	missing_ks_count = 3
+
+	person_name = Michael Velez
+	missing_ks_count = 3
+	
+	person_name = Michael Fisher
+	missing_ks_count = 3
 
 #20 TODO: Needs Work
 Given:
@@ -386,14 +412,18 @@ Expected:
 
 #22
 Given:
-	jp_code = 001
+	jp_code = 012
 Expected:
-	person_name = Nicole Miller
+	person_name = Michael Fisher
+	person_name = Andrew Turner
+	person_name = John Ramos
+
 (b)
 Given:
-	jp_code = 011
+	jp_code = 004
 Expected:
-	person_name = Carl Crawford
+	person_name = Steven Mitchell
+	person_name = Paul Cox
 
 #23
 Given:
@@ -425,38 +455,39 @@ Given:
 	None to give
 
 Expected:
-	c_code = 8
-	c_title = Architecture Design for Applications
-
-	c_code = 24
-	c_title = Back End Basics
-
-	c_code = 27
-	c_title = C++ and Architecture
-
-	c_code = 23
-	c_title Essentials in Debugging
-
-	c_code = 25
-	c_title = Front End Basics
-
-	c_code = 11
-	c_title = HTML and CSS Basics
-
-	c_code = 20
-	c_title = Industrial Cloud Development
-
 	c_code = 1 
 	c_title = Java Certification
+
+	c_code = 8
+	c_title = Architecture Design for Applications
+	
+	c_code = 11
+	c_title = HTML and CSS Basics
 
 	c_code = 12 
 	c_title = Javascript Certification
 
+	c_code = 15
+	c_title = System Security Overview
+
 	c_code = 19 
 	c_title = Server Architecture Overview
 
-	c_code = 15
-	c_title = System Security Overview
+	c_code = 20
+	c_title = Industrial Cloud Development
+
+	c_code = 23
+	c_title Essentials in Debugging
+
+	c_code = 24
+	c_title = Back End Basics
+
+	c_code = 25
+	c_title = Front End Basics
+	
+	c_code = 27
+	c_title = C++ and Architecture
+
 
 #28 TODO: Needs Work
 Given:
