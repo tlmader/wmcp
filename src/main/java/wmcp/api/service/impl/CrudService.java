@@ -35,7 +35,7 @@ abstract class CrudService<T extends BaseEntity> implements ICrudService<T> {
     public T get(String id) {
         T entity = this.repository.get(id);
         if (entity == null) {
-            throw new WebApplicationException(String.valueOf(id), Response.Status.NOT_FOUND);
+            throw new WebApplicationException("Could not find entity with ID " + String.valueOf(id), Response.Status.NOT_FOUND);
         }
         return entity;
     }
