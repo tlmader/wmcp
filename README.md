@@ -6,6 +6,7 @@ A web service supporting workforce management and career planning.
 ## wcmp.api
 
 ### Run Configuration
+* Configuration Type: Spring Boot
 * Main class: wmcp.api.Application
 * JRE: 1.8
 
