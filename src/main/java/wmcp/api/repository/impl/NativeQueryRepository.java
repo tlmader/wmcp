@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class NativeQueryRepository implements INativeQueryRepository {
         List results = prepareSQLQuery(query, vars).list();
         if (results.isEmpty()) {
             return null;
-        } else if (results.get(0) instanceof String) {
+        } else if (results.get(0) instanceof String || results.get(0) instanceof BigDecimal) {
             return convertResultsToObjectArrays(results);
         }
         return results;
@@ -56,7 +57,7 @@ public class NativeQueryRepository implements INativeQueryRepository {
      * @param results a results List
      * @return the List of results with type Object[]
      */
-    private List<Object[]> convertResultsToObjectArrays(List<String> results) {
+    private List<Object[]> convertResultsToObjectArrays(List<Object> results) {
         return results.stream().map(x -> new Object[]{x}).collect(Collectors.toList());
     }
 }
