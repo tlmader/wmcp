@@ -56,7 +56,7 @@ public class CareerPlanningService implements ICareerPlanningService {
                 .filter(s -> takesSectionIds.contains(s.getId()))
                 .collect(Collectors.toList());
         sections.stream()
-                .filter(s -> s.getCompleteDate() != null && s.getCompleteDate().getTime() < System.currentTimeMillis())
+                .filter(s -> s.getCompleteDate() == null || s.getCompleteDate().getTime() > System.currentTimeMillis())
                 .forEach(s -> errors.reject("Section incomplete: " + s.getId()));
         if (errors.hasErrors()) {
             throw new WebApplicationException(errors.getAllErrors().stream()
@@ -64,6 +64,7 @@ public class CareerPlanningService implements ICareerPlanningService {
                     .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);
         }
         sections.forEach(s -> earnedSkills.addAll(s.getCourse().getTeaches()));
+        person.setTakesSections(sections);
         person.setKnownSkills(earnedSkills);
         return personRepository.create(person);
     }
