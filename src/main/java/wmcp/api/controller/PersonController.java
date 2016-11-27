@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2016-11-20
  */
 @RestController
-@RequestMapping("api/object")
+@RequestMapping("api/person")
 public class PersonController {
 
     @Qualifier("personService")
