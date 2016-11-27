@@ -45,19 +45,25 @@ public class CareerPlanningService implements ICareerPlanningService {
         }
         List<Skill> earnedSkills = new ArrayList<>();
         List<Section> sections = sectionRepository.getAll();
+        List<String> sectionIds = sections.stream().map(Section::getId).collect(Collectors.toList());
         List<Section> takesSections = person.getTakesSections();
+        List<String> takesSectionIds = takesSections.stream().map(Section::getId).collect(Collectors.toList());
         Errors errors = new BeanPropertyBindingResult(takesSections, "takesSections");
         takesSections.stream()
-                .filter(s -> !sections.contains(s))
-                .forEach(e -> errors.reject("Section does not exist: " + e.getId()));
+                .filter(s -> !sectionIds.contains(s.getId()))
+                .forEach(s -> errors.reject("Section does not exist: " + s.getId()));
+        sections = sections.stream()
+                .filter(s -> takesSectionIds.contains(s.getId()))
+                .collect(Collectors.toList());
+        sections.stream()
+                .filter(s -> s.getCompleteDate() != null && s.getCompleteDate().getTime() < System.currentTimeMillis())
+                .forEach(s -> errors.reject("Section incomplete: " + s.getId()));
         if (errors.hasErrors()) {
             throw new WebApplicationException(errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getCode)
                     .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);
         }
-        takesSections.stream()
-                .filter(s -> s.getCompleteDate().getTime() < System.currentTimeMillis())
-                .forEach(s -> earnedSkills.addAll(s.getCourse().getTeaches()));
+        sections.forEach(s -> earnedSkills.addAll(s.getCourse().getTeaches()));
         person.setKnownSkills(earnedSkills);
         return personRepository.create(person);
     }

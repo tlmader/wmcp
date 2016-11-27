@@ -26,7 +26,7 @@ public class CareerPlanningController {
     ICareerPlanningService service;
 
     @RequestMapping(value = {"/person/{id}"}, method = RequestMethod.POST)
-    public ResponseEntity<Person> create(@PathVariable("id") String id, @RequestBody Person entity) {
+    public ResponseEntity<Person> addPersonWithQualifications(@PathVariable("id") String id, @RequestBody Person entity) {
         return new ResponseEntity<>(this.service.addPersonWithQualifications(id, entity), HttpStatus.CREATED);
     }
 
