@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Description.
+ * Contains the methods and fields for Specialty entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016

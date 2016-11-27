@@ -3,7 +3,7 @@ package wmcp.api.model;
 import java.io.Serializable;
 
 /**
- * Embeddable class for Works.
+ * Contains the methods and fields for the IdClass for Works entities.
  *
  * @author tlmader.dev@gmail.com
  * @since 11/22/2016
