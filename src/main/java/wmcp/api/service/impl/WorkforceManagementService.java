@@ -38,8 +38,9 @@ public class WorkforceManagementService implements IWorkforceManagementService {
         Job job = jobRepository.get(jobId);
         Person person = personRepository.get(personId);
         List<Skill> knownSkills = person.getKnownSkills();
-        Errors errors = new BeanPropertyBindingResult(knownSkills, "requiredSkills");
-        job.getJobProfile().getRequiredSkills().stream()
+        List<Skill> requiredSkills = job.getJobProfile().getRequiredSkills();
+        Errors errors = new BeanPropertyBindingResult(requiredSkills, "requiredSkills");
+        requiredSkills.stream()
                 .filter(k -> !knownSkills.contains(k))
                 .forEach(u -> errors.reject("Missing skill: " + u.getTitle()));
         if (errors.hasErrors()) {

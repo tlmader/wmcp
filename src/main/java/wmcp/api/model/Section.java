@@ -1,6 +1,7 @@
 package wmcp.api.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Contains the methods and fields for Section entities.
@@ -16,12 +17,12 @@ public class Section extends BaseEntity {
     @Column(name = "sec_no")
     private String id;
     @ManyToOne
-    @Column(name = "c_code")
+    @JoinColumn(name = "c_code")
     private Course course;
     @Column(name = "sec_year")
     private Integer sectionYear;
     @Column(name = "complete_date")
-    private Integer completeDate;
+    private Timestamp completeDate;
     @Column(name = "offered_by")
     private String offeredBy;
     @Column(name = "sec_format")
@@ -33,7 +34,7 @@ public class Section extends BaseEntity {
 
     }
 
-    public Section(String id, Course course, Integer sectionYear, Integer completeDate, String offeredBy, String format, Float price) {
+    public Section(String id, Course course, Integer sectionYear, Timestamp completeDate, String offeredBy, String format, Float price) {
         this.id = id;
         this.course = course;
         this.sectionYear = sectionYear;
@@ -69,11 +70,11 @@ public class Section extends BaseEntity {
         this.sectionYear = sectionYear;
     }
 
-    public Integer getCompleteDate() {
+    public Timestamp getCompleteDate() {
         return completeDate;
     }
 
-    public void setCompleteDate(Integer completeDate) {
+    public void setCompleteDate(Timestamp completeDate) {
         this.completeDate = completeDate;
     }
 

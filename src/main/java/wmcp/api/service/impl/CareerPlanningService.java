@@ -1,11 +1,16 @@
 package wmcp.api.service.impl;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import wmcp.api.model.*;
 import wmcp.api.repository.ICrudRepository;
 import wmcp.api.service.ICareerPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,13 +38,28 @@ public class CareerPlanningService implements ICareerPlanningService {
     ICrudRepository<JobProfile> jobProfileRepository;
     @Autowired
     ICrudRepository<Company> companyRepository;
+    @Autowired
+    ICrudRepository<Section> sectionRepository;
 
     @Override
     public Person addPersonWithQualifications(Person person) {
-//        List<Skill> knownSkills = person.getKnownSkills();
-//        List<Course> completedCourses = person.getTakesCourses().stream()
-//                .filter(c -> c.);
-        return null;
+        List<Skill> earnedSkills = new ArrayList<>();
+        List<Section> sections = sectionRepository.getAll();
+        List<Section> takesSections = person.getTakesSections();
+        Errors errors = new BeanPropertyBindingResult(takesSections, "takesSections");
+        takesSections.stream()
+                .filter(s -> !sections.contains(s))
+                .forEach(e -> errors.reject("Section does not exist: " + e.getId()));
+        if (errors.hasErrors()) {
+            throw new WebApplicationException(errors.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getCode)
+                    .collect(Collectors.joining("\n")), Response.Status.BAD_REQUEST);
+        }
+        takesSections.stream()
+                .filter(s -> s.getCompleteDate().getTime() < System.currentTimeMillis())
+                .forEach(s -> earnedSkills.addAll(s.getCourse().getTeaches()));
+        person.setKnownSkills(earnedSkills);
+        return personRepository.create(person);
     }
 
     @Override

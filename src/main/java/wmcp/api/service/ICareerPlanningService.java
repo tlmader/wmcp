@@ -15,9 +15,9 @@ import java.util.List;
 public interface ICareerPlanningService {
 
     /**
-     * Adds a Person and validates the known Skills are credited by Courses taken.
+     * Adds a Person with a List of known Skills based on completed Sections.
      *
-     * @param person a Person to be added with Skills and Courses
+     * @param person a Person with Sections
      * @return the added Person
      */
     Person addPersonWithQualifications(Person person);
