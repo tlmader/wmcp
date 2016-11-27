@@ -157,10 +157,10 @@ insert into works (per_id, job_code, start_date, end_date) values (1, 700, TO_DA
 insert into works (per_id, job_code, start_date, end_date) values (2, 701, TO_DATE('2014-05-06','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (3, 714, TO_DATE('2010-12-24','YYYY-MM-DD'), TO_DATE('2014-07-14','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (3, 702, TO_DATE('2015-11-24','YYYY-MM-DD'), SYSDATE);
-insert into works (per_id, job_code, start_date, end_date) values (4, 705, TO_DATE('2010-10-28','YYYY-MM-DD'), TO_DATE('2015-9-30','YYYY-MM-DD'));
-insert into works (per_id, job_code, start_date, end_date) values (4, 704, TO_DATE('2014-10-28','YYYY-MM-DD'), NULL);
-insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2014-10-28','YYYY-MM-DD'), TO_DATE('2015-10-11','YYYY-MM-DD'));
-insert into works (per_id, job_code, start_date, end_date) values (4, 730, TO_DATE('2004-10-28','YYYY-MM-DD'), TO_DATE('2010-10-11','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 705, TO_DATE('2009-10-28','YYYY-MM-DD'), TO_DATE('2010-9-30','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 703, TO_DATE('2010-10-28','YYYY-MM-DD'), TO_DATE('2012-10-11','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 730, TO_DATE('2012-10-28','YYYY-MM-DD'), TO_DATE('2015-10-11','YYYY-MM-DD'));
+insert into works (per_id, job_code, start_date, end_date) values (4, 704, TO_DATE('2016-10-28','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (5, 712, TO_DATE('2010-12-24','YYYY-MM-DD'), TO_DATE('2013-07-14','YYYY-MM-DD'));
 insert into works (per_id, job_code, start_date, end_date) values (5, 704, TO_DATE('2014-07-02','YYYY-MM-DD'), NULL);
 insert into works (per_id, job_code, start_date, end_date) values (6, 713, TO_DATE('2010-12-24','YYYY-MM-DD'), TO_DATE('2014-07-0','YYYY-MM-DD'));
