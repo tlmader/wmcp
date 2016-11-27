@@ -17,10 +17,11 @@ public interface ICareerPlanningService {
     /**
      * Adds a Person with a List of known Skills based on completed Sections.
      *
+     * @param id an ID for a Person
      * @param person a Person with Sections
      * @return the added Person
      */
-    Person addPersonWithQualifications(Person person);
+    Person addPersonWithQualifications(String id, Person person);
 
     /**
      * Finds Jobs by a specific primary sector.

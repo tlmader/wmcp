@@ -2,6 +2,7 @@ package wmcp.api.controller;
 
 import wmcp.api.model.Course;
 import wmcp.api.model.Job;
+import wmcp.api.model.Person;
 import wmcp.api.service.ICareerPlanningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public class CareerPlanningController {
 
     @Autowired
     ICareerPlanningService service;
+
+    @RequestMapping(value = {"/person/{id}"}, method = RequestMethod.POST)
+    public ResponseEntity<Person> create(@PathVariable("id") String id, @RequestBody Person entity) {
+        return new ResponseEntity<>(this.service.addPersonWithQualifications(id, entity), HttpStatus.CREATED);
+    }
 
     @RequestMapping(value = {"/jobs/{primarySector}"}, method = RequestMethod.GET)
     public ResponseEntity<List<Job>> findJobsByPrimarySector(@PathVariable("primarySector") String primarySector) {

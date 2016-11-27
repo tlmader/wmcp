@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +39,10 @@ public class CareerPlanningService implements ICareerPlanningService {
     ICrudRepository<Section> sectionRepository;
 
     @Override
-    public Person addPersonWithQualifications(Person person) {
+    public Person addPersonWithQualifications(String id, Person person) {
+        if (!Objects.equals(id, person.getId())) {
+            throw new WebApplicationException("ID must equal 'id' attribute in body", Response.Status.BAD_REQUEST);
+        }
         List<Skill> earnedSkills = new ArrayList<>();
         List<Section> sections = sectionRepository.getAll();
         List<Section> takesSections = person.getTakesSections();
