@@ -349,45 +349,6 @@ insert into teaches (c_code, ks_code) values (26, 9);
 insert into teaches (c_code, ks_code) values (26, 19);
 insert into teaches (c_code, ks_code) values (27, 7);
 insert into teaches (c_code, ks_code) values (27, 8);
---takes
-insert into takes (per_id, c_code, sec_no, sec_year) values (1, 1, 1, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (1, 22, 22, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (2, 6, 6, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (2, 7, 7, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (3, 7, 7, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (3, 3, 3, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (4, 2, 7, 2016);  --TODO: in the future check to see why this is like so
-insert into takes (per_id, c_code, sec_no, sec_year) values (4, 2, 7, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (4, 2, 7, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (4, 16, 1, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (4, 2, 11, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (5, 5, 6, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (6, 6, 5, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (7, 7, 6, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (8, 8, 5, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (9, 9, 13, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (10, 10, 13, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (11, 11, 14, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (11, 11, 14, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (12, 13, 14, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (12, 13, 13, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (13, 13, 12, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (13, 23, 11, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (14, 14, 10, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (15, 15, 9, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (16, 16, 8, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (17, 9, 7, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (17, 15, 6, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (17, 17, 5, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (18, 18, 4, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 3, 4, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 5, 3, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 5, 3, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 8, 2, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 15, 2, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (19, 19, 2, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (20, 3, 1, 2016);
-insert into takes (per_id, c_code, sec_no, sec_year) values (20, 20, 1, 2016);
 
 
 
