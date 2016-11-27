@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-@JsonIgnoreProperties({"jobs, takenCourses, knownSkills"})
+@JsonIgnoreProperties({"jobs, takenSections, knownSkills"})
 public class Person extends BaseEntity {
 
     @Id
@@ -33,14 +33,14 @@ public class Person extends BaseEntity {
     @JsonProperty("jobs")
     @ManyToMany(mappedBy = "persons")
     private List<Job> jobs;
-    @JsonProperty("takesCourses")
+    @JsonProperty("takesSections")
     @ManyToMany
     @JoinTable(
             name = "takes",
             joinColumns = @JoinColumn(name = "per_id"),
-            inverseJoinColumns = @JoinColumn(name = "c_code")
+            inverseJoinColumns = @JoinColumn(name = "sec_no")
     )
-    private List<Course> takesCourses;
+    private List<Section> takesSections;
     @JsonProperty("knownSkills")
     @ManyToMany
     @JoinTable(
@@ -129,12 +129,12 @@ public class Person extends BaseEntity {
         this.knownSkills = knownSkills;
     }
 
-    public List<Course> getTakesCourses() {
-        return takesCourses;
+    public List<Section> getTakesSections() {
+        return takesSections;
     }
 
-    public void setTakesCourses(List<Course> takesCourses) {
-        this.takesCourses = takesCourses;
+    public void setTakesSections(List<Section> takesSections) {
+        this.takesSections = takesSections;
     }
 
     @Override
@@ -151,7 +151,7 @@ public class Person extends BaseEntity {
         if (email != null ? !email.equals(person.email) : person.email != null) return false;
         if (gender != null ? !gender.equals(person.gender) : person.gender != null) return false;
         if (jobs != null ? !jobs.equals(person.jobs) : person.jobs != null) return false;
-        if (takesCourses != null ? !takesCourses.equals(person.takesCourses) : person.takesCourses != null)
+        if (takesSections != null ? !takesSections.equals(person.takesSections) : person.takesSections != null)
             return false;
         return knownSkills != null ? knownSkills.equals(person.knownSkills) : person.knownSkills == null;
     }
@@ -165,7 +165,7 @@ public class Person extends BaseEntity {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (jobs != null ? jobs.hashCode() : 0);
-        result = 31 * result + (takesCourses != null ? takesCourses.hashCode() : 0);
+        result = 31 * result + (takesSections != null ? takesSections.hashCode() : 0);
         result = 31 * result + (knownSkills != null ? knownSkills.hashCode() : 0);
         return result;
     }
