@@ -503,7 +503,7 @@ SELECT *
 
 -- 25. Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.
 WITH works_pay
-  AS (SELECT per_id, works.job_code, start_date,
+  AS (SELECT per_id, works.job_code, start_date, end_date,
         CASE pay_type
         WHEN 'wage'
           THEN pay_rate * 1920
@@ -518,7 +518,7 @@ WITH works_pay
              AND primary_sector = 'Food'),
 works_ordered
   AS (SELECT job_code, per_id, pay,
-             ROW_NUMBER() OVER (ORDER BY start_date ASC, per_id) AS rn
+             ROW_NUMBER() OVER (ORDER BY per_id, end_date ASC, start_date ASC) AS rn
         FROM works_pay),
 works_delta_pay
   AS (SELECT w1.per_id AS per_id, w1.job_code, w1.pay, w2.job_code, w2.pay,
@@ -527,7 +527,7 @@ works_delta_pay
         INNER JOIN works_ordered w2
         ON w1.rn + 1 = w2.rn
            AND w1.per_id = w2.per_id)
-SELECT AVG(delta_pay) AS average_rate
+SELECT ROUND(AVG(delta_pay), 2) AS average_rate
   FROM works_delta_pay;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
