@@ -26,15 +26,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(WebApplicationException.class)
     protected ResponseEntity<Object> handleWebApplicationException(WebApplicationException ex, WebRequest request) {
-        String description = "WebApplicationException occurred:: " + request.getDescription(false);
+        String description = "WebApplicationException occurred:\n" + ex.getMessage();
         logger.info(description);
-        return handleExceptionInternal(ex, request, new HttpHeaders(),
+        return handleExceptionInternal(ex, description, new HttpHeaders(),
                 HttpStatus.valueOf(ex.getResponse().getStatus()), request);
     }
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<Object> handleSQLException(SQLException ex, WebRequest request) {
-        String description = "SQLException occurred:: " + request.getDescription(false);
+        String description = "SQLException occurred:\n" + ex.getMessage();
         logger.info(description);
         return handleExceptionInternal(ex, description, new HttpHeaders(),
                 HttpStatus.BAD_REQUEST, request);

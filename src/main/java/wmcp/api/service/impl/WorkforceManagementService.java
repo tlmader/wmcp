@@ -41,7 +41,7 @@ public class WorkforceManagementService implements IWorkforceManagementService {
         Errors errors = new BeanPropertyBindingResult(knownSkills, "requiredSkills");
         job.getJobProfile().getRequiredSkills().stream()
                 .filter(k -> !knownSkills.contains(k))
-                .forEach(u -> errors.reject("Missing skill: " + u.toString()));
+                .forEach(u -> errors.reject("Missing skill: " + u.getTitle()));
         if (errors.hasErrors()) {
             throw new WebApplicationException(errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getCode)

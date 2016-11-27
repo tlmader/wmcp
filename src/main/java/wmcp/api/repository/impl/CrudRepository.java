@@ -60,12 +60,13 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     @Override
     @Transactional
     public T create(T entity) {
-        if (entity.getId() == null) {
-            throw new WebApplicationException(typeName + " ID is null", Response.Status.BAD_REQUEST);
-        } else if (get(entity.getId()) != null) {
-            throw new WebApplicationException(typeName + " ID in use", Response.Status.CONFLICT);
+        String id = entity.getId();
+        if (id == null) {
+            throw new WebApplicationException(typeName + " ID " + id + " is null", Response.Status.BAD_REQUEST);
+        } else if (get(id) != null) {
+            throw new WebApplicationException(typeName + " ID " + id + " in use", Response.Status.CONFLICT);
         }
-        entity.setId(entity.getId().toLowerCase());
+        entity.setId(id.toLowerCase());
         Session session = getSession();
         session.save(entity);
         return entity;
@@ -74,9 +75,10 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     @Override
     @Transactional
     public T update(T entity) {
-        T found = get(entity.getId());
+        String id = entity.getId();
+        T found = get(id);
         if (found == null) {
-            throw new WebApplicationException(typeName + " not found", Response.Status.NOT_FOUND);
+            throw new WebApplicationException(typeName + " with ID " + id + " not found", Response.Status.NOT_FOUND);
         }
         setFields.accept(found, entity);
         Session session = getSession();
@@ -89,7 +91,7 @@ abstract class CrudRepository<T extends BaseEntity> implements ICrudRepository<T
     public void delete(String id) {
         T found = get(id);
         if (found == null) {
-            throw new WebApplicationException(typeName + " not found", Response.Status.NOT_FOUND);
+            throw new WebApplicationException(typeName + " with ID " + id + " not found", Response.Status.NOT_FOUND);
         }
         Session session = getSession();
         session.delete(found);
