@@ -504,27 +504,31 @@ SELECT *
 -- 25. Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.
 WITH works_pay
   AS (SELECT per_id, works.job_code, start_date,
-             CASE pay_type
-             WHEN 'wage'
-             THEN pay_rate * 1920
-             WHEN 'salary'
-             THEN pay_rate * 1920 / 2080
-              END AS pay
-        FROM works
-             INNER JOIN job
-             ON works.job_code = job.job_code
-             INNER JOIN company
-             ON job.comp_id = company.comp_id
-                AND primary_sector = 'Technology'),
-per_delta_pay
-  AS (SELECT w1.per_id AS per_id, (w2.pay - w1.pay) AS delta_pay
-        FROM works_pay w1
-             INNER JOIN works_pay w2
-             ON w1.per_id = w2.per_id
-                AND w1.start_date < w2.start_date)
+        CASE pay_type
+        WHEN 'wage'
+          THEN pay_rate * 1920
+        WHEN 'salary'
+          THEN pay_rate * 1920 / 2080
+        END AS pay
+      FROM works
+        INNER JOIN job
+          ON works.job_code = job.job_code
+        INNER JOIN company
+          ON job.comp_id = company.comp_id
+             AND primary_sector = 'Food'),
+works_ordered
+  AS (SELECT job_code, per_id, pay,
+             ROW_NUMBER() OVER (ORDER BY start_date ASC, per_id) AS rn
+        FROM works_pay),
+works_delta_pay
+  AS (SELECT w1.per_id AS per_id, w1.job_code, w1.pay, w2.job_code, w2.pay,
+             (w2.pay - w1.pay) AS delta_pay
+        FROM works_ordered w1
+        INNER JOIN works_ordered w2
+        ON w1.rn + 1 = w2.rn
+           AND w1.per_id = w2.per_id)
 SELECT AVG(delta_pay) AS average_rate
-  FROM per_delta_pay
- GROUP BY per_id;
+  FROM works_delta_pay;
 
 -- 26. Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.
 WITH current_works
