@@ -21,14 +21,14 @@ Given:
 	nothing to give
 
 Expected:
+	comp_name = Eaton Foods
+	labor_cost = $259,908.26  
+
 	comp_name = Tosh Incorporated
 	labor_cost = $249,428.27
 
 	comp_name = Vague Electric
-	labor_cost = $209,717.1    
-
-	comp_name = Eaton Foods
-	labor_cost = $88,401.45    
+	labor_cost = $209,717.1      
 
 	comp_name = Mader Machinery                  
 	labor_cost = $77,563.28  
@@ -44,11 +44,11 @@ Expected:
 	job_code = 703
 	jp_title = Game Dev
 
-	job_code = 705
-	jp_title = Network Admin
-
 	job_code = 704 
 	jp_title = Lead Developer
+
+	job_code = 705
+	jp_title = Network Admin
 
 	job_code = 730
 	jp_title = Special
@@ -58,11 +58,11 @@ Given:
 	per_id = 3
 
 Expected:
-	ks_title = C++
-	description = Competency in C++ programming language
-
 	ks_title = Amazon Web Services
 	description = Knowledge in services such as S3
+
+	ks_title = C++
+	description = Competency in C++ programming language
 
 	ks_title = Server Administration
 	description = Knowledge in server administration
@@ -82,11 +82,11 @@ Given:
 	jp_code = 002
 
 Expected:
+	ks_title = Assembly
 	ks_title = C
 	ks_title = C++
 	ks_title = Application Architecture
-	ks_title = Assembly
-	
+		
 #8
 Given:
 	job_code = 702
@@ -94,7 +94,7 @@ Given:
 
 Expected:
 	ks_title = Amazon Web Services
-	ks_title = Server Security
+	ks_title = System Security
 	ks_title = CRUD
 	ks_title = Spring Framework
 	ks_title = Server Architecture
@@ -167,7 +167,7 @@ Given:
 	jp_code = 006
 
 Expected:
-	c_code = 20
+	c_code = 2
 	c_title = Database SQL
 	cost = $1834.04
 
@@ -203,10 +203,10 @@ Given:
 	per_id = 4
 
 Expected:
-	jp_code = 5
-	jp_title = Game Dev
 	jp_code = 2
 	jp_title = Operating System Developer
+	jp_code = 5
+	jp_title = Game Dev
 	jp_code = 13
 	jp_title = Special
 
@@ -305,6 +305,9 @@ Expected:
 
 	person_name = Andrew Turner
 	missing_ks_count = 3
+
+	person_name = Jason Stevens
+	missing_ks_count = 3
 	
 	person_name = Michael Fisher
 	missing_ks_count = 3
@@ -313,9 +316,6 @@ Expected:
 	missing_ks_count = 3
 		
 	person_name = Michael Velez
-	missing_ks_count = 3
-	
-	person_name = Jason Stevens
 	missing_ks_count = 3
 
 	person_name = Jason Little
@@ -386,16 +386,16 @@ Expected:
 	person_name = Jason Stevens
 	missing_ks_count = 2
 
-	person_name = Jason Little
+	person_name = Michael Fisher
 	missing_ks_count = 3
-	
+
 	person_name = Andrew Turner
 	missing_ks_count = 3
 
 	person_name = Michael Velez
 	missing_ks_count = 3
-	
-	person_name = Michael Fisher
+
+	person_name = Jason Little
 	missing_ks_count = 3
 
 #20 TODO: Needs Work
@@ -429,18 +429,27 @@ Expected:
 Given:
 	none to give
 Expected:
-	comp_name = Vague Electric
+	comp_name = Eaton Foods
 
 #24
 Given:
 	none to give
 Expected:
-	primary_sector = Business Sector
+	primary_sector = Business
 
 #25 TODO: Needs Work
 Given:
+	primary_sector = ‘Corporation’
 
 Expected:
+	average_rate = 59838.4
+
+(b)
+Given:
+	primary_sector = ‘Food’
+
+Expected:
+	average_rate = -55969.92
 
 #26 
 Given:
@@ -473,9 +482,6 @@ Expected:
 	c_code = 19 
 	c_title = Server Architecture Overview
 
-	c_code = 20
-	c_title = Industrial Cloud Development
-
 	c_code = 23
 	c_title Essentials in Debugging
 
@@ -488,7 +494,7 @@ Expected:
 	c_code = 27
 	c_title = C++ and Architecture
 
-
+ 
 #28 TODO: Needs Work
 Given:
 
