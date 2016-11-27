@@ -49,7 +49,7 @@ public class WorksRepository implements IWorksRepository {
         if (personId == null || jobId == null) {
             throw new WebApplicationException("One or more entities are null", Response.Status.BAD_REQUEST);
         } else if (get(personId, jobId) != null) {
-            throw new WebApplicationException("Person to Job association exists", Response.Status.CONFLICT);
+            throw new WebApplicationException("Association exists with Person ID " + personId + " and Job ID " + jobId, Response.Status.CONFLICT);
         }
         Works works = new Works(personId, jobId);
         Session session = sessionFactory.getCurrentSession();
