@@ -10,16 +10,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "section")
-@IdClass(SectionId.class)
-public class Section {
+public class Section extends BaseEntity {
 
     @Id
-    @Column(name = "c_code")
-    private String courseId;
-    @Id
     @Column(name = "sec_no")
-    private String sectionId;
-    @Id
+    private String id;
+    @ManyToOne
+    @Column(name = "c_code")
+    private Course course;
     @Column(name = "sec_year")
     private Integer sectionYear;
     @Column(name = "complete_date")
@@ -35,9 +33,9 @@ public class Section {
 
     }
 
-    public Section(String courseId, String sectionId, Integer sectionYear, Integer completeDate, String offeredBy, String format, Float price) {
-        this.courseId = courseId;
-        this.sectionId = sectionId;
+    public Section(String id, Course course, Integer sectionYear, Integer completeDate, String offeredBy, String format, Float price) {
+        this.id = id;
+        this.course = course;
         this.sectionYear = sectionYear;
         this.completeDate = completeDate;
         this.offeredBy = offeredBy;
@@ -45,20 +43,22 @@ public class Section {
         this.price = price;
     }
 
-    public String getCourseId() {
-        return courseId;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
-    public String getSectionId() {
-        return sectionId;
+    @Override
+    public String getId() {
+        return id;
     }
 
-    public void setSectionId(String sectionId) {
-        this.sectionId = sectionId;
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Integer getSectionYear() {
@@ -108,8 +108,8 @@ public class Section {
 
         Section section = (Section) o;
 
-        if (courseId != null ? !courseId.equals(section.courseId) : section.courseId != null) return false;
-        if (sectionId != null ? !sectionId.equals(section.sectionId) : section.sectionId != null) return false;
+        if (id != null ? !id.equals(section.id) : section.id != null) return false;
+        if (course != null ? !course.equals(section.course) : section.course != null) return false;
         if (sectionYear != null ? !sectionYear.equals(section.sectionYear) : section.sectionYear != null) return false;
         if (completeDate != null ? !completeDate.equals(section.completeDate) : section.completeDate != null)
             return false;
@@ -120,8 +120,8 @@ public class Section {
 
     @Override
     public int hashCode() {
-        int result = courseId != null ? courseId.hashCode() : 0;
-        result = 31 * result + (sectionId != null ? sectionId.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (course != null ? course.hashCode() : 0);
         result = 31 * result + (sectionYear != null ? sectionYear.hashCode() : 0);
         result = 31 * result + (completeDate != null ? completeDate.hashCode() : 0);
         result = 31 * result + (offeredBy != null ? offeredBy.hashCode() : 0);
