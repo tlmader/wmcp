@@ -90,15 +90,15 @@ insert into required_skill (jp_code, ks_code) values (012, 21);
 insert into required_skill (jp_code, ks_code) values (013, 17);
 --company
 insert into company (comp_id, comp_name, address, primary_sector, website) values (1, 'Vague Electric', '52512 Red Cloud Lane', 'Electric', 'www.Vauge.com');
-insert into company (comp_id, comp_name, address, primary_sector, website) values (2, 'Tosh Incorporated', '9 Hollow Ridge Way', 'Bussiness', 'www.Tosh.com');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (2, 'Tosh Incorporated', '9 Hollow Ridge Way', 'Corporation', 'www.Tosh.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (3, 'Mader Machinery', '4733 Dovetail Center', 'Machinery', 'www.MaderMachinery.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (4, 'Eaton Foods', '79 Lake View Court', 'Food', 'www.EatonFoods.come');
-insert into company (comp_id, comp_name, address, primary_sector, website) values (5, 'The Government', '935 Birchwood Point', 'Public Sector', 'www.Government.gov');
-insert into company (comp_id, comp_name, address, primary_sector, website) values (6, 'The Company', '82 Del Mar Circle', 'Business Sector', 'www.TheCompany.com');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (5, 'The Government', '935 Birchwood Point', 'Public', 'www.Government.gov');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (6, 'The Company', '82 Del Mar Circle', 'Business', 'www.TheCompany.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (7, 'Putin Power Industrial', '45 Lakeland Point', 'Power', 'www.PPI.come');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (8, 'Joshua Junction', '77863 Macpherson Avenue', 'Transportation', 'www.JoshuaJunct.com');
 insert into company (comp_id, comp_name, address, primary_sector, website) values (9, 'Ted Technology', '21975 Alpine Lane', 'Technology', 'www.TedTech.com');
-insert into company (comp_id, comp_name, address, primary_sector, website) values (10, 'Jed Industrial', '924 Maryland Trail', 'Industrial Technology', 'www.JedInd.com');
+insert into company (comp_id, comp_name, address, primary_sector, website) values (10, 'Jed Industrial', '924 Maryland Trail', 'Industrial', 'www.JedInd.com');
 --job
 insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (700, 001, 1, 'Full Time', 106693.07, 'salary');
 insert into Job (job_code, jp_code, comp_id, type, pay_rate, pay_type) values (701, 002, 1, 'Full Time', 120500.45, 'salary');
