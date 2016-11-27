@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "wmcp.api",
-		"_postman_id": "f11b76ee-66b8-8d2b-5f68-5913b2516598",
+		"_postman_id": "e98b1a0c-28d1-9bc4-f01c-3b37f00f74ca",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -285,7 +285,9 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";"
+									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";",
+									"",
+									"tests[\"Row 2, person_name is 'Justin Ryan'\"] = jsonData[1].name ===\"Justin Ryan\";"
 								]
 							}
 						}
@@ -312,8 +314,10 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].person_name === \"Mary Mills\";",
-									"tests[\"Row 1, pay_rate is '106693.07'\"] = jsonData[0].pay_rate === 106693.07;"
+									"tests[\"Row 1, person_name is 'Justin Ryan'\"] = jsonData[0].person_name === \"Justin Ryan\";",
+									"tests[\"Row 1, pay_rate is '120500.45'\"] = jsonData[0].pay_rate === 120500.45;",
+									"tests[\"Row 2, person_name is 'Mary Mills'\"] = jsonData[1].person_name === \"Mary Mills\";",
+									"tests[\"Row 2, pay_rate is '106693.07'\"] = jsonData[1].pay_rate === 106693.07;"
 								]
 							}
 						}
@@ -340,20 +344,20 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, comp_name is 'Tosh Incorporated'\"] = jsonData[0].comp_name === \"Tosh Incorporated\";",
-									"tests[\"Row 1, labor_cost is '314304.01'\"] = jsonData[0].labor_cost === 314304.01;",
+									"tests[\"Row 1, comp_name is 'Eaton Foods'\"] = jsonData[0].comp_name === \"Eaton Foods\";",
+									"tests[\"Row 1, labor_cost is '$259,908.26'\"] = jsonData[0].labor_cost === 259908.26;",
 									"",
-									"tests[\"Row 2, comp_name is 'Vauge Electric'\"] = jsonData[1].comp_name === \"Vauge Electric\";",
-									"tests[\"Row 2, labor_cost is '98485.91'\"] = jsonData[1].labor_cost === 98485.91;",
+									"tests[\"Row 2, comp_name is 'Tosh Incorporated'\"] = jsonData[1].comp_name === \"Tosh Incorporated\";",
+									"tests[\"Row 2, labor_cost is '$249,428.27'\"] = jsonData[1].labor_cost === 249428.27;",
 									"",
-									"tests[\"Row 3, comp_name is 'Eaton Foods'\"] = jsonData[2].comp_name === \"Eaton Foods\";",
-									"tests[\"Row 3, labor_cost is '88401.45'\"] = jsonData[2].labor_cost === 88401.45;",
+									"tests[\"Row 3, comp_name is 'Vague Electric'\"] = jsonData[2].comp_name === \"Vague Electric\";",
+									"tests[\"Row 3, labor_cost is '$209,717.1'\"] = jsonData[2].labor_cost === 209717.1;",
 									"",
 									"tests[\"Row 4, comp_name is 'Mader Machinery'\"] = jsonData[3].comp_name === \"Mader Machinery\";",
-									"tests[\"Row 4, labor_cost is '77563.28'\"] = jsonData[3].labor_cost === 77563.28;",
+									"tests[\"Row 4, labor_cost is '$77,563.28'\"] = jsonData[3].labor_cost === 77563.28;",
 									"",
 									"tests[\"Row 5, comp_name is 'The Government'\"] = jsonData[4].comp_name === \"The Government\";",
-									"tests[\"Row 5, labor_cost is '63675.85'\"] = jsonData[4].labor_cost === 63675.85;"
+									"tests[\"Row 5, labor_cost is '$63,675.85'\"] = jsonData[4].labor_cost === 63675.85;"
 								]
 							}
 						}
@@ -383,11 +387,15 @@
 									"tests[\"Row 1, job_code is '703'\"] = jsonData[0].job_code === \"703\";",
 									"tests[\"Row 1, jp_title is 'Game Dev'\"] = jsonData[0].jp_title === \"Game Dev\";",
 									"",
-									"tests[\"Row 2, job_code is '705'\"] = jsonData[1].job_code === \"705\";",
-									"tests[\"Row 2, jp_title is 'Network Admin'\"] = jsonData[1].jp_title === \"Network Admin\";",
 									"",
-									"tests[\"Row 3, job_code is '704'\"] = jsonData[2].job_code === \"704\";",
-									"tests[\"Row 3, jp_title is 'Lead Developer'\"] = jsonData[2].jp_title === \"Lead Developer\";"
+									"tests[\"Row 2, job_code is '704'\"] = jsonData[1].job_code === \"704\";",
+									"tests[\"Row 2, jp_title is 'Lead Developer'\"] = jsonData[1].jp_title === \"Lead Developer\";",
+									"",
+									"tests[\"Row 3, job_code is '705'\"] = jsonData[2].job_code === \"705\";",
+									"tests[\"Row 3, jp_title is 'Network Admin'\"] = jsonData[2].jp_title === \"Network Admin\";",
+									"",
+									"tests[\"Row 4, job_code is '730'\"] = jsonData[3].job_code === \"730\";",
+									"tests[\"Row 4, jp_title is 'Special'\"] = jsonData[3].jp_title === \"Special\";"
 								]
 							}
 						}
@@ -424,7 +432,10 @@
 									"tests[\"row 1, description is 'Knowledge in services such as S3'\"] = jsonData[0].description === \"Knowledge in services such as S3\";",
 									"",
 									"tests[\"row 2, ks_title is 'C++'\"] = jsonData[1].ks_title === \"C++\";",
-									"tests[\"row 2, description is 'Competency in C++ programming language'\"] = jsonData[1].description === \"Competency in C++ programming language\";"
+									"tests[\"row 2, description is 'Competency in C++ programming language'\"] = jsonData[1].description === \"Competency in C++ programming language\";",
+									"",
+									"tests[\"row 3, ks_title is 'Server Administration'\"] = jsonData[2].ks_title === \"Server Administration\";",
+									"tests[\"row 3, description is 'Knowledge in server administration'\"] = jsonData[2].description === \"Knowledge in server administration\";"
 								]
 							}
 						}
@@ -449,7 +460,11 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Body matches string\"] = responseBody.has(\"Mary Mills\");"
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"Row 1, job_code is '704'\"] = jsonData[0].job_code === \"704\";",
+									"tests[\"Row 1, jp_title is 'Lead Developer'\"] = jsonData[0].jp_title === \"Lead Developer\";",
+									"tests[\"Row 1, ks_title is 'Debugging'\"] = jsonData[0].ks_title === \"Debugging\";"
 								]
 							}
 						}
@@ -517,13 +532,15 @@
 									"",
 									"tests[\"Row 1, ks_title is 'Amazon Web Services'\"] = jsonData[0].ks_title === \"Amazon Web Services\";",
 									"",
-									"tests[\"Row 2, ks_title is 'CRUD'\"] = jsonData[1].ks_title === \"CRUD\";",
+									"tests[\"Row 2, ks_title is 'System Security'\"] = jsonData[1].ks_title === \"System Security\";",
 									"",
-									"tests[\"Row 3, ks_title is 'Application Architecture'\"] = jsonData[2].ks_title === \"Application Architecture\";",
+									"tests[\"Row 3, ks_title is 'CRUD'\"] = jsonData[2].ks_title === \"CRUD\";",
 									"",
-									"tests[\"Row 4, ks_title is 'System Security'\"] = jsonData[3].ks_title === \"System Security\";",
+									"tests[\"Row 4, ks_title is 'Spring Framework'\"] = jsonData[3].ks_title === \"Spring Framework\";",
 									"",
-									"tests[\"Row 5, ks_title is 'Server Architecture'\"] = jsonData[4].ks_title === \"Server Architecture\";"
+									"tests[\"Row 5, ks_title is 'Server Architecture'\"] = jsonData[4].ks_title === \"Server Architecture\";",
+									"",
+									"tests[\"Row 6, ks_title is 'Application Architecture'\"] = jsonData[5].ks_title === \"Application Architecture\";"
 								]
 							}
 						}
@@ -545,7 +562,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
+							"raw": "SELECT DISTINCT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
 						},
 						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven:\n  job_code = 702\n  per_id <> 6\n  \nExpected:\n  ks_title = Amazon Web Services\n  ks_title = CRUD\n  ks_title = Application Architecture\n  ks_title = Server Security\n  ks_title = Server Architecture"
 					},
@@ -561,11 +578,11 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, ks_title is 'HTML'\"] = jsonData[0].ks_title === \"HTML\";",
+									"tests[\"Row 1, ks_title is 'Angular'\"] = jsonData[0].ks_title === \"Angular\";",
 									"",
-									"tests[\"Row 2, ks_title is 'Angular'\"] = jsonData[1].ks_title === \"Angular\";",
+									"tests[\"Row 2, ks_title is 'Jquery'\"] = jsonData[1].ks_title === \"Jquery\";",
 									"",
-									"tests[\"Row 3, ks_title is 'Jquery'\"] = jsonData[2].ks_title === \"Jquery\";",
+									"tests[\"Row 3, ks_title is 'HTML'\"] = jsonData[2].ks_title === \"HTML\";",
 									"",
 									"tests[\"Row 4, ks_title is 'CSS'\"] = jsonData[3].ks_title === \"CSS\";"
 								]
@@ -589,7 +606,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
+							"raw": "SELECT DISTINCT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
 						},
 						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven: \n  job_code = 710\n  per_id <> 20\nExpected:\n  ks_title = HTML\n  ks_title = Angular\n  ks_title = Jquery\n  ks_title = CSS"
 					},
@@ -605,14 +622,14 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"20\";",
-									"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Industrial Cloud Development\";"
+									"tests[\"Row 1, c_code is '2'\"] = jsonData[0].c_code === \"2\";",
+									"tests[\"Row 1, c_title is 'Database SQL'\"] = jsonData[0].c_title === \"Database SQL\";"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title?per_id=2&jp_code=1",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title?per_id=1&jp_code=9",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -633,14 +650,17 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"2\";",
-									"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Database SQL\";"
+									"tests[\"Row 1, c_code is '2'\"] = jsonData[0].c_code === \"2\";",
+									"tests[\"Row 1, c_title is 'Database SQL'\"] = jsonData[0].c_title === \"Database SQL\";",
+									"",
+									"tests[\"Row 2, c_code is '17'\"] = jsonData[1].c_code === \"17\";",
+									"tests[\"Row 2, c_title is 'Leadership Skills'\"] = jsonData[1].c_title === \"Leadership Skills\";"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title?per_id=18&jp_code=9",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title?per_id=18&jp_code=13",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -661,10 +681,10 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"24\";",
-									"tests[\"Row 1, sec_no is '20'\"] = jsonData[0].sec_no === \"24\";",
-									"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Back End Basics\";",
-									"tests[\"Row 1, complete_date is 'Industrial Cloud Development'\"] = jsonData[0].complete_date === 1478671200000;"
+									"tests[\"Row 1, c_code is '24'\"] = jsonData[0].c_code === \"24\";",
+									"tests[\"Row 1, c_title is 'Back End Basics'\"] = jsonData[0].c_title === \"Back End Basics\";",
+									"tests[\"Row 1, sec_no is '24'\"] = jsonData[0].sec_no === \"24\";",
+									"tests[\"Row 1, complete_date is '09-NOV-16'\"] = jsonData[0].complete_date === 1478671200000;"
 								]
 							}
 						}
@@ -703,9 +723,9 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"tests[\"Row 1, c_code is '20'\"] = jsonData[0].c_code === \"20\";",
-									"tests[\"Row 1, sec_no is '20'\"] = jsonData[0].sec_no === \"20\";",
 									"tests[\"Row 1, c_title is 'Industrial Cloud Development'\"] = jsonData[0].c_title === \"Industrial Cloud Development\";",
-									"tests[\"Row 1, complete_date is 'Industrial Cloud Development'\"] = jsonData[0].complete_date === 1460178000000;"
+									"tests[\"Row 1, sec_no is '20'\"] = jsonData[0].sec_no === \"20\";",
+									"tests[\"Row 1, complete_date is '09-APRIL-16'\"] = jsonData[0].complete_date === 1460178000000;"
 								]
 							}
 						}
@@ -744,8 +764,9 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"tests[\"Row 1, c_code is '27'\"] = jsonData[0].c_code === \"27\";",
-									"tests[\"Row 1, cost is '1500.82'\"] = jsonData[0].cost === 1500.82;",
-									"tests[\"Row 1, c_title is 'C++ and Architecture'\"] = jsonData[0].c_title === \"C++ and Architecture\";"
+									"tests[\"Row 1, c_title is 'C++ and Architecture'\"] = jsonData[0].c_title === \"C++ and Architecture\";",
+									"tests[\"Row 1, cost is '$1500.82'\"] = jsonData[0].cost === 1500.82;",
+									""
 								]
 							}
 						}
@@ -772,15 +793,17 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, c_code is '27'\"] = jsonData[0].c_code === \"27\";",
-									"tests[\"Row 1, cost is '1500.82'\"] = jsonData[0].cost === 1500.82;",
-									"tests[\"Row 1, c_title is 'C++ and Architecture'\"] = jsonData[0].c_title === \"C++ and Architecture\";"
+									"tests[\"Row 1, c_code is '2'\"] = jsonData[0].c_code === \"2\";",
+									"tests[\"Row 1, c_title is Database SQL\"] = jsonData[0].c_title ===",
+									"\"Database SQL\";",
+									"tests[\"Row 1, cost is '$1834.04'\"] = jsonData[0].cost === 1834.04;",
+									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title,cost?per_id=16&jp_code=5",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/c_code,c_title,cost?per_id=20&jp_code=6",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -801,15 +824,12 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, course_1 is '15'\"] = jsonData[0].course_1 === \"15\";",
-									"tests[\"Row 1, course_2 is '26\"] = jsonData[0].course_2 === \"26\";",
+									"tests[\"Row 1, course_1 is '15'\"] = jsonData[0].course_1 === \"19\";",
+									"tests[\"Row 1, course_2 is '26'\"] = jsonData[0].course_2 === \"26\";",
 									"tests[\"Row 1, course_3 is ' '\"] = jsonData[0].course_3 === \" \";",
-									"tests[\"Row 1, total_cost is '3046.86'\"] = jsonData[0].total_cost === 3046.86;",
+									"tests[\"Row 1, total_cost is '$2,746.51'\"] = jsonData[0].total_cost === 2746.51;",
 									"",
-									"tests[\"Row 2, course_1 is '15'\"] = jsonData[1].course_1 === \"15\";",
-									"tests[\"Row 2, course_2 is '26\"] = jsonData[1].course_2 === \"19\";",
-									"tests[\"Row 2, course_3 is null\"] = jsonData[1].course_3 === \"26\";",
-									"tests[\"Row 2, total_cost is '3046.86'\"] = jsonData[1].total_cost === 4580.55;"
+									""
 								]
 							}
 						}
@@ -837,19 +857,19 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"tests[\"Row 1, course_1 is '2'\"] = jsonData[0].course_1 === \"2\";",
-									"tests[\"Row 1, course_2 is '24\"] = jsonData[0].course_2 === \"24\";",
+									"tests[\"Row 1, course_2 is '24'\"] = jsonData[0].course_2 === \"24\";",
 									"tests[\"Row 1, course_3 is ' '\"] = jsonData[0].course_3 === \" \";",
-									"tests[\"Row 1, total_cost is '2852.68'\"] = jsonData[0].total_cost === 2852.68;",
+									"tests[\"Row 1, total_cost is '$2852.68'\"] = jsonData[0].total_cost === 2852.68;",
 									"",
 									"tests[\"Row 2, course_1 is '2'\"] = jsonData[1].course_1 === \"2\";",
-									"tests[\"Row 2, course_2 is '22\"] = jsonData[1].course_2 === \"22\";",
-									"tests[\"Row 2, course_3 is ' \"] = jsonData[1].course_3 === \" \";",
-									"tests[\"Row 2, total_cost is '3013.27'\"] = jsonData[1].total_cost === 3013.27;",
+									"tests[\"Row 2, course_2 is '22'\"] = jsonData[1].course_2 === \"22\";",
+									"tests[\"Row 2, course_3 is ' '\"] = jsonData[1].course_3 === \" \";",
+									"tests[\"Row 2, total_cost is '$3013.27'\"] = jsonData[1].total_cost === 3013.27;",
 									"",
 									"tests[\"Row 3, course_1 is '2'\"] = jsonData[2].course_1 === \"2\";",
-									"tests[\"Row 3, course_2 is '22\"] = jsonData[2].course_2 === \"22\";",
-									"tests[\"Row 3, course_3 is 24\"] = jsonData[2].course_3 === \"24\";",
-									"tests[\"Row 3, total_cost is '4031.91'\"] = jsonData[2].total_cost === 4031.91;"
+									"tests[\"Row 3, course_2 is '22'\"] = jsonData[2].course_2 === \"22\";",
+									"tests[\"Row 3, course_3 is '24'\"] = jsonData[2].course_3 === \"24\";",
+									"tests[\"Row 3, total_cost is '$4031.91'\"] = jsonData[2].total_cost === 4031.91;"
 								]
 							}
 						}
@@ -878,6 +898,8 @@
 									"",
 									"tests[\"Row 1, jp_title is 'Cloud Developer'\"] = jsonData[0].jp_title === \"Cloud Developer\";",
 									"tests[\"Row 1, jp_code is '1'\"] = jsonData[0].jp_code === \"1\";",
+									"",
+									"",
 									""
 								]
 							}
@@ -905,15 +927,22 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, jp_title is 'Game Dev'\"] = jsonData[0].jp_title === \"Game Dev\";",
-									"tests[\"Row 1, jp_code is '5'\"] = jsonData[0].jp_code === \"5\";",
+									"tests[\"Row 1, jp_title is 'Operating System Developer'\"] = jsonData[0].jp_title === \"Operating System Developer\";",
+									"tests[\"Row 1, jp_code is '2'\"] = jsonData[0].jp_code === \"2\";",
+									"",
+									"tests[\"Row 2, jp_title is 'Game Dev'\"] = jsonData[1].jp_title === \"Game Dev\";",
+									"tests[\"Row 2, jp_code is '5'\"] = jsonData[1].jp_code === \"5\";",
+									"",
+									"tests[\"Row 2, jp_title is 'Special'\"] = jsonData[2].jp_title === \"Special\";",
+									"tests[\"Row 2, jp_code is '13'\"] = jsonData[2].jp_code === \"13\";",
+									"",
 									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/jp_code,jp_title?per_id=2",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/jp_code,jp_title?per_id=4",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -935,7 +964,7 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"tests[\"Row 1, jp_code is '700'\"] = jsonData[0].jp_code === \"700\";",
-									"tests[\"Row 1, pay is '98485.91'\"] = jsonData[0].pay === 98485.91;",
+									"tests[\"Row 1, pay is '$98,485.91'\"] = jsonData[0].pay === 98485.91;",
 									""
 								]
 							}
@@ -964,7 +993,7 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"tests[\"Row 1, jp_code is '712'\"] = jsonData[0].jp_code === \"712\";",
-									"tests[\"Row 1, pay is '119060.46'\"] = jsonData[0].pay === 119060.46;",
+									"tests[\"Row 1, pay is '$119,060.46'\"] = jsonData[0].pay === 119060.46;",
 									""
 								]
 							}
@@ -992,23 +1021,17 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
-									"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+									"tests[\"Row 1, person_name is 'Wayne Coleman'\"] = jsonData[0].person_name === \"Wayne Coleman\";",
+									"tests[\"Row 1, email is 'wcolemana@wp.com'\"] = jsonData[0].email === \"wcolemana@wp.com\";",
 									"",
-									"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
-									"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+									"tests[\"Row 2, person_name is 'Craig Hall'\"] = jsonData[1].person_name === \"Craig Hall\";",
+									"tests[\"Row 2, email is 'challc@fastcompany.com'\"] = jsonData[1].email === \"challc@fastcompany.com\";",
 									"",
-									"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
-									"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
+									"tests[\"Row 3, person_name is 'John Ramos'\"] = jsonData[2].person_name === \"John Ramos\";",
+									"tests[\"Row 3, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[2].email === \"jramosd@odnoklassniki.ru\";",
 									"",
-									"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
-									"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
-									"",
-									"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
-									"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
-									"",
-									"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
-									"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+									"tests[\"Row 4, person_name is 'Carl Crawford'\"] = jsonData[3].person_name === \"Carl Crawford\";",
+									"tests[\"Row 4, email is 'ccrawfordb@linkedin.com'\"] = jsonData[3].email === \"ccrawfordb@linkedin.com\";"
 								]
 							}
 						}
@@ -1035,23 +1058,14 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
-									"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+									"tests[\"Row 1, person_name is 'Martin Ross'\"] = jsonData[0].person_name === \"Martin Ross\";",
 									"",
-									"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
-									"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+									"tests[\"Row 2, person_name is 'John Ramos'\"] = jsonData[1].person_name === \"John Ramos\";",
 									"",
-									"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
-									"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
+									"tests[\"Row 3, person_name is 'Mary Mills'\"] = jsonData[2].person_name === \"Mary Mills\";",
 									"",
-									"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
-									"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
-									"",
-									"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
-									"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
-									"",
-									"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
-									"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+									"tests[\"Row 4, person_name is 'Justin Ryan'\"] = jsonData[3].person_name === \"Justin Ryan\";",
+									""
 								]
 							}
 						}
@@ -1078,23 +1092,13 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
-									"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+									"tests[\"Row 1, person_name is 'Carl Crawford'\"] = jsonData[0].person_name === \"Carl Crawford\";",
 									"",
-									"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
-									"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+									"tests[\"Row 2, person_name is 'Craig Hall'\"] = jsonData[1].person_name === \"Craig Hall\";",
 									"",
-									"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
-									"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
+									"tests[\"Row 3, person_name is 'Wayne Coleman'\"] = jsonData[2].person_name === \"Wayne Coleman\";",
 									"",
-									"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
-									"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
-									"",
-									"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
-									"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
-									"",
-									"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
-									"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+									""
 								]
 							}
 						}
@@ -1121,23 +1125,14 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
-									"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+									"tests[\"Row 1, ks_code is '6'\"] = jsonData[0].ks_code === \"6\";",
+									"tests[\"Row 1, person_count is 1\"] = jsonData[0].person_count === 1;",
 									"",
-									"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
-									"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+									"tests[\"Row 2, ks_code is '7'\"] = jsonData[1].ks_code === \"7\";",
+									"tests[\"Row 2, person_count is '2'\"] = jsonData[1].person_count === 2;",
 									"",
-									"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
-									"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
 									"",
-									"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
-									"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
-									"",
-									"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
-									"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
-									"",
-									"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
-									"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+									""
 								]
 							}
 						}
@@ -1164,23 +1159,14 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'emailAndrew Turner'\"] = jsonData[0].person_name === \"Andrew Turner\";",
-									"tests[\"Row 1, email is 'aturner8@amazon.co.uk'\"] = jsonData[0].email === \"aturner8@amazon.co.uk\";",
+									"tests[\"Row 1, ks_code is '22'\"] = jsonData[0].ks_code === \"22\";",
+									"tests[\"Row 1, person_count is 1\"] = jsonData[0].person_count === 1;",
 									"",
-									"tests[\"Row 2, person_name is 'Wayne Coleman'\"] = jsonData[1].person_name === \"Wayne Coleman\";",
-									"tests[\"Row 2, email is 'wcolemana@wp.com'\"] = jsonData[1].email === \"wcolemana@wp.com\";",
+									"tests[\"Row 2, ks_code is '3'\"] = jsonData[1].ks_code === \"3\";",
+									"tests[\"Row 2, person_count is '3'\"] = jsonData[1].person_count === 3;",
 									"",
-									"tests[\"Row 3, person_name is 'Craig Hall'\"] = jsonData[2].person_name === \"Craig Hall\";",
-									"tests[\"Row 3, email is 'challc@fastcompany.com'\"] = jsonData[2].email === \"challc@fastcompany.com\";",
 									"",
-									"tests[\"Row 4, person_name is 'John Ramos'\"] = jsonData[3].person_name === \"John Ramos\";",
-									"tests[\"Row 4, email is 'jramosd@odnoklassniki.ru'\"] = jsonData[3].email === \"jramosd@odnoklassniki.ru\";",
-									"",
-									"tests[\"Row 5, person_name is 'Carl Crawford'\"] = jsonData[4].person_name === \"Carl Crawford\";",
-									"tests[\"Row 5, email is 'ccrawfordb@linkedin.com'\"] = jsonData[4].email === \"ccrawfordb@linkedin.com\";",
-									"",
-									"tests[\"Row 6, person_name is 'Jason Little'\"] = jsonData[5].person_name === \"Jason Little\";",
-									"tests[\"Row 6, email is 'jlittle9@cocolog-nifty.com'\"] = jsonData[5].email === \"jlittle9@cocolog-nifty.com\";"
+									""
 								]
 							}
 						}
@@ -1207,32 +1193,44 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
-									"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+									"tests[\"Row 1, missing_ks_count is '1'\"] = jsonData[0].missing_ks_count === 1;",
+									"tests[\"Row 1, person_name is 'Steven Mitchell'\"] = jsonData[0].person_name === \"Steven Mitchell\";",
 									"",
-									"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
-									"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
+									"tests[\"Row 2, missing_ks_count is '2'\"] = jsonData[1].missing_ks_count === 2;",
+									"tests[\"Row 2, person_name is 'Eric Andrews'\"] = jsonData[1].person_name === \"Eric Andrews\";",
 									"",
-									"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
-									"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 1;",
+									"tests[\"Row 3, missing_ks_count is '3'\"] = jsonData[2].missing_ks_count === 3;",
+									"tests[\"Row 3, person_name is 'Martin Ross'\"] = jsonData[2].person_name === \"Martin Ross\";",
 									"",
-									"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
-									"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
+									"tests[\"Row 4, missing_ks_count is '3'\"] = jsonData[3].missing_ks_count === 3;",
+									"tests[\"Row 4, person_name is 'Andrew Turner'\"] = jsonData[3].person_name === \"Andrew Turner\";",
 									"",
+									"tests[\"Row 5, missing_ks_count is '3'\"] = jsonData[4].missing_ks_count === 3;",
 									"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
-									"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;",
 									"",
-									"tests[\"Row 6, person_name is 'Nicole Berry'\"] = jsonData[5].person_name === \"Nicole Berry\";",
-									"tests[\"Row 6, missing_ks_count is '5'\"] = jsonData[5].missing_ks_count === 5;",
+									"tests[\"Row 6, missing_ks_count is '3'\"] = jsonData[5].missing_ks_count === 3;",
+									"tests[\"Row 6, person_name is 'Michael Fisher'\"] = jsonData[5].person_name === \"Michael Fisher\";",
 									"",
-									"tests[\"Row 7, person_name is 'Eric Andrews'\"] = jsonData[6].person_name === \"Eric Andrews\";",
-									"tests[\"Row 7, missing_ks_count is '5'\"] = jsonData[6].missing_ks_count === 5;"
+									"tests[\"Row 7, missing_ks_count is '3'\"] = jsonData[6].missing_ks_count === 3;",
+									"tests[\"Row 7, person_name is 'Mary Mills'\"] = jsonData[6].person_name === \"Mary Mills\";",
+									"",
+									"tests[\"Row 8, missing_ks_count is '3'\"] = jsonData[7].missing_ks_count === 3;",
+									"tests[\"Row 8, person_name is 'Michael Velez'\"] = jsonData[7].person_name === \"Michael Velez\";",
+									"",
+									"tests[\"Row 9, missing_ks_count is '3'\"] = jsonData[8].missing_ks_count === 3;",
+									"tests[\"Row 9, person_name is 'Jason Little'\"] = jsonData[8].person_name === \"Jason Little\";",
+									"",
+									"tests[\"Row 10, missing_ks_count is '3'\"] = jsonData[9].missing_ks_count === 3;",
+									"tests[\"Row 10, person_name is 'Carol Morrison'\"] = jsonData[9].person_name === \"Carol Morrison\";",
+									"",
+									"",
+									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/per_id,missing_ks_count?jp_code=4",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=4",
 						"method": "POST",
 						"header": [
 							{
@@ -1258,27 +1256,21 @@
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Row 1, missing_ks_count is '1'\"] = jsonData[0].missing_ks_count === 1;",
+									"tests[\"Row 1, person_name is 'Michael Velez'\"] = jsonData[0].person_name ===\"Michael Velez\";",
 									"",
-									"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
-									"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+									"tests[\"Row 2, missing_ks_count is '2'\"] = jsonData[1].missing_ks_count === 2;",
+									"tests[\"Row 2, person_name is 'Nicole Berry'\"] = jsonData[1].person_name === \"Nicole Berry\";",
 									"",
-									"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
-									"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
-									"",
+									"tests[\"Row 3, missing_ks_count is '3'\"] = jsonData[2].missing_ks_count === 3;",
 									"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
-									"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 1;",
 									"",
-									"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
-									"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
+									"tests[\"Row 4, missing_ks_count is '3'\"] = jsonData[3].missing_ks_count === 3;",
+									"tests[\"Row 4, person_name is 'Mary Mills'\"] = jsonData[3].person_name === \"Mary Mills\";",
 									"",
-									"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
-									"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;",
 									"",
-									"tests[\"Row 6, person_name is 'Nicole Berry'\"] = jsonData[5].person_name === \"Nicole Berry\";",
-									"tests[\"Row 6, missing_ks_count is '5'\"] = jsonData[5].missing_ks_count === 5;",
 									"",
-									"tests[\"Row 7, person_name is 'Eric Andrews'\"] = jsonData[6].person_name === \"Eric Andrews\";",
-									"tests[\"Row 7, missing_ks_count is '5'\"] = jsonData[6].missing_ks_count === 5;"
+									""
 								]
 							}
 						}
@@ -1304,21 +1296,18 @@
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Row 1, missing_ks_count is '1'\"] = jsonData[0].missing_ks_count === 1;",
+									"tests[\"Row 1, person_name is 'Michael Velez'\"] = jsonData[0].person_name ===\"Michael Velez\";",
 									"",
-									"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
-									"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+									"tests[\"Row 2, missing_ks_count is '2'\"] = jsonData[1].missing_ks_count === 2;",
+									"tests[\"Row 2, person_name is 'Nicole Berry'\"] = jsonData[1].person_name === \"Nicole Berry\";",
 									"",
-									"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
-									"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
-									"",
+									"tests[\"Row 3, missing_ks_count is '3'\"] = jsonData[2].missing_ks_count === 3;",
 									"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
-									"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 5;",
 									"",
-									"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
-									"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
-									"",
-									"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
-									"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;"
+									"tests[\"Row 4, missing_ks_count is '3'\"] = jsonData[3].missing_ks_count === 3;",
+									"tests[\"Row 4, person_name is 'Mary Mills'\"] = jsonData[3].person_name === \"Mary Mills\";",
+									""
 								]
 							}
 						}
@@ -1345,26 +1334,37 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
-									"tests[\"Row 1, missing_ks_count is '5'\"] = jsonData[0].missing_ks_count === 5;",
+									"tests[\"Row 1, missing_ks_count is '1'\"] = jsonData[0].missing_ks_count === 1;",
+									"tests[\"Row 1, person_name is 'Steven Mitchell'\"] = jsonData[0].person_name === \"Steven Mitchell\";",
 									"",
-									"tests[\"Row 2, person_name is 'Micheal Velez'\"] = jsonData[1].person_name === \"Micheal Velez\";",
-									"tests[\"Row 2, missing_ks_count is '5'\"] = jsonData[1].missing_ks_count === 5;",
+									"tests[\"Row 2, missing_ks_count is '2'\"] = jsonData[1].missing_ks_count === 2;",
+									"tests[\"Row 2, person_name is 'Nicole Berry'\"] = jsonData[1].person_name === \"Nicole Berry\";",
 									"",
-									"tests[\"Row 3, person_name is 'Steven Mitchell'\"] = jsonData[2].person_name === \"Steven Mitchell\";",
-									"tests[\"Row 3, missing_ks_count is '5'\"] = jsonData[2].missing_ks_count === 5;",
+									"tests[\"Row 3, missing_ks_count is '2'\"] = jsonData[2].missing_ks_count === 2;",
+									"tests[\"Row 3, person_name is 'Carol Morrison'\"] = jsonData[2].person_name === \"Carol Morrison\";",
 									"",
-									"tests[\"Row 4, person_name is 'Carol Morrison'\"] = jsonData[3].person_name === \"Carol Morrison\";",
-									"tests[\"Row 4, missing_ks_count is '5'\"] = jsonData[3].missing_ks_count === 5;",
+									"tests[\"Row 4, missing_ks_count is '2'\"] = jsonData[3].missing_ks_count === 2;",
+									"tests[\"Row 4, person_name is 'Jason Stevens'\"] = jsonData[3].person_name === \"Jason Stevens\";",
 									"",
-									"tests[\"Row 5, person_name is 'Jason Stevens'\"] = jsonData[4].person_name === \"Jason Stevens\";",
-									"tests[\"Row 5, missing_ks_count is '5'\"] = jsonData[4].missing_ks_count === 5;"
+									"tests[\"Row 5, missing_ks_count is '3'\"] = jsonData[4].missing_ks_count === 3;",
+									"tests[\"Row 5, person_name is 'Michael Fisher'\"] = jsonData[4].person_name === \"Michael Fisher\";",
+									"",
+									"tests[\"Row 6, missing_ks_count is '3'\"] = jsonData[5].missing_ks_count === 3;",
+									"tests[\"Row 6, person_name is 'Andrew Turner'\"] = jsonData[5].person_name === \"Andrew Turner\";",
+									"",
+									"tests[\"Row 7, missing_ks_count is '3'\"] = jsonData[6].missing_ks_count === 3;",
+									"tests[\"Row 7, person_name is 'Michael Velez'\"] = jsonData[6].person_name === \"Michael Velez\";",
+									"",
+									"tests[\"Row 8, missing_ks_count is '3'\"] = jsonData[7].missing_ks_count === 3;",
+									"tests[\"Row 8, person_name is 'Jason Little'\"] = jsonData[7].person_name === \"Jason Little\";",
+									"",
+									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=8&ks_count=2",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=8&ks_count=3",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1412,14 +1412,16 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Nicole Miller'\"] = jsonData[0].person_name === \"Nicole Miller\";",
+									"tests[\"Row 1, person_name is 'Michael Fisher'\"] = jsonData[0].person_name === \"Michael Fisher\";",
+									"tests[\"Row 1, person_name is 'Andrew Turner'\"] = jsonData[1].person_name === \"Andrew Turner\";",
+									"tests[\"Row 1, person_name is 'John Ramos'\"] = jsonData[2].person_name === \"John Ramos\";",
 									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=1",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=12",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1440,14 +1442,14 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Carl Crawford'\"] = jsonData[0].person_name === \"Carl Crawford\";",
+									"tests[\"Row 1, person_name is 'Paul Cox'\"] = jsonData[0].person_name === \"Paul Cox\";",
 									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=11",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/person_name,missing_ks_count?jp_code=4",
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1468,7 +1470,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, comp_name is 'Vague Electric'\"] = jsonData[0].comp_name === \"Vague Electric\";",
+									"tests[\"Row 1, comp_name is 'Eaton Foods'\"] = jsonData[0].comp_name === \"Eaton Foods\";",
 									""
 								]
 							}
@@ -1496,7 +1498,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, primary_sector is 'Business Sector'\"] = jsonData[0].primary_sector === \"Business Sector\";",
+									"tests[\"Row 1, primary_sector is 'Business'\"] = jsonData[0].primary_sector === \"Business\";",
 									""
 								]
 							}
@@ -1524,7 +1526,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";"
+									"tests[\"Row 1, average_rate is '-55969.92'\"] = jsonData[0].average_rate === -55969.92;"
 								]
 							}
 						}
@@ -1551,7 +1553,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";"
+									"tests[\"Row 1, average_rate is '-2158.01'\"] = jsonData[0].average_rate === -2158.01;"
 								]
 							}
 						}
@@ -1578,7 +1580,8 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, primary_sector is 'Business Sector'\"] = jsonData[0].primary_sector === \"Business Sector\";",
+									"tests[\"Row 1, jp_title is 'Front End Dev'\"] = jsonData[0].jp_title === \"Front End Dev\";",
+									"tests[\"Row 1, jp_code is '10'\"] = jsonData[0].jp_code === \"10\";",
 									""
 								]
 							}
@@ -1606,7 +1609,21 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Row 1, primary_sector is 'Business Sector'\"] = jsonData[0].primary_sector === \"Business Sector\";",
+									"tests[\"Row 1, c_code is '1'\"] = jsonData[0].c_code === \"1\";",
+									"tests[\"Row 1, c_title is 'Java Certification'\"] = jsonData[0].c_title === \"Java Certification\";",
+									"",
+									"tests[\"Row 2, c_code is '8'\"] = jsonData[1].c_code === \"8\";",
+									"tests[\"Row 2, c_title is 'Architecture Design For Applications'\"] = jsonData[1].c_title === \"Architecture Design For Applications\";",
+									"",
+									"tests[\"Row 3, c_code is '11'\"] = jsonData[2].c_code === \"11\";",
+									"tests[\"Row 3, c_title is 'HTML and CSS Basics'\"] = jsonData[2].c_title === \"HTML and CSS Basics\";",
+									"",
+									"tests[\"Row 4, c_code is '12'\"] = jsonData[3].c_code === \"12\";",
+									"tests[\"Row 4, c_title is 'HTML and CSS Basics'\"] = jsonData[3].c_title === \"HTML and CSS Basics\";",
+									"",
+									"tests[\"Row 5, c_code is '12'\"] = jsonData[4].c_code === \"12\";",
+									"tests[\"Row 5, c_title is 'Javascript Certification'\"] = jsonData[4].c_title === \"Javascript Certification\";",
+									"",
 									""
 								]
 							}
