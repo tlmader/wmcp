@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "wmcp.api",
-		"_postman_id": "1e2b15dc-b89a-4d6e-d3a7-8e961fb19914",
+		"_postman_id": "f11b76ee-66b8-8d2b-5f68-5913b2516598",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -11,6 +11,46 @@
 			"name": "CareerPlanning",
 			"description": "",
 			"item": [
+				{
+					"name": "Add Person With Qualifications Using Valid Sections",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/careerplanning/person/100",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"100\",\n  \"name\": \"Mary Mills II\",\n  \"address\": \"523 Fremont Place\",\n  \"phoneNum\": \"62-(824)697-2977\",\n  \"email\": \"mmills0@yandex.ru\",\n  \"gender\": \"Female\",\n  \"takesSections\": [\n    {\n      \"id\": \"2\"\n    },\n    {\n      \"id\": \"6\"\n    }\n  ]\n}"
+						},
+						"description": "api/careerplanning/person/{personId}\n\nAdds a Person with a List of known Skills based on completed Sections."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Person With Qualifications",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/careerplanning/person/100",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"100\",\n  \"name\": \"Mary Mills II\",\n  \"address\": \"523 Fremont Place\",\n  \"phoneNum\": \"62-(824)697-2977\",\n  \"email\": \"mmills0@yandex.ru\",\n  \"gender\": \"Female\",\n  \"takesSections\": [\n    {\n      \"id\": \"1000\"\n    },\n    {\n      \"id\": \"2200\"\n    }\n  ]\n}"
+						},
+						"description": "api/careerplanning/person/{personId}\n\nAdds a Person with a List of known Skills based on completed Sections."
+					},
+					"response": []
+				},
 				{
 					"name": "Find Jobs By Primary Sector",
 					"request": {
@@ -135,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+							"raw": ""
 						},
 						"description": "Deletes a specific entity in the database by an ID."
 					},
@@ -164,7 +204,7 @@
 				{
 					"name": "Get",
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/job/750",
+						"url": "http://{{wmcp.api.host}}/api/job/700",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -223,7 +263,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+							"raw": ""
 						},
 						"description": "Deletes a specific entity in the database by an ID."
 					},
@@ -258,7 +298,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = :comp_id"
 						},
-						"description": "List a company's workers by names.\n\nGiven:\n\tcomp_id = 1\n\nExpected:\n\tperson_name = Marry Mills"
+						"description": "List a company's workers by names.\n\nGiven:\n  comp_id = 1\n\nExpected:\n  person_name = Marry Mills"
 					},
 					"response": []
 				},
@@ -326,7 +366,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL)),\r\njob_rel_pay\r\n  AS (SELECT job_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS pay\r\n        FROM job)\r\nSELECT comp_name, ROUND(pay_sum, 2) AS labor_cost\r\n  FROM (SELECT comp_name, SUM(pay) AS pay_sum\r\n          FROM person\r\n               INNER JOIN current_works\r\n               ON person.per_id = current_works.per_id\r\n               INNER JOIN job_rel_pay\r\n               ON current_works.job_code = job_rel_pay.job_code\r\n               INNER JOIN company\r\n               ON job_rel_pay.comp_id = company.comp_id\r\n         GROUP BY comp_name)\r\n ORDER BY pay_sum DESC"
 						},
-						"description": "List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.\n\nExpected:\n\tcomp_name = Tosh Incorporated\n\tlabor_cost = $189,589.87\n\n\tcomp_name = Vague Electric\n\tlabor_cost = $98,485.91    \n\n\tcomp_name = Eaton Foods\n\tlabor_cost = $88,401.45\n\n\tcomp_name = Mader Machinery                  \n\tlabor_cost = $77,563.28\n\n\tcomp_name = The Government\n\tlabor_cost = $63,675.85"
+						"description": "List companies’ labor cost (total salaries and wage rates by 1920 hours) in descending order.\n\nExpected:\n  comp_name = Tosh Incorporated\n  labor_cost = $189,589.87\n\n  comp_name = Vague Electric\n  labor_cost = $98,485.91    \n\n  comp_name = Eaton Foods\n  labor_cost = $88,401.45\n\n  comp_name = Mader Machinery                  \n  labor_cost = $77,563.28\n\n  comp_name = The Government\n  labor_cost = $63,675.85"
 					},
 					"response": []
 				},
@@ -366,7 +406,7 @@
 							"mode": "raw",
 							"raw": "SELECT job.job_code, jp_title\r\n  FROM job\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       INNER JOIN works\r\n       ON job.job_code = works.job_code\r\n       INNER JOIN person\r\n       ON works.per_id = person.per_id\r\n          AND person.per_id = :per_id"
 						},
-						"description": "4. Find all the jobs a person is currently holding and worked in the past.\n\nGiven:\n\tper_id = 4\n\t\nExpected:\n\tjp_title = Game Dev\n\tjob_code = 703\n\n\tjp_title = Network Admin\n\tjob_code = 705\n\n\tjp_title = Lead Developer\n\tjob_code = 704 "
+						"description": "4. Find all the jobs a person is currently holding and worked in the past.\n\nGiven:\n  per_id = 4\n  \nExpected:\n  jp_title = Game Dev\n  job_code = 703\n\n  jp_title = Network Admin\n  job_code = 705\n\n  jp_title = Lead Developer\n  job_code = 704 "
 					},
 					"response": []
 				},
@@ -397,7 +437,7 @@
 							"mode": "raw",
 							"raw": "SELECT ks_title, description\r\n  FROM knowledge_skill\r\n       INNER JOIN knows\r\n       ON knows.ks_code = knowledge_skill.ks_code\r\n       INNER JOIN person\r\n       ON knows.per_id = person.per_id\r\n          AND person.per_id = :per_id"
 						},
-						"description": "List a person’s knowledge/skills in a readable format.\n\nGiven:\n\tper_id = 3\n\t\nExpected:\n\tks_title = Amazon Web Services\n\tdescription = Knowledge in services such as S3\n\n\tks_title = C++\n\tdescription = Competency in C++ programming language"
+						"description": "List a person’s knowledge/skills in a readable format.\n\nGiven:\n  per_id = 3\n  \nExpected:\n  ks_title = Amazon Web Services\n  description = Knowledge in services such as S3\n\n  ks_title = C++\n  description = Competency in C++ programming language"
 					},
 					"response": []
 				},
@@ -428,7 +468,7 @@
 							"mode": "raw",
 							"raw": "SELECT job.job_code, jp_title, ks_title\r\n  FROM job\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       INNER JOIN knowledge_skill\r\n       ON required_skill.ks_code = knowledge_skill.ks_code\r\n       INNER JOIN works\r\n       ON job.job_code = works.job_code\r\n       INNER JOIN person\r\n       ON works.per_id = person.per_id\r\n          AND person.per_id = :per_id\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id IS NULL"
 						},
-						"description": "List the skill gap of a worker between his/her job(s) and his/her skills.\n\nGiven:\n\tper_id = 5\n\t\nExpected:\n\tjob_code = 704\n\tjp_title = Lead Developer\n\tks_title = Java\n\t\n\tjob_code = 704\n\tjp_title = Lead Developer\n\tks_title = Debugging\n\n\tjob_code = 704\n\tjp_title = Lead Developer\n\tks_title = Spring Framework"
+						"description": "List the skill gap of a worker between his/her job(s) and his/her skills.\n\nGiven:\n  per_id = 5\n  \nExpected:\n  job_code = 704\n  jp_title = Lead Developer\n  ks_title = Java\n  \n  job_code = 704\n  jp_title = Lead Developer\n  ks_title = Debugging\n\n  job_code = 704\n  jp_title = Lead Developer\n  ks_title = Spring Framework"
 					},
 					"response": []
 				},
@@ -461,7 +501,7 @@
 							"mode": "raw",
 							"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job_profile\r\n       ON required_skill.jp_code = job_profile.jp_code\r\n          AND job_profile.jp_code = :jp_code"
 						},
-						"description": "List the required knowledge/skills of a job profile in a readable format.\n\nGiven:\n\tjp_code = 002\n\t\nExpected:\n\tks_title = C\n\tks_title = C++\n\tks_title = Application Architecture\n\tks_title = Assembly\n"
+						"description": "List the required knowledge/skills of a job profile in a readable format.\n\nGiven:\n  jp_code = 002\n  \nExpected:\n  ks_title = C\n  ks_title = C++\n  ks_title = Application Architecture\n  ks_title = Assembly\n"
 					},
 					"response": []
 				},
@@ -507,7 +547,7 @@
 							"mode": "raw",
 							"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
 						},
-						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven:\n\tjob_code = 702\n\tper_id <> 6\n\t\nExpected:\n\tks_title = Amazon Web Services\n\tks_title = CRUD\n\tks_title = Application Architecture\n\tks_title = Server Security\n\tks_title = Server Architecture"
+						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven:\n  job_code = 702\n  per_id <> 6\n  \nExpected:\n  ks_title = Amazon Web Services\n  ks_title = CRUD\n  ks_title = Application Architecture\n  ks_title = Server Security\n  ks_title = Server Architecture"
 					},
 					"response": []
 				},
@@ -551,7 +591,7 @@
 							"mode": "raw",
 							"raw": "SELECT ks_title\r\n  FROM knowledge_skill\r\n       INNER JOIN required_skill\r\n       ON knowledge_skill.ks_code = required_skill.ks_code\r\n       INNER JOIN job\r\n       ON required_skill.jp_code = job.jp_code\r\n          AND job_code = :job_code\r\n       LEFT JOIN knows\r\n       ON required_skill.ks_code = knows.ks_code\r\n WHERE knows.per_id <> :per_id"
 						},
-						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven: \n\tjob_code = 710\n\tper_id <> 20\nExpected:\n\tks_title = HTML\n\tks_title = Angular\n\tks_title = Jquery\n\tks_title = CSS"
+						"description": "List a person’s missing knowledge/skills for a specific job in a readable format.\n\nGiven: \n  job_code = 710\n  per_id <> 20\nExpected:\n  ks_title = HTML\n  ks_title = Angular\n  ks_title = Jquery\n  ks_title = CSS"
 					},
 					"response": []
 				},
@@ -579,7 +619,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT course.c_code, course.c_title\r\n  FROM course\r\n       INNER JOIN teaches\r\n       ON course.c_code = teaches.c_code\r\n       INNER JOIN missing_ks\r\n       ON teaches.ks_code = missing_ks.ks_code\r\n GROUP BY course.c_code, course.c_title\r\nHAVING COUNT(*) = (SELECT COUNT(*)\r\n                     FROM missing_ks)"
 						},
-						"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n\tper_id = 2\n\tjp_code = 001\n\t\nExpected:\n\tc_code = 20\n\tc_title = Industrial Cloud Development"
+						"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n  per_id = 2\n  jp_code = 001\n  \nExpected:\n  c_code = 20\n  c_title = Industrial Cloud Development"
 					},
 					"response": []
 				},
@@ -607,7 +647,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT course.c_code, course.c_title\r\n  FROM course\r\n       INNER JOIN teaches\r\n       ON course.c_code = teaches.c_code\r\n       INNER JOIN missing_ks\r\n       ON teaches.ks_code = missing_ks.ks_code\r\n GROUP BY course.c_code, course.c_title\r\nHAVING COUNT(*) = (SELECT COUNT(*)\r\n                     FROM missing_ks)"
 						},
-						"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n\tper_id = 18\n\tjp_code = 9\n\t\nExpected:\n\tc_code = 2\n\tc_title = Database SQL"
+						"description": "List the courses (course id and title) that each alone teaches all the missing knowledge/skills for a person to pursue a specific job.\n\nGiven:\n  per_id = 18\n  jp_code = 9\n  \nExpected:\n  c_code = 2\n  c_title = Database SQL"
 					},
 					"response": []
 				},
@@ -648,7 +688,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT *\r\n  FROM (SELECT course.c_code, course.c_title, sec_no, complete_date\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, sec_no, complete_date\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY complete_date)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n\tper_id = 6\r\n\tjp_code = 7\r\n\t\r\nExpected:\r\n\tc_code = 24\r\n\tc_title = Band End Basics\r\n\tsec_no = 24\r\n\tcomplete_date = 09-NOV-16"
+						"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n  per_id = 6\r\n  jp_code = 7\r\n  \r\nExpected:\r\n  c_code = 24\r\n  c_title = Band End Basics\r\n  sec_no = 24\r\n  complete_date = 09-NOV-16"
 					},
 					"response": []
 				},
@@ -689,7 +729,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT *\r\n  FROM (SELECT course.c_code, course.c_title, sec_no, complete_date\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, sec_no, complete_date\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY complete_date)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n\tper_id = 11\r\n\tjp_code = 1\r\n\t\r\nExpected:\r\n\tc_code = 20\r\n\tc_title = Industrial Cloud Development\r\n\tsec_no = 20\r\n\tcomplete_date = 09-April-16"
+						"description": "Suppose the skill gap of a worker and the requirement of a desired job can be covered by one course. Find the “quickest” solution for this worker. Show the course, section information and the completion date.\r\n\r\nGiven:\r\n  per_id = 11\r\n  jp_code = 1\r\n  \r\nExpected:\r\n  c_code = 20\r\n  c_title = Industrial Cloud Development\r\n  sec_no = 20\r\n  complete_date = 09-April-16"
 					},
 					"response": []
 				},
@@ -718,7 +758,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT c_code, c_title, ROUND(price, 2) AS cost\r\n  FROM (SELECT course.c_code, course.c_title, price\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, price\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY price DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n\tper_id = 16\n\tjp_code = 005\n\t\nExpected:\n\tc_code = 27\n\tc_title = C++ and Architecture\n\tcost = $1500.82"
+						"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n  per_id = 16\n  jp_code = 005\n  \nExpected:\n  c_code = 27\n  c_title = C++ and Architecture\n  cost = $1500.82"
 					},
 					"response": []
 				},
@@ -747,7 +787,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code)\r\nSELECT c_code, c_title, ROUND(price, 2) AS cost\r\n  FROM (SELECT course.c_code, course.c_title, price\r\n          FROM course\r\n               INNER JOIN section\r\n               ON course.c_code = section.c_code\r\n               INNER JOIN teaches\r\n               ON course.c_code = teaches.c_code\r\n                INNER JOIN teaches\r\n                ON course.c_code = teaches.c_code\r\n                INNER JOIN missing_ks\r\n                ON teaches.ks_code = missing_ks.ks_code\r\n          WHERE status = 'active'\r\n          GROUP BY course.c_code, course.c_title, price\r\n         HAVING COUNT(*) = (SELECT COUNT(*)\r\n                             FROM missing_ks)\r\n         ORDER BY price DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n\tper_id = 16\n\tjp_code = 005\n\t\nExpected:\n\tc_code = 27\n\tc_title = C++ and Architecture\n\tcost = $1500.82"
+						"description": "Find the cheapest course to make up one’s skill gap by showing the course to take and the cost (of the section price).\n\nGiven:\n  per_id = 16\n  jp_code = 005\n  \nExpected:\n  c_code = 27\n  c_title = C++ and Architecture\n  cost = $1500.82"
 					},
 					"response": []
 				},
@@ -782,7 +822,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code),\r\ncourse_for_missing_ks\r\n  AS (SELECT course.c_code, missing_ks.ks_code, price\r\n        FROM course\r\n             INNER JOIN section\r\n             ON course.c_code = section.c_code\r\n             INNER JOIN teaches\r\n             ON course.c_code = teaches.c_code\r\n             INNER JOIN missing_ks\r\n             ON teaches.ks_code = missing_ks.ks_code\r\n       WHERE status = 'active'),\r\ncourse_sets\r\n  AS (SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             NULL AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             NULL AS ks_3,\r\n             ROUND(c1.price + c2.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n       UNION ALL\r\n      SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             c3.c_code AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             c3.ks_code AS ks_3,\r\n             ROUND(c1.price + c2.price + c3.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n             INNER JOIN course_for_missing_ks c3\r\n             ON c1.c_code < c3.c_code\r\n                AND c2.c_code < c3.c_code),\r\ncourse_set_per_ks\r\n  AS (SELECT ks_1 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_2 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_3 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets)\r\nSELECT course_1, course_2, COALESCE(course_3, ' '), total_cost\r\n  FROM course_set_per_ks\r\n GROUP BY course_1, course_2, course_3, total_cost\r\nHAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)\r\n                                    FROM missing_ks)\r\n ORDER BY total_cost ASC"
 						},
-						"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n\tper_id = 8\n\tjp_code = 008\n\t\nExpected:\n\tcourse_1 = 15\n\tcourse_2 = 26\n\tcourse_3 = \"\"\n\ttotal_cost = $3,046.86\n\t\n\tcourse_1 = 15\n\tcourse_2 = 19\n\tcourse_3 = 26\n\ttotal_cost = $4,580.55"
+						"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n  per_id = 8\n  jp_code = 008\n  \nExpected:\n  course_1 = 15\n  course_2 = 26\n  course_3 = \"\"\n  total_cost = $3,046.86\n  \n  course_1 = 15\n  course_2 = 19\n  course_3 = 26\n  total_cost = $4,580.55"
 					},
 					"response": []
 				},
@@ -822,7 +862,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL\r\n         AND required_skill.jp_code = :jp_code),\r\ncourse_for_missing_ks\r\n  AS (SELECT course.c_code, missing_ks.ks_code, price\r\n        FROM course\r\n             INNER JOIN section\r\n             ON course.c_code = section.c_code\r\n             INNER JOIN teaches\r\n             ON course.c_code = teaches.c_code\r\n             INNER JOIN missing_ks\r\n             ON teaches.ks_code = missing_ks.ks_code\r\n       WHERE status = 'active'),\r\ncourse_sets\r\n  AS (SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             NULL AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             NULL AS ks_3,\r\n             ROUND(c1.price + c2.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n       UNION ALL\r\n      SELECT c1.c_code AS course_1,\r\n             c2.c_code AS course_2,\r\n             c3.c_code AS course_3,\r\n             c1.ks_code AS ks_1,\r\n             c2.ks_code AS ks_2,\r\n             c3.ks_code AS ks_3,\r\n             ROUND(c1.price + c2.price + c3.price, 2) AS total_cost\r\n        FROM course_for_missing_ks c1\r\n             INNER JOIN course_for_missing_ks c2\r\n             ON c1.c_code < c2.c_code\r\n             INNER JOIN course_for_missing_ks c3\r\n             ON c1.c_code < c3.c_code\r\n                AND c2.c_code < c3.c_code),\r\ncourse_set_per_ks\r\n  AS (SELECT ks_1 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_2 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets\r\n       UNION ALL\r\n      SELECT ks_3 AS ks_code, course_1, course_2, course_3, total_cost\r\n        FROM course_sets)\r\nSELECT course_1, course_2, COALESCE(course_3, ' '), total_cost\r\n  FROM course_set_per_ks\r\n GROUP BY course_1, course_2, course_3, total_cost\r\nHAVING COUNT(DISTINCT ks_code) = (SELECT COUNT(*)\r\n                                    FROM missing_ks)\r\n ORDER BY total_cost ASC"
 						},
-						"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n\tper_id = 8\n\tjp_code = 008\n\t\nExpected:\n\tcourse_1 = 15\n\tcourse_2 = 26\n\tcourse_3 = \"\"\n\ttotal_cost = $3,046.86\n\t\n\tcourse_1 = 15\n\tcourse_2 = 19\n\tcourse_3 = 26\n\ttotal_cost = $4,580.55"
+						"description": "If query #9 returns nothing, then find the course sets that their combination covers all the missing knowledge/ skills for a person to pursue a specific job. The considered course sets will not include more than three courses. If multiple course sets are found, list the course sets (with their course IDs) in the order of the ascending order of the course sets’ total costs.\n\nGiven:\n  per_id = 8\n  jp_code = 008\n  \nExpected:\n  course_1 = 15\n  course_2 = 26\n  course_3 = \"\"\n  total_cost = $3,046.86\n  \n  course_1 = 15\n  course_2 = 19\n  course_3 = 26\n  total_cost = $4,580.55"
 					},
 					"response": []
 				},
@@ -851,7 +891,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_profile.jp_code, job_profile.jp_title\r\n  FROM job_profile\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       LEFT JOIN missing_ks\r\n       ON required_skill.jp_code = missing_ks.jp_code\r\n WHERE missing_ks.jp_code IS NULL\r\n GROUP BY job_profile.jp_code, job_profile.jp_title"
 						},
-						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\r\n\r\nGiven:\r\n\tper_id = 1\r\n\r\nExpected:\r\n\tjp_code = 1\r\n\tjp_title = Cloud Developer"
+						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\r\n\r\nGiven:\r\n  per_id = 1\r\n\r\nExpected:\r\n  jp_code = 1\r\n  jp_title = Cloud Developer"
 					},
 					"response": []
 				},
@@ -880,7 +920,7 @@
 							"mode": "raw",
 							"raw": "WITH known_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_profile.jp_code, job_profile.jp_title\r\n  FROM job_profile\r\n       INNER JOIN required_skill\r\n       ON job_profile.jp_code = required_skill.jp_code\r\n       LEFT JOIN missing_ks\r\n       ON required_skill.jp_code = missing_ks.jp_code\r\n WHERE missing_ks.jp_code IS NULL\r\n GROUP BY job_profile.jp_code, job_profile.jp_title"
 						},
-						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 2\n\nExpected:\n\tjp_code = 5\n\tjp_title = Game Dev"
+						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n  per_id = 2\n\nExpected:\n  jp_code = 5\n  jp_title = Game Dev"
 					},
 					"response": []
 				},
@@ -909,7 +949,7 @@
 							"mode": "raw",
 							"raw": "WITH job_rel_pay\r\n  AS (SELECT job_code, jp_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS rel_pay\r\n        FROM job),\r\nknown_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_code, ROUND(rel_pay, 2) AS pay\r\nFROM (SELECT DISTINCT job_code, rel_pay\r\n        FROM job_rel_pay\r\n             INNER JOIN job_profile\r\n             ON job_rel_pay.jp_code = job_profile.jp_code\r\n             INNER JOIN required_skill\r\n             ON job_profile.jp_code = required_skill.jp_code\r\n             LEFT JOIN missing_ks\r\n             ON required_skill.jp_code = missing_ks.jp_code\r\n       WHERE missing_ks.jp_code IS NULL\r\n       ORDER BY rel_pay DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 20\n\nExpected:\n\tjp_code = 700\n\tpay = $98,485.91"
+						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n  per_id = 20\n\nExpected:\n  jp_code = 700\n  pay = $98,485.91"
 					},
 					"response": []
 				},
@@ -938,7 +978,7 @@
 							"mode": "raw",
 							"raw": "WITH job_rel_pay\r\n  AS (SELECT job_code, jp_code, comp_id,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS rel_pay\r\n        FROM job),\r\nknown_ks\r\n  AS (SELECT ks_code\r\n        FROM knows\r\n       WHERE per_id = :per_id),\r\nmissing_ks\r\n  AS (SELECT required_skill.jp_code, required_skill.ks_code\r\n        FROM required_skill\r\n             LEFT JOIN known_ks\r\n             ON required_skill.ks_code = known_ks.ks_code\r\n       WHERE known_ks.ks_code IS NULL)\r\nSELECT job_code, ROUND(rel_pay, 2) AS pay\r\nFROM (SELECT DISTINCT job_code, rel_pay\r\n        FROM job_rel_pay\r\n             INNER JOIN job_profile\r\n             ON job_rel_pay.jp_code = job_profile.jp_code\r\n             INNER JOIN required_skill\r\n             ON job_profile.jp_code = required_skill.jp_code\r\n             LEFT JOIN missing_ks\r\n             ON required_skill.jp_code = missing_ks.jp_code\r\n       WHERE missing_ks.jp_code IS NULL\r\n       ORDER BY rel_pay DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n\tper_id = 19\n\nExpected:\n\tjp_code = 712\n\tpay = $119,060.46"
+						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nGiven:\n  per_id = 19\n\nExpected:\n  jp_code = 712\n  pay = $119,060.46"
 					},
 					"response": []
 				},
@@ -981,7 +1021,7 @@
 							"mode": "raw",
 							"raw": "SELECT person_name, email\r\n  FROM person\r\n       INNER JOIN knows\r\n       ON person.per_id = knows.per_id\r\n       INNER JOIN required_skill\r\n       ON knows.ks_code = required_skill.ks_code\r\n GROUP BY person_name, email\r\nHAVING COUNT(*) = COUNT(DISTINCT knows.ks_code)"
 						},
-						"description": "List all the names along with the emails of the persons who are qualified for a job profile.\n\nExpected:\n\tperson_name = Andrew Turner\n\temail = aturner8@amazon.co.uk\n\n\tperson_name = Wayne Coleman\n\temail = wcolemana@wp.com\n\n\tperson_name = Craig Hall\n\temail = challc@fastcompany.com                                 \n\tperson_name = John Ramos\n\temail = jramosd@odnoklassniki.ru           \n\n\tperson_name = Carl Crawford\n\temail = ccrawfordb@linkedin.com\n\n\tperson_name = Jason Littler\n\temail = jlittle9@cocolog-nifty.com"
+						"description": "List all the names along with the emails of the persons who are qualified for a job profile.\n\nExpected:\n  person_name = Andrew Turner\n  email = aturner8@amazon.co.uk\n\n  person_name = Wayne Coleman\n  email = wcolemana@wp.com\n\n  person_name = Craig Hall\n  email = challc@fastcompany.com                                 \n  person_name = John Ramos\n  email = jramosd@odnoklassniki.ru           \n\n  person_name = Carl Crawford\n  email = ccrawfordb@linkedin.com\n\n  person_name = Jason Littler\n  email = jlittle9@cocolog-nifty.com"
 					},
 					"response": []
 				},
@@ -1024,7 +1064,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN knows\r\n       ON person.per_id = knows.per_id\r\n       INNER JOIN required_skill\r\n       ON knows.ks_code = required_skill.ks_code\r\n GROUP BY person_name\r\nHAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1"
 						},
-						"description": "When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.\n\nGiven:\n\tjp_code = 6\n\t\t\nExpected:\n\tperson_name = Martin Ross\n\tperson_name = Justin Ryan"
+						"description": "When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.\n\nGiven:\n  jp_code = 6\n    \nExpected:\n  person_name = Martin Ross\n  person_name = Justin Ryan"
 					},
 					"response": []
 				},
@@ -1067,7 +1107,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN knows\r\n       ON person.per_id = knows.per_id\r\n       INNER JOIN required_skill\r\n       ON knows.ks_code = required_skill.ks_code\r\n GROUP BY person_name\r\nHAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1"
 						},
-						"description": "When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.\n\nGiven:\n\tjp_code = 3\n\t\t\nExpected:\n\tperson_name = Jason Little\n\tperson_name = Andrew Turner\n\tperson_name = Carl Crawford\n\tperson_name = Craig Hall\n\tperson_name = John Ramos\n\tperson_name = Wayne Coleman"
+						"description": "When a company cannot find any qualified person for a job, a secondary solution is to find a person who is almost qualified to the job. Make a “missing-one” list that lists people who miss only one skill for a specified job profile.\n\nGiven:\n  jp_code = 3\n    \nExpected:\n  person_name = Jason Little\n  person_name = Andrew Turner\n  person_name = Carl Crawford\n  person_name = Craig Hall\n  person_name = John Ramos\n  person_name = Wayne Coleman"
 					},
 					"response": []
 				},
@@ -1110,7 +1150,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code),\r\nmissing_one\r\n  AS (SELECT person.per_id\r\n        FROM person\r\n             INNER JOIN knows\r\n             ON person.per_id = knows.per_id\r\n             INNER JOIN ks_for_jp\r\n             ON knows.ks_code = ks_for_jp.ks_code\r\n       GROUP BY person.per_id\r\n      HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1)\r\nSELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count\r\n  FROM missing_one\r\n       INNER JOIN knows\r\n       ON missing_one.per_id = knows.per_id\r\n       INNER JOIN ks_for_jp\r\n       ON knows.ks_code = ks_for_jp.ks_code\r\n GROUP BY knows.ks_code\r\n ORDER BY person_count ASC"
 						},
-						"description": "List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.\n\nGiven:\n\tjp_code = 5\n\nExpected:       \n\tks_code = 6\n\tperson_count = 1\n\t\n\tks_code = 7\n\tperson_count = 2"
+						"description": "List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.\n\nGiven:\n  jp_code = 5\n\nExpected:       \n  ks_code = 6\n  person_count = 1\n  \n  ks_code = 7\n  person_count = 2"
 					},
 					"response": []
 				},
@@ -1153,7 +1193,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code),\r\nmissing_one\r\n  AS (SELECT person.per_id\r\n        FROM person\r\n             INNER JOIN knows\r\n             ON person.per_id = knows.per_id\r\n             INNER JOIN ks_for_jp\r\n             ON knows.ks_code = ks_for_jp.ks_code\r\n       GROUP BY person.per_id\r\n      HAVING COUNT(*) = (SELECT COUNT(*) FROM ks_for_jp) - 1)\r\nSELECT knows.ks_code, COUNT(missing_one.per_id) AS person_count\r\n  FROM missing_one\r\n       INNER JOIN knows\r\n       ON missing_one.per_id = knows.per_id\r\n       INNER JOIN ks_for_jp\r\n       ON knows.ks_code = ks_for_jp.ks_code\r\n GROUP BY knows.ks_code\r\n ORDER BY person_count ASC"
 						},
-						"description": "List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.\n\nGiven:\n\tjp_code = 3\n\nExpected:\n\tks_code = 22\n\tperson_count = 1\n\t\n\tks_code = 3\n\tperson_count = 2"
+						"description": "List the skillID and the number of people in the missing-one list for a given job profile in the ascending order of the people counts.\n\nGiven:\n  jp_code = 3\n\nExpected:\n  ks_code = 22\n  person_count = 1\n  \n  ks_code = 3\n  person_count = 2"
 					},
 					"response": []
 				},
@@ -1205,7 +1245,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n GROUP BY person_name\r\n ORDER BY missing_ks_count ASC"
 						},
-						"description": "Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.\n\nGiven: \n\tjp_code = 012\n\t\nExpected:\n\tperson_name = Steven Mitchel\n\tmissing_ks_count = 1\n\n\tperson_name = Eric Andrews\n\tmissing_ks_count = 2\n\n\tperson_name = Martin Ross\n\tmissing_ks_count = 3\n\n\tperson_name = Carol Morrison\n\tmissing_ks_count = 3\n\n\tperson_name = Marry Mills\n\tmissing_ks_count = 3\n\n\tperson_name = Michael Fisher\n\tmissing_ks_count = 3"
+						"description": "Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.\n\nGiven: \n  jp_code = 012\n  \nExpected:\n  person_name = Steven Mitchel\n  missing_ks_count = 1\n\n  person_name = Eric Andrews\n  missing_ks_count = 2\n\n  person_name = Martin Ross\n  missing_ks_count = 3\n\n  person_name = Carol Morrison\n  missing_ks_count = 3\n\n  person_name = Marry Mills\n  missing_ks_count = 3\n\n  person_name = Michael Fisher\n  missing_ks_count = 3"
 					},
 					"response": []
 				},
@@ -1251,7 +1291,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - MIN(ks_count) AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n GROUP BY person_name\r\n ORDER BY missing_ks_count ASC"
 						},
-						"description": "Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.\n\nGiven: \n\tjp_code = 9\nExpected:\n\n\tperson_name = Michael Velez\n\tmissing_ks_count = 1\n\n\tperson_name = Nicole Berry\n\tmissing_ks_count = 3\n\n\tperson_name = Steven Mitchell\n\tmissing_ks_count = 3"
+						"description": "Suppose there is a new job profile that has nobody qualified. List the persons who miss the least number of skills and report the “least number”.\n\nGiven: \n  jp_code = 9\nExpected:\n\n  person_name = Michael Velez\n  missing_ks_count = 1\n\n  person_name = Nicole Berry\n  missing_ks_count = 3\n\n  person_name = Steven Mitchell\n  missing_ks_count = 3"
 					},
 					"response": []
 				},
@@ -1291,7 +1331,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - ks_count AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= :ks_count\r\n ORDER BY missing_ks_count ASC"
 						},
-						"description": "For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills.\n\nGiven:\n\tjp_code = 9\nExpected:\n\tExpected:\n\tperson_name = Michael Velez\n\tmissing_ks_count = 1\n\n\tperson_name = Nicole Berry\n\tmissing_ks_count = 3\n\n\tperson_name = Steven Mitchell\n\tmissing_ks_count = 3"
+						"description": "For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills.\n\nGiven:\n  jp_code = 9\nExpected:\n  Expected:\n  person_name = Michael Velez\n  missing_ks_count = 1\n\n  person_name = Nicole Berry\n  missing_ks_count = 3\n\n  person_name = Steven Mitchell\n  missing_ks_count = 3"
 					},
 					"response": []
 				},
@@ -1331,7 +1371,7 @@
 							"mode": "raw",
 							"raw": "WITH ks_for_jp\r\n  AS (SELECT ks_code\r\n        FROM required_skill\r\n       WHERE jp_code = :jp_code)\r\nSELECT person_name,\r\n       (SELECT COUNT(*) FROM ks_for_jp) - ks_count AS missing_ks_count\r\n  FROM (SELECT person_name, COUNT(knows.ks_code) AS ks_count\r\n          FROM person\r\n               INNER JOIN knows\r\n               ON person.per_id = knows.per_id\r\n               INNER JOIN ks_for_jp\r\n               ON knows.ks_code = ks_for_jp.ks_code\r\n         GROUP BY person_name)\r\n WHERE (SELECT COUNT(*) FROM ks_for_jp) - ks_count <= :ks_count\r\n ORDER BY missing_ks_count ASC"
 						},
-						"description": "For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills.\n\nGiven:\n\tjp_code = 8\n\tks_count <= 2\nExpected:\n\tExpected:\n\n\tperson_name = Steven Mitchell\n\tmissing_ks_count = 1\n\t\n\tperson_name = Nicole Berry\n\tmissing_ks_count = 2"
+						"description": "For a specified job profile and a given small number k, make a “missing-k” list that lists the people’s IDs and the number of missing skills for the people who miss only up to k skills in the ascending order of missing skills.\n\nGiven:\n  jp_code = 8\n  ks_count <= 2\nExpected:\n  Expected:\n\n  person_name = Steven Mitchell\n  missing_ks_count = 1\n  \n  person_name = Nicole Berry\n  missing_ks_count = 2"
 					},
 					"response": []
 				},
@@ -1358,7 +1398,7 @@
 							"mode": "raw",
 							"raw": "SELECT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n          AND jp_title = 'Special'"
 						},
-						"description": "In a local or national crisis, we need to find all the people who once held a job of the special job-profile identifier.\n\nExpected:\n\tperson_name = Michael Velez"
+						"description": "In a local or national crisis, we need to find all the people who once held a job of the special job-profile identifier.\n\nExpected:\n  person_name = Michael Velez"
 					},
 					"response": []
 				},
@@ -1386,7 +1426,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT DISTINCT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n          AND job.jp_code = :jp_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       LEFT JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n WHERE current_works.per_id IS NULL"
 						},
-						"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n\tjp_code = 001\nExpected:\n\tperson_name = Nicole Miller"
+						"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n  jp_code = 001\nExpected:\n  person_name = Nicole Miller"
 					},
 					"response": []
 				},
@@ -1414,7 +1454,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT DISTINCT person_name\r\n  FROM person\r\n       INNER JOIN works\r\n       ON person.per_id = works.per_id\r\n       INNER JOIN job\r\n       ON works.job_code = job.job_code\r\n          AND job.jp_code = :jp_code\r\n       INNER JOIN job_profile\r\n       ON job.jp_code = job_profile.jp_code\r\n       LEFT JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n WHERE current_works.per_id IS NULL"
 						},
-						"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n\tjp_code = 11\n\t\nExpected:\n\tperson_name = Carl Crawford"
+						"description": "Find all the unemployed people who once held a job of the given job-profile identifier.\n\nGiven:\n  jp_code = 11\n  \nExpected:\n  person_name = Carl Crawford"
 					},
 					"response": []
 				},
@@ -1442,7 +1482,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT comp_name\r\n  FROM (SELECT comp_name\r\n          FROM company\r\n               INNER JOIN job\r\n               ON company.comp_id = job.comp_id\r\n               INNER JOIN current_works\r\n               ON job.job_code = current_works.job_code\r\n         GROUP BY comp_name\r\n         ORDER BY COUNT(per_id) DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n\tcomp_name = Tosh Incorporated"
+						"description": "Find out the biggest employer in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n  comp_name = Tosh Incorporated"
 					},
 					"response": []
 				},
@@ -1470,7 +1510,7 @@
 							"mode": "raw",
 							"raw": "SELECT *\r\n  FROM (SELECT primary_sector\r\n          FROM company\r\n               INNER JOIN job\r\n               ON company.comp_id = job.comp_id\r\n               INNER JOIN works\r\n               ON job.job_code = works.job_code\r\n                  AND CURRENT_DATE >= start_date\r\n                  AND CURRENT_DATE < end_date\r\n                   OR end_date IS NULL\r\n         GROUP BY primary_sector\r\n         ORDER BY COUNT(per_id))\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n\tprimary_sector = Company"
+						"description": "Find out the job distribution among business sectors; find out the biggest sector in terms of number of employees or the total amount of salaries and wages paid to employees.\n\nExpected:\n  primary_sector = Company"
 					},
 					"response": []
 				},
@@ -1490,12 +1530,39 @@
 						}
 					],
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/nativequery/average_rate?primary_sector=Technology",
+						"url": "http://{{wmcp.api.host}}/api/nativequery/average_rate?primary_sector=Food",
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "WITH works_pay\r\n  AS (SELECT per_id, works.job_code, start_date,\r\n             CASE pay_type\r\n             WHEN 'wage'\r\n             THEN pay_rate * 1920\r\n             WHEN 'salary'\r\n             THEN pay_rate * 1920 / 2080\r\n              END AS pay\r\n        FROM works\r\n             INNER JOIN job\r\n             ON works.job_code = job.job_code\r\n             INNER JOIN company\r\n             ON job.comp_id = company.comp_id\r\n                AND primary_sector = :primary_sector),\r\nper_delta_pay\r\n  AS (SELECT w1.per_id AS per_id, (w2.pay - w1.pay) AS delta_pay\r\n        FROM works_pay w1\r\n             INNER JOIN works_pay w2\r\n             ON w1.per_id = w2.per_id\r\n                AND w1.start_date < w2.start_date)\r\nSELECT AVG(delta_pay) AS average_rate\r\n  FROM per_delta_pay\r\n GROUP BY per_id"
+							"raw": "WITH works_pay\r\n  AS (SELECT per_id, works.job_code, start_date, end_date,\r\n        CASE pay_type\r\n        WHEN 'wage'\r\n          THEN pay_rate * 1920\r\n        WHEN 'salary'\r\n          THEN pay_rate * 1920 / 2080\r\n        END AS pay\r\n      FROM works\r\n        INNER JOIN job\r\n          ON works.job_code = job.job_code\r\n        INNER JOIN company\r\n          ON job.comp_id = company.comp_id\r\n             AND primary_sector = :primary_sector),\r\nworks_ordered\r\n  AS (SELECT job_code, per_id, pay,\r\n             ROW_NUMBER() OVER (ORDER BY per_id, end_date ASC, start_date ASC) AS rn\r\n        FROM works_pay),\r\nworks_delta_pay\r\n  AS (SELECT w1.per_id AS per_id, w1.job_code, w1.pay, w2.job_code, w2.pay,\r\n             (w2.pay - w1.pay) AS delta_pay\r\n        FROM works_ordered w1\r\n        INNER JOIN works_ordered w2\r\n        ON w1.rn + 1 = w2.rn\r\n           AND w1.per_id = w2.per_id)\r\nSELECT ROUND(AVG(delta_pay), 2) AS average_rate\r\n  FROM works_delta_pay"
+						},
+						"description": "Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Query 25b",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"Row 1, person_name is 'Mary Mills'\"] = jsonData[0].name === \"Mary Mills\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/nativequery/average_rate",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "WITH works_pay\r\n  AS (SELECT per_id, works.job_code, start_date, end_date,\r\n        CASE pay_type\r\n        WHEN 'wage'\r\n          THEN pay_rate * 1920\r\n        WHEN 'salary'\r\n          THEN pay_rate * 1920 / 2080\r\n        END AS pay\r\n      FROM works\r\n        INNER JOIN job\r\n          ON works.job_code = job.job_code\r\n        INNER JOIN company\r\n          ON job.comp_id = company.comp_id),\r\nworks_ordered\r\n  AS (SELECT job_code, per_id, pay,\r\n             ROW_NUMBER() OVER (ORDER BY per_id, end_date ASC, start_date ASC) AS rn\r\n        FROM works_pay),\r\nworks_delta_pay\r\n  AS (SELECT w1.per_id AS per_id, w1.job_code, w1.pay, w2.job_code, w2.pay,\r\n             (w2.pay - w1.pay) AS delta_pay\r\n        FROM works_ordered w1\r\n        INNER JOIN works_ordered w2\r\n        ON w1.rn + 1 = w2.rn\r\n           AND w1.per_id = w2.per_id)\r\nSELECT ROUND(AVG(delta_pay), 2) AS average_rate\r\n  FROM works_delta_pay"
 						},
 						"description": "Find out the ratio between the people whose earnings increase and those whose earning decrease; find the average rate of earning improvement for the workers in a specific business sector.\n\n"
 					},
@@ -1525,7 +1592,7 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT *\r\n        FROM works\r\n       WHERE start_date <= CURRENT_DATE\r\n         AND end_date > CURRENT_DATE\r\n          OR end_date IS NULL),\r\nunemployed\r\n  AS (SELECT person.per_id\r\n        FROM person\r\n             LEFT JOIN current_works\r\n             ON person.per_id = current_works.per_id\r\n       WHERE current_works.per_id IS NULL),\r\nopening\r\n  AS (SELECT job.job_code, job.jp_code, jp_title\r\n        FROM job\r\n             INNER JOIN job_profile\r\n             ON job.jp_code = job_profile.jp_code\r\n             LEFT JOIN current_works\r\n             ON job.job_code = current_works.job_code\r\n       WHERE current_works.job_code IS NULL),\r\nqualified\r\n  AS (SELECT unemployed.per_id, opening.jp_code, jp_title\r\n        FROM unemployed\r\n             INNER JOIN knows\r\n             ON unemployed.per_id = knows.per_id\r\n             INNER JOIN required_skill\r\n             ON knows.ks_code = required_skill.ks_code\r\n             INNER JOIN opening\r\n             ON required_skill.jp_code = opening.jp_code\r\n       GROUP BY unemployed.per_id, opening.jp_code, jp_title\r\n      HAVING COUNT(knows.ks_code) = COUNT(DISTINCT knows.ks_code))\r\nSELECT *\r\n  FROM (SELECT qualified.jp_code, qualified.jp_title\r\n          FROM qualified\r\n               INNER JOIN opening\r\n               ON qualified.jp_code = opening.jp_code\r\n         GROUP BY (qualified.jp_code, qualified.jp_title)\r\n         ORDER BY COUNT(job_code) - COUNT(per_id) DESC)\r\n WHERE ROWNUM = 1"
 						},
-						"description": "Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.\n\nExpected:\n\tjp_code = 10\n\tjp_title = Front End Dev"
+						"description": "Find the job profiles that have the most openings due to lack of qualified workers. If there are many opening jobs of a job profile but at the same time there are many qualified jobless people. Then training cannot help fill up this type of job. What we want to find is such a job profile that has the largest difference between vacancies (the unfilled jobs of this job profile) and the number of jobless people who are qualified for this job profile.\n\nExpected:\n  jp_code = 10\n  jp_title = Front End Dev"
 					},
 					"response": []
 				},
@@ -1553,7 +1620,61 @@
 							"mode": "raw",
 							"raw": "WITH current_works\r\n  AS (SELECT *\r\n        FROM works\r\n       WHERE start_date <= CURRENT_DATE\r\n         AND end_date > CURRENT_DATE\r\n          OR end_date IS NULL),\r\nunemployed\r\n  AS (SELECT person.per_id\r\n        FROM person\r\n             LEFT JOIN current_works\r\n             ON person.per_id = current_works.per_id\r\n       WHERE current_works.per_id IS NULL),\r\nopening\r\n  AS (SELECT job.job_code, job.jp_code, jp_title\r\n        FROM job_profile\r\n             INNER JOIN job\r\n             ON job_profile.jp_code = job.jp_code\r\n             LEFT JOIN current_works\r\n             ON job.job_code = current_works.job_code\r\n       WHERE current_works.job_code IS NULL),\r\nqualified\r\n  AS (SELECT unemployed.per_id, opening.jp_code, jp_title\r\n        FROM unemployed\r\n             INNER JOIN knows\r\n             ON unemployed.per_id = knows.per_id\r\n             INNER JOIN required_skill\r\n             ON knows.ks_code = required_skill.ks_code\r\n             INNER JOIN opening\r\n             ON required_skill.jp_code = opening.jp_code\r\n       GROUP BY unemployed.per_id, opening.jp_code, jp_title\r\n      HAVING COUNT(knows.ks_code) = COUNT(DISTINCT knows.ks_code)),\r\njp_most_openings\r\n  AS (SELECT qualified.jp_code, qualified.jp_title,\r\n             COUNT(job_code) - COUNT(per_id) AS difference\r\n        FROM qualified\r\n             INNER JOIN opening\r\n             ON qualified.jp_code = opening.jp_code\r\n       GROUP BY (qualified.jp_code, qualified.jp_title)\r\n       ORDER BY difference DESC)\r\nSELECT course.c_code, c_title\r\n  FROM course\r\n       INNER JOIN teaches\r\n       ON course.c_code = teaches.c_code\r\n       INNER JOIN required_skill\r\n       ON teaches.ks_code = required_skill.ks_code\r\n       INNER JOIN jp_most_openings\r\n       ON required_skill.jp_code = jp_most_openings.jp_code\r\n          AND status = 'active'\r\n GROUP BY course.c_code, c_title\r\nHAVING COUNT(*) = COUNT(DISTINCT teaches.ks_code)"
 						},
-						"description": "Find the courses that can help most jobless people find a job by training them toward the job profiles that have the most openings due to lack of qualified workers.\n\nExpected:\n\tc_code = 8\n\tc_title = Architecture Design for Applications\n\n\tc_code = 24\n\tc_title = Back End Basics\n\n\tc_code = 27\n\tc_title = C++ and Architecture\n\n\tc_code = 23\n\tc_title Essentials in Debugging\n\n\tc_code = 25\n\tc_title = Front End Basics\n\n\tc_code = 11\n\tc_title = HTML and CSS Basics\n\n\tc_code = 20\n\tc_title = Industrial Cloud Development\n\n\tc_code = 1 \n\tc_title = Java Certification\n\n\tc_code = 12 \n\tc_title = Javascript Certification\n\n\tc_code = 19 \n\tc_title = Server Architecture Overview\n\n\tc_code = 15\n\tc_title = System Security Overview"
+						"description": "Find the courses that can help most jobless people find a job by training them toward the job profiles that have the most openings due to lack of qualified workers.\n\nExpected:\n  c_code = 8\n  c_title = Architecture Design for Applications\n\n  c_code = 24\n  c_title = Back End Basics\n\n  c_code = 27\n  c_title = C++ and Architecture\n\n  c_code = 23\n  c_title Essentials in Debugging\n\n  c_code = 25\n  c_title = Front End Basics\n\n  c_code = 11\n  c_title = HTML and CSS Basics\n\n  c_code = 20\n  c_title = Industrial Cloud Development\n\n  c_code = 1 \n  c_title = Java Certification\n\n  c_code = 12 \n  c_title = Javascript Certification\n\n  c_code = 19 \n  c_title = Server Architecture Overview\n\n  c_code = 15\n  c_title = System Security Overview"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Person",
+			"description": "",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/person/1",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+						},
+						"description": "Returns a specific entity from the database by an ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/person/100",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+						},
+						"description": "Deletes a specific entity in the database by an ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Section",
+			"description": "",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/section/1",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+						},
+						"description": "Returns a specific entity from the database by an ID."
 					},
 					"response": []
 				}
@@ -1586,14 +1707,14 @@
 				{
 					"name": "Assign Person to Job",
 					"request": {
-						"url": "http://{{wmcp.api.host}}/api/workforcemanagement/assign/1/729",
+						"url": "http://{{wmcp.api.host}}/api/workforcemanagement/assign/20/700",
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
+							"raw": ""
 						},
-						"description": "api/workforcemanagement/assign/{personId}/{jobId}\n\n a Job to a Person if qualified."
+						"description": "api/workforcemanagement/assign/{personId}/{jobId}\n\nAssigns a Job to a Person if qualified."
 					},
 					"response": []
 				},
@@ -1622,6 +1743,20 @@
 							"raw": "WITH current_works\r\n  AS (SELECT per_id, job_code\r\n        FROM works\r\n       WHERE sysdate >= start_date\r\n         AND (sysdate < end_date\r\n              OR end_date IS NULL))\r\nSELECT person_name\r\n  FROM person\r\n       INNER JOIN current_works\r\n       ON person.per_id = current_works.per_id\r\n       INNER JOIN job\r\n       ON current_works.job_code = job.job_code\r\n          AND comp_id = ${comp_id}"
 						},
 						"description": "Returns the List of Persons qualified for a specific Job Profile by an ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Person with Missing Skills to Job",
+					"request": {
+						"url": "http://{{wmcp.api.host}}/api/workforcemanagement/assign/20/720",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "api/workforcemanagement/assign/{personId}/{jobId}\n\nAssigns a Job to a Person if qualified."
 					},
 					"response": []
 				}
