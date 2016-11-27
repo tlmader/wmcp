@@ -97,7 +97,7 @@ public class Company extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Company)) return false;
 
         Company company = (Company) o;
 
@@ -106,7 +106,8 @@ public class Company extends BaseEntity {
         if (address != null ? !address.equals(company.address) : company.address != null) return false;
         if (primarySector != null ? !primarySector.equals(company.primarySector) : company.primarySector != null)
             return false;
-        return website != null ? website.equals(company.website) : company.website == null;
+        if (website != null ? !website.equals(company.website) : company.website != null) return false;
+        return jobs != null ? jobs.equals(company.jobs) : company.jobs == null;
     }
 
     @Override
@@ -116,6 +117,7 @@ public class Company extends BaseEntity {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (primarySector != null ? primarySector.hashCode() : 0);
         result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (jobs != null ? jobs.hashCode() : 0);
         return result;
     }
 }

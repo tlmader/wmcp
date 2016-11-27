@@ -67,4 +67,26 @@ public class Works implements Serializable {
     public void setEnd(Timestamp end) {
         this.end = end;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Works)) return false;
+
+        Works works = (Works) o;
+
+        if (personId != null ? !personId.equals(works.personId) : works.personId != null) return false;
+        if (jobId != null ? !jobId.equals(works.jobId) : works.jobId != null) return false;
+        if (start != null ? !start.equals(works.start) : works.start != null) return false;
+        return end != null ? end.equals(works.end) : works.end == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (jobId != null ? jobId.hashCode() : 0);
+        result = 31 * result + (start != null ? start.hashCode() : 0);
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        return result;
+    }
 }

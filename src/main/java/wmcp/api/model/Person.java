@@ -140,7 +140,7 @@ public class Person extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Person)) return false;
 
         Person person = (Person) o;
 
@@ -149,7 +149,11 @@ public class Person extends BaseEntity {
         if (address != null ? !address.equals(person.address) : person.address != null) return false;
         if (phoneNum != null ? !phoneNum.equals(person.phoneNum) : person.phoneNum != null) return false;
         if (email != null ? !email.equals(person.email) : person.email != null) return false;
-        return gender != null ? gender.equals(person.gender) : person.gender == null;
+        if (gender != null ? !gender.equals(person.gender) : person.gender != null) return false;
+        if (jobs != null ? !jobs.equals(person.jobs) : person.jobs != null) return false;
+        if (takesCourses != null ? !takesCourses.equals(person.takesCourses) : person.takesCourses != null)
+            return false;
+        return knownSkills != null ? knownSkills.equals(person.knownSkills) : person.knownSkills == null;
     }
 
     @Override
@@ -160,6 +164,9 @@ public class Person extends BaseEntity {
         result = 31 * result + (phoneNum != null ? phoneNum.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (jobs != null ? jobs.hashCode() : 0);
+        result = 31 * result + (takesCourses != null ? takesCourses.hashCode() : 0);
+        result = 31 * result + (knownSkills != null ? knownSkills.hashCode() : 0);
         return result;
     }
 }

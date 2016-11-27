@@ -37,4 +37,22 @@ public class WorksId implements Serializable {
     public void setJobId(String jobId) {
         this.jobId = jobId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WorksId)) return false;
+
+        WorksId worksId = (WorksId) o;
+
+        if (personId != null ? !personId.equals(worksId.personId) : worksId.personId != null) return false;
+        return jobId != null ? jobId.equals(worksId.jobId) : worksId.jobId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (jobId != null ? jobId.hashCode() : 0);
+        return result;
+    }
 }

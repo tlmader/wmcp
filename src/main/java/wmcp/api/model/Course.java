@@ -107,7 +107,7 @@ public class Course extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Course)) return false;
 
         Course course = (Course) o;
 
@@ -116,7 +116,8 @@ public class Course extends BaseEntity {
         if (level != null ? !level.equals(course.level) : course.level != null) return false;
         if (description != null ? !description.equals(course.description) : course.description != null) return false;
         if (status != null ? !status.equals(course.status) : course.status != null) return false;
-        return price != null ? price.equals(course.price) : course.price == null;
+        if (price != null ? !price.equals(course.price) : course.price != null) return false;
+        return teaches != null ? teaches.equals(course.teaches) : course.teaches == null;
     }
 
     @Override
@@ -127,6 +128,7 @@ public class Course extends BaseEntity {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (teaches != null ? teaches.hashCode() : 0);
         return result;
     }
 }

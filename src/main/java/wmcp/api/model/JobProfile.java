@@ -90,14 +90,15 @@ public class JobProfile extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof JobProfile)) return false;
 
         JobProfile that = (JobProfile) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return avgPay != null ? avgPay.equals(that.avgPay) : that.avgPay == null;
+        if (avgPay != null ? !avgPay.equals(that.avgPay) : that.avgPay != null) return false;
+        return requiredSkills != null ? requiredSkills.equals(that.requiredSkills) : that.requiredSkills == null;
     }
 
     @Override
@@ -106,6 +107,7 @@ public class JobProfile extends BaseEntity {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (avgPay != null ? avgPay.hashCode() : 0);
+        result = 31 * result + (requiredSkills != null ? requiredSkills.hashCode() : 0);
         return result;
     }
 }
