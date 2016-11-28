@@ -1,0 +1,519 @@
+#1
+Given:
+	comp_id = 1
+
+Expected:
+	person_name = Marry Mills
+	person_name = Justin Ryan
+
+#2
+Given:
+	comp_id = 1
+
+Expected:
+	person_name = Justin Ryan
+	pay_rate = $120500.45
+	person_name = Marry Mills
+	pay_rate = $106693.07
+
+#3
+Given:
+	nothing to give
+
+Expected:
+	comp_name = Eaton Foods
+	labor_cost = $259,908.26  
+
+	comp_name = Tosh Incorporated
+	labor_cost = $249,428.27
+
+	comp_name = Vague Electric
+	labor_cost = $209,717.1      
+
+	comp_name = Mader Machinery                  
+	labor_cost = $77,563.28  
+
+	comp_name = The Government
+	labor_cost = $63,675.85           
+
+#4
+Given:
+	per_id = 4
+
+Expected:
+	job_code = 703
+	jp_title = Game Dev
+
+	job_code = 704 
+	jp_title = Lead Developer
+
+	job_code = 705
+	jp_title = Network Admin
+
+	job_code = 730
+	jp_title = Special
+
+#5
+Given:
+	per_id = 3
+
+Expected:
+	ks_title = Amazon Web Services
+	description = Knowledge in services such as S3
+
+	ks_title = C++
+	description = Competency in C++ programming language
+
+	ks_title = Server Administration
+	description = Knowledge in server administration
+
+#6	
+Given:
+	per_id = 5
+
+Expected:
+	job_code = 704
+	jp_title = Lead Developer
+	ks_title = Debugging
+
+	
+#7
+Given:
+	jp_code = 002
+
+Expected:
+	ks_title = Assembly
+	ks_title = C
+	ks_title = C++
+	ks_title = Application Architecture
+		
+#8
+Given:
+	job_code = 702
+	per_id <> 6
+
+Expected:
+	ks_title = Amazon Web Services
+	ks_title = System Security
+	ks_title = CRUD
+	ks_title = Spring Framework
+	ks_title = Server Architecture
+	ks_title = Application Architecture
+	
+(b)
+Given: 
+	job_code = 710
+	per_id <> 20
+
+Expected:
+	ks_title = Angular
+	ks_title = Jquery
+	ks_title = HTML
+	ks_title = CSS
+	
+
+#9
+Given:
+	per_id = 1
+	jp_code = 009
+
+Expected:
+	c_code = 2
+	c_title = Database SQL
+(b)
+Given:
+	per_id = 18
+	jp_code = 013
+
+Expected:
+	c_code = 2
+	c_title = Database SQL
+	c_code = 17
+	c_title = Leadership Skills
+
+#10
+Given:
+	per_id = 6
+	jp_code = 007
+
+Expected:
+	c_code = 24
+	c_title = Band End Basics
+	sec_no = 24
+	complete_date = 09-NOV-16
+(b)
+Given:
+	per_id = 11
+	jp_code = 001
+
+Expected:
+	c_code = 20
+	c_title = Industrial Cloud Development
+	sec_no = 20
+	complete_date = 09-April-16
+
+#11
+Given:
+	per_id = 16
+	jp_code = 005
+
+Expected:
+	c_code = 27
+	c_title = C++ and Architecture
+	cost = $1500.82
+(b)
+Given:
+	per_id = 20
+	jp_code = 006
+
+Expected:
+	c_code = 2
+	c_title = Database SQL
+	cost = $1834.04
+
+#12
+Given:
+	per_id = 8
+	jp_code = 008
+
+Expected:
+	"Ordered under combinations"
+	Combination 1: course_1 = 19 , course_2 = 26 , course_3 = "" , total_cost = $2,746.51
+
+(b)
+Given:
+	per_id = 14
+	jp_code = 009
+
+Expected:
+	"Ordered under combinations"
+	Combination 1: course_1 = 2 , course_2 = 24 , course_3 = “” , total_cost = $2852.68
+	Combination 2: course_1 = 2 , course_2 = 22 , course_3 = “” , total_cost = $3013.27
+	Combination 3: course_1 = 2 , course_2 = 22 , course_3 = 24 , total_cost = $4031.91
+
+#13
+Given:
+	per_id = 1
+
+Expected:
+	jp_code = 1
+	jp_title = Cloud Developer
+(b)
+Given:
+	per_id = 4
+
+Expected:
+	jp_code = 2
+	jp_title = Operating System Developer
+	jp_code = 5
+	jp_title = Game Dev
+	jp_code = 13
+	jp_title = Special
+
+#14
+Given:
+	per_id = 20
+
+Expected:
+	jp_code = 700
+	pay = $98,485.91
+(b)
+Given:
+	per_id = 19
+
+Expected:
+	jp_code = 712
+	pay = $119,060.46
+
+#15:
+Given:
+	Nothing to give
+
+Expected:
+
+	person_name = Wayne Coleman
+	email = wcolemana@wp.com
+
+	person_name = Craig Hall
+	email = challc@fastcompany.com
+
+	person_name = John Ramos
+	email = jramosd@odnoklassniki.ru
+
+	person_name = Carl Crawford
+	email = ccrawfordb@linkedin.com
+
+#16
+Given:
+	jp_code = 006
+		
+Expected:
+
+	person_name = Martin Ross
+	person_name = John Ramos
+	person_name = Mary Mills
+	person_name = Justin Ryan
+(b)
+Given:
+	jp_code = 003
+		
+Expected:
+
+	person_name = Carl Crawford
+	person_name = Craig Hall
+	person_name = Wayne Coleman
+
+#17   
+Given:
+	jp_code = 005
+
+Expected:       
+	
+	ks_code = 6
+	person_count = 1
+	
+	ks_code = 7
+	person_count = 2
+
+(b)
+
+Given:
+	jp_code = 003
+
+Expected:       
+	
+	ks_code = 22
+	person_count = 1
+	
+	ks_code = 3
+	person_count = 3
+	
+#18    
+Given: 
+	jp_code = 004
+
+Expected:
+
+	person_name = Steven Mitchell
+	missing_ks_count = 1
+
+	person_name = Eric Andrews
+	missing_ks_count = 2
+
+	person_name = Martin Ross
+	missing_ks_count = 3
+
+	person_name = Andrew Turner
+	missing_ks_count = 3
+
+	person_name = Jason Stevens
+	missing_ks_count = 3
+	
+	person_name = Michael Fisher
+	missing_ks_count = 3
+
+	person_name = Mary Mills
+	missing_ks_count = 3
+		
+	person_name = Michael Velez
+	missing_ks_count = 3
+
+	person_name = Jason Little
+	missing_ks_count = 3
+
+	person_name = Carol Morrison
+	missing_ks_count = 3
+
+	least_number_of_missing_ks = 1
+
+	
+	
+(b)
+Given: 
+	jp_code = 009
+
+Expected:
+	person_name = Michael Velez
+	missing_ks_count = 1
+
+	person_name = Nicole Berry
+	missing_ks_count = 2
+
+	person_name = Steven Mitchell
+	missing_ks_count = 3
+	
+	person_name = Mary Mills
+	missing_ks_count = 3
+
+	least_number_of_missing_ks = 1
+
+#19
+Given:
+	jp_code = 009
+	ks_count <= 3
+
+Expected:
+	Expected:
+	person_name = Michael Velez
+	missing_ks_count = 1
+
+	person_name = Nicole Berry
+	missing_ks_count = 2
+
+	person_name = Steven Mitchell
+	missing_ks_count = 3
+
+	person_name = Mary Mills
+	missing_ks_count = 3
+
+(b)
+Given:
+	jp_code = 008
+	ks_count <= 3
+
+Expected:
+	Expected:
+
+	person_name = Steven Mitchell
+	missing_ks_count = 1
+	
+	person_name = Nicole Berry
+	missing_ks_count = 2
+
+	person_name = Carol Morrison
+	missing_ks_count = 2
+	
+	person_name = Jason Stevens
+	missing_ks_count = 2
+
+	person_name = Michael Fisher
+	missing_ks_count = 3
+
+	person_name = Andrew Turner
+	missing_ks_count = 3
+
+	person_name = Michael Velez
+	missing_ks_count = 3
+
+	person_name = Jason Little
+	missing_ks_count = 3
+
+#20 TODO: Needs Work
+Given:
+
+Expected
+
+#21
+Given:
+	None to give
+
+Expected:
+	person_name = Michael Velez
+
+#22
+Given:
+	jp_code = 012
+Expected:
+	person_name = Michael Fisher
+	person_name = Andrew Turner
+	person_name = John Ramos
+
+(b)
+Given:
+	jp_code = 004
+Expected:
+	person_name = Paul Cox
+
+#23
+Given:
+	none to give
+Expected:
+	comp_name = Eaton Foods
+
+#24
+Given:
+	none to give
+Expected:
+	primary_sector = Business
+
+#25 
+Given:
+	primary_sector = ‘Food’
+
+Expected:
+	average_rate = -55969.92
+
+(b)
+Given:
+	primary_sector = ‘’
+
+Expected:
+	average_rate = -2158.01
+
+#26 
+Given:
+	None to give
+
+Expected:
+	jp_code = 10
+	jp_title = Front End Dev
+	
+#27 
+Given: 
+	None to give
+
+Expected:
+	c_code = 1 
+	c_title = Java Certification
+
+	c_code = 8
+	c_title = Architecture Design for Applications
+	
+	c_code = 11
+	c_title = HTML and CSS Basics
+
+	c_code = 12 
+	c_title = Javascript Certification
+
+	c_code = 15
+	c_title = System Security Overview
+
+	c_code = 19 
+	c_title = Server Architecture Overview
+
+	c_code = 23
+	c_title Essentials in Debugging
+
+	c_code = 24
+	c_title = Back End Basics
+
+	c_code = 25
+	c_title = Front End Basics
+	
+	c_code = 27
+	c_title = C++ and Architecture
+
+ 
+#28 TODO: Needs Work
+Given:
+
+Expected:
+	
+	
+
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+
+               
+
