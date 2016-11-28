@@ -1,0 +1,57 @@
+{job_profile}
+jp_code -> jp_title, description, avg_pay
+
+{knowledge_skill}
+ks_code ->  ks_title, description, s_level
+
+{required_skill}
+jp_code -> ks_code
+ks_code -> jp_code
+
+{company}
+comp_id -> comp_name, address, primary_sector, website
+
+{job}
+job_code -> jp_code, comp_id, type, pay_rate, pay_type
+
+{person}
+per_id -> person_name, address, phone_num, email, gender
+
+{works}
+per_id, job_code -> start_date, end_date
+
+{specialty}
+spec_id -> spec_title
+
+{company_specialty}
+comp_id -> spec_id
+spec_id -> comp_id
+
+{course}
+c_code -> c_title, c_level, description, status, retail_price
+
+{section}
+sc_no -> c_code, sec_year, complete_date, offered_by, sec_format, price
+
+{takes}
+per_id -> sec_no
+sec_no -> per_id
+
+{knows}
+per_id -> ks_code
+ks_code -> per_id
+
+{teaches}
+c_code -> ks_code
+ks_code -> c_code
+
+
+
+
+
+
+
+
+
+
+
