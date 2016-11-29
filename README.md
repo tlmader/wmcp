@@ -1,9 +1,9 @@
-# wcmp
+# wmcp
 #### Workforce Management and Career Planning
 
 A web service supporting workforce management and career planning.
 
-## wcmp.api
+## wmcp.api
 
 ### Run Configuration
 * Configuration Type: Spring Boot
@@ -12,7 +12,6 @@ A web service supporting workforce management and career planning.
 
 ### Environment Variables:
 * DATASOURCE_URL — Defines URL used in spring.datasource.url
-* DATASOURCE_SID — Defines SID used in spring.datasource.url
 * DATASOURCE_USERNAME — Defines username used in spring.datasource.username
 * DATASOURCE_PASSWORD — Defines password used in spring.datasource.password
 
@@ -20,4 +19,6 @@ A web service supporting workforce management and career planning.
 * Server: 9000
 
 ### Additional Info
+Use the [SQL scripts](https://github.com/Tlmader/wmcp/blob/master/sql) for building a database for wmcp.
+Set spring.datasource.driverClassName in application.properties accordingly.
 Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into Postman for example API calls.

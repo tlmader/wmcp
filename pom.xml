@@ -59,27 +59,5 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.2.4.Final</version>
         </dependency>
-        <!--Oracle Drivers-->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>12.1.0.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/jdbc-drivers/ojdbc6-12.1.0.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>xdb6</artifactId>
-            <version>12.1.0.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/jdbc-drivers/xdb6-12.1.0.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>xmlparserv2</artifactId>
-            <version>12.1.0.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/jdbc-drivers/xmlparserv2.jar</systemPath>
-        </dependency>
     </dependencies>
 </project>
