@@ -15,7 +15,7 @@ A web service supporting workforce management and career planning.
 * DATASOURCE_USERNAME — Defines username used in spring.datasource.username
 * DATASOURCE_PASSWORD — Defines password used in spring.datasource.password
 
-### Ports
+### Default Ports
 * Server: 9000
 
 ### Additional Info
