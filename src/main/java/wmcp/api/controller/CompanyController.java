@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2016-11-20
  */
 @RestController
-@RequestMapping("api/entity")
+@RequestMapping("api/company")
 public class CompanyController {
 
     @Qualifier("companyService")
