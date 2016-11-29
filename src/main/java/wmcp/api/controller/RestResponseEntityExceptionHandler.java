@@ -14,7 +14,7 @@ import javax.ws.rs.WebApplicationException;
 import java.sql.SQLException;
 
 /**
- * Handles errors and builds responses for WebApplicationExceptions.
+ * Handles errors and builds REST responses for Exceptions.
  *
  * @author tlmader.dev@gmail.com
  * @since 2016-11-25
