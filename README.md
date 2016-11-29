@@ -19,6 +19,6 @@ A web service supporting workforce management and career planning.
 * Server: 9000
 
 ### Additional Info
-Use the [SQL scripts](https://github.com/Tlmader/wmcp/blob/master/sql) for building a database for wmcp.
-Set spring.datasource.driverClassName in application.properties accordingly.
-Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into Postman for example API calls.
+* Use the [SQL scripts](https://github.com/Tlmader/wmcp/blob/master/sql) for building a database for wmcp.
+* Set spring.datasource.driverClassName in application.properties accordingly.
+* Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into Postman for example API calls.
