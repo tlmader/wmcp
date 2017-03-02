@@ -11,16 +11,16 @@ A web service supporting workforce management and career planning.
 ## File Structure
 
     .
-    ├── doc                                   # Documentation
-    ├── sql                                   # SQL scripts for schemna and test data
-    ├── src                                   # Source root
+    ├── doc                                   # diagrams and Postman collections
+    ├── sql                                   # schema and test data scripts
+    ├── src                                   # source root
     │   └── main
-    │       ├── java.wmcp.api
-    |       |   ├── config                    # Configurations
-    |       |   ├── controller                # REST API definitions
-    |       |   ├── model                     # Entity models
-    |       |   ├── repository                # Data access
-    |       |   └── service                   # Service workflows
+    │       ├── java/wmcp/api
+    |       |   ├── config                    # configurations
+    |       |   ├── controller                # REST controllers
+    |       |   ├── model                     # entity models
+    |       |   ├── repository                # data access
+    |       |   └── service                   # service workflows
     │       └── resources
     │           └── application.properties    # Spring properties
     └── pom.xml                               # Maven project object model
