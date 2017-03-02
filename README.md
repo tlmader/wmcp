@@ -1,7 +1,7 @@
-# Databases Project: wmcp
-#### Workforce Management and Career Planning
+# wmcp – Workforce Management and Career Planning
+**Data Models and Database Systems Project**
 
-A web service supporting workforce management and career planning.
+***wmcp*** is a web service supporting workforce management and career planning.
 
 ## IntelliJ IDEA Run Configuration
 * Configuration Type: Spring Boot
