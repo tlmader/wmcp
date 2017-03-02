@@ -16,11 +16,11 @@ A web service supporting workforce management and career planning.
     ├── src
     │   └── main
     │       ├── java.wmcp.api
-    |       |   ├── config                    # configuration
+    |       |   ├── config                    # Configurations
     |       |   ├── controller                # REST API definitions
-    |       |   ├── model                     # entity models
-    |       |   ├── repository                # data access
-    |       |   └── service                   # service workflows
+    |       |   ├── model                     # Entity models
+    |       |   ├── repository                # Data access
+    |       |   └── service                   # Service workflows
     │       └── resources
     │           └── application.properties    # Spring properties
     └── pom.xml                               # Maven project object model
