@@ -13,7 +13,7 @@ A web service supporting workforce management and career planning.
     .
     ├── doc                                   # Documentation
     ├── sql                                   # SQL scripts for schemna and test data
-    ├── src
+    ├── src                                   # Source root
     │   └── main
     │       ├── java.wmcp.api
     |       |   ├── config                    # Configurations
