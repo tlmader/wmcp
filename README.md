@@ -27,9 +27,9 @@ A web service supporting workforce management and career planning.
 
 
 ## Environment Variables:
-* DATASOURCE_URL — Defines URL used in spring.datasource.url
-* DATASOURCE_USERNAME — Defines username used in spring.datasource.username
-* DATASOURCE_PASSWORD — Defines password used in spring.datasource.password
+* `DATASOURCE_URL` — Defines URL used in spring.datasource.url
+* `DATASOURCE_USERNAME` — Defines username used in spring.datasource.username
+* `DATASOURCE_PASSWORD` — Defines password used in spring.datasource.password
 
 ## Default Ports
 * Server: 9000
