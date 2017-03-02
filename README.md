@@ -8,7 +8,7 @@ A web service supporting workforce management and career planning.
 * Main class: wmcp.api.Application
 * JRE: 1.8
 
-## File structure
+## File Structure
 
     .
     ├── doc                                   # Documentation
