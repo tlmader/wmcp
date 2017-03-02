@@ -5,7 +5,7 @@ A web service supporting workforce management and career planning.
 
 ## Run Configuration
 * Configuration Type: Spring Boot
-* Main class: wmcp.api.Application
+* Main class: `wmcp.api.Application`
 * JRE: 1.8
 
 ## File Structure
