@@ -1,4 +1,4 @@
-# wmcp
+# Databases Project: wmcp
 #### Workforce Management and Career Planning
 
 A web service supporting workforce management and career planning.
