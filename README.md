@@ -22,6 +22,8 @@
 
 ## Getting Started
 
+***NOTE: I will set up H2 eventually so this will be easier to see in action.***
+
 Set up [Oracle Database](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index-092322.html).
 
 Set `spring.datasource.driverClassName` in [application.properties](https://github.com/Tlmader/wmcp/blob/master/src/main/resources/application.properties) accordingly.
