@@ -45,8 +45,7 @@ Using a tool such as [Oracle SQL Developer](http://www.oracle.com/technetwork/de
 * schema-v4.sql
 * insert-v5.sql
 
+Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into [Postman](https://www.getpostman.com/) for example API calls.
+
 ## Default Ports
 * Server: 9000
-
-## Additional Info
-* Import [wmcp.api.postman_collection.json](https://github.com/Tlmader/wmcp/blob/master/doc/wmcp.api.postman_collection.json) into Postman for example API calls.
